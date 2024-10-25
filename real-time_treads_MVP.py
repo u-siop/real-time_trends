@@ -17,9 +17,13 @@ komoran = Komoran()
 
 # 불용어 리스트를 파일에서 읽어오기
 def load_stopwords(file_path):
-    with open(file_path, 'r', encoding='utf-8') as f:
-        stopwords = set(line.strip() for line in f if line.strip())
-    return stopwords
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            stopwords = set(line.strip() for line in f if line.strip())
+        return stopwords
+    except FileNotFoundError:
+        print(f"불용어 파일을 찾을 수 없습니다: {file_path}")
+        return set()
 
 # 불용어 리스트 로드
 stopwords_file = r'C:\news_cash\hot_issue\stopwords-ko.txt'
@@ -53,10 +57,10 @@ def scrape_webpage(url):
         print(f"Error scraping webpage: {e}")
         return ""
 
-# 키워드 추출 함수
+# 키워드 추출 함수 (명사와 형용사 포함)
 def extract_keywords(text):
     tokens = komoran.pos(text)
-    words = [word for word, pos in tokens if pos.startswith('NN') and word not in stopwords and len(word) > 1]
+    words = [word for word, pos in tokens if (pos.startswith('NN') or pos == 'VA') and word not in stopwords and len(word) > 1]
     return words
 
 # 커뮤니티 탐지 함수
@@ -66,6 +70,10 @@ def detect_communities(G):
     for node, comm_id in partition.items():
         communities.setdefault(comm_id, []).append(node)
     return communities
+
+# 대표 키워드로 문구 생성 함수
+def generate_phrase(keywords):
+    return ' '.join(keywords)
 
 # 메인 함수 수정
 def main():
@@ -139,7 +147,7 @@ def main():
     print(f"\n생성된 그래프의 개수: {len(graphs)}")
 
     # 모든 그래프를 합쳐서 대표 키워드 추출
-    all_representative_keywords = []
+    all_representative_phrases = []
 
     for G in graphs:
         # 커뮤니티 탐지
@@ -151,17 +159,19 @@ def main():
             subgraph = G.subgraph(nodes)
             centrality = nx.degree_centrality(subgraph)
             sorted_nodes = sorted(centrality.items(), key=lambda x: x[1], reverse=True)
-            top_nodes = [node for node, _ in sorted_nodes[:5]]  # 상위 5개 키워드
-            all_representative_keywords.append(' '.join(top_nodes))
-            # 상위 10개 키워드만 수집
-            if len(all_representative_keywords) >= 10:
+            # 상위 5개 키워드를 문구로 생성
+            top_nodes = [node for node, _ in sorted_nodes[:3]]
+            phrase = generate_phrase(top_nodes)
+            all_representative_phrases.append(phrase)
+            # 상위 10개 문구만 수집
+            if len(all_representative_phrases) >= 10:
                 break
-        if len(all_representative_keywords) >= 10:
+        if len(all_representative_phrases) >= 10:
             break
 
-    print("\n실시간 키워드 순위:")
-    for rank, keywords in enumerate(all_representative_keywords[:10], 1):
-        print(f"{rank}. {keywords}")
+    print("\n실시간 이슈:")
+    for rank, phrase in enumerate(all_representative_phrases[:10], 1):
+        print(f"{rank}. {phrase}")
 
 if __name__ == "__main__":
     main()
