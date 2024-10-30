@@ -1,0 +1,1300 @@
+2024-10-30 17:27:46,246 - INFO - 스크립트가 시작되었습니다.
+2024-10-30 17:27:46,744 - INFO - Collecting trends for united_states
+2024-10-30 17:27:47,322 - INFO - united_states trends collected: 20 keywords
+2024-10-30 17:27:48,324 - INFO - Collecting trends for united_kingdom
+2024-10-30 17:27:48,928 - INFO - united_kingdom trends collected: 20 keywords
+2024-10-30 17:27:49,930 - INFO - Collecting trends for japan
+2024-10-30 17:27:50,472 - INFO - japan trends collected: 20 keywords
+2024-10-30 17:27:51,473 - INFO - Collecting trends for germany
+2024-10-30 17:27:52,094 - INFO - germany trends collected: 20 keywords
+2024-10-30 17:27:53,095 - INFO - Collecting trends for brazil
+2024-10-30 17:27:53,690 - INFO - brazil trends collected: 20 keywords
+2024-10-30 17:27:54,691 - INFO - Collecting trends for france
+2024-10-30 17:27:55,255 - INFO - france trends collected: 20 keywords
+2024-10-30 17:27:56,256 - INFO - Collecting trends for italy
+2024-10-30 17:27:56,836 - INFO - italy trends collected: 20 keywords
+2024-10-30 17:27:57,837 - INFO - Collecting trends for canada
+2024-10-30 17:27:58,350 - INFO - canada trends collected: 20 keywords
+2024-10-30 17:27:59,351 - INFO - Collecting trends for russia
+2024-10-30 17:27:59,898 - INFO - russia trends collected: 20 keywords
+2024-10-30 17:28:00,899 - INFO - Collecting trends for south_korea
+2024-10-30 17:28:01,454 - INFO - south_korea trends collected: 20 keywords
+2024-10-30 17:28:02,454 - INFO - G10 국가 구글 트렌드 수집 완료
+2024-10-30 17:28:02,454 - INFO - Collecting news from BBC
+2024-10-30 17:28:02,795 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:02,796 - INFO - BBC 뉴스 수집 완료: 20개
+2024-10-30 17:28:02,796 - INFO - Collecting news from CNN
+2024-10-30 17:28:03,240 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/politics/2023/04/05/maggie-haberman-donald-trump-speech-indictment-reaction-sot-cnntm-vpx.cnn
+2024-10-30 17:28:03,240 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/02/russian-military-blogger-vladlen-tatarsky-killed-cafe-explosion-chance-vpx.cnn
+2024-10-30 17:28:03,241 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/soldiers-russia-ukraine-war-david-mckenzie-pkg-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:28:03,241 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/finland-prime-minister-sanna-marin-concedes-election-right-wing-party-wins-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:28:03,242 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/man-throws-yogurt-on-women-iran-president-raisi-hijab-is-law-nada-bashir-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:28:03,243 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/weather/2023/04/02/little-rock-arkansas-tornado-man-inside-van-cnntmw-vpx.cnn
+2024-10-30 17:28:03,244 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/politics/2023/04/02/john-fetterman-depression-downward-spiral-acostanr-sot-vpx.cnn
+2024-10-30 17:28:03,244 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/03/31/israel-protests-rise-taxi-driver-attacked-robertson-pkg-intl-vpx.cnn
+2024-10-30 17:28:03,246 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/travel/2023/04/03/snailfish-deepest-fish-on-camera-lon-orig-ao-cprog-scn.cnn
+2024-10-30 17:28:03,246 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/media/2023/04/02/mark-hamill-star-wars-jim-acosta-skywalker-cprog-acostanr-vpx.cnn
+2024-10-30 17:28:03,247 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/us/2023/03/31/snowboarder-rescue-mt-baker-washington-cprog-lon-orig-na.cnn
+2024-10-30 17:28:03,247 - INFO - RSS 피드에서 필터링된 기사 수: 0개
+2024-10-30 17:28:03,247 - INFO - CNN 뉴스 수집 완료: 0개
+2024-10-30 17:28:03,248 - INFO - Collecting news from FOX NEWS
+2024-10-30 17:28:03,827 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:03,827 - INFO - FOX NEWS 뉴스 수집 완료: 20개
+2024-10-30 17:28:03,827 - INFO - Collecting news from NHK
+2024-10-30 17:28:04,022 - INFO - RSS 피드에서 필터링된 기사 수: 7개
+2024-10-30 17:28:04,023 - INFO - NHK 뉴스 수집 완료: 7개
+2024-10-30 17:28:04,023 - INFO - Collecting news from New York Times
+2024-10-30 17:28:04,161 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:04,162 - INFO - New York Times 뉴스 수집 완료: 20개
+2024-10-30 17:28:04,162 - INFO - Collecting news from Reuters
+2024-10-30 17:28:04,209 - ERROR - RSS 뉴스 수집 중 오류 발생 (http://feeds.reuters.com/reuters/topNews): HTTPConnectionPool(host='feeds.reuters.com', port=80): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x0000016A7078E150>: Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2024-10-30 17:28:04,210 - INFO - Reuters 뉴스 수집 완료: 0개
+2024-10-30 17:28:04,210 - INFO - Collecting news from Al Jazeera
+2024-10-30 17:28:04,488 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:04,489 - INFO - Al Jazeera 뉴스 수집 완료: 20개
+2024-10-30 17:28:04,489 - INFO - Collecting news from The Guardian
+2024-10-30 17:28:04,626 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:04,626 - INFO - The Guardian 뉴스 수집 완료: 20개
+2024-10-30 17:28:04,626 - INFO - Collecting news from Bloomberg
+2024-10-30 17:28:05,504 - ERROR - RSS 뉴스 수집 중 오류 발생 (https://www.bloomberg.com/feed/podcast/top-news.xml): 404 Client Error: Not Found for url: https://www.bloomberg.com/feed/podcast/top-news.xml
+2024-10-30 17:28:05,506 - INFO - Bloomberg 뉴스 수집 완료: 0개
+2024-10-30 17:28:05,506 - INFO - Collecting news from Financial Times
+2024-10-30 17:28:05,885 - ERROR - RSS 뉴스 수집 중 오류 발생 (https://www.ft.com/?format=rss): 406 Client Error: Not Acceptable for url: https://www.ft.com/rss/home/uk
+2024-10-30 17:28:05,886 - INFO - Financial Times 뉴스 수집 완료: 0개
+2024-10-30 17:28:05,888 - INFO - Collecting news from ABC News
+2024-10-30 17:28:06,497 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:06,498 - INFO - ABC News 뉴스 수집 완료: 20개
+2024-10-30 17:28:06,498 - INFO - Collecting news from CBS News
+2024-10-30 17:28:07,061 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/how-rural-voters-in-georgia-see-the-november-election/
+2024-10-30 17:28:07,062 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/from-the-archives-teri-garr-on-living-with-ms/
+2024-10-30 17:28:07,063 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/phone-companies-should-do-more-prevent-robocalls-texts-report-says/
+2024-10-30 17:28:07,063 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/voters-helped-biden-win-2020-share-why-not-vote-harris/
+2024-10-30 17:28:07,064 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/israeli-strike-kills-dozens-gaza-hamas-run-health-ministry/
+2024-10-30 17:28:07,064 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/breaking-down-harris-final-appeal-voters-ellipse/
+2024-10-30 17:28:07,064 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/michelle-obama/
+2024-10-30 17:28:07,065 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/far-right-israeli-settler-movement-aims-push-palestinians-out-gaza/
+2024-10-30 17:28:07,065 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/north-carolina-voters-trending-i2024/
+2024-10-30 17:28:07,066 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/10-year-old-catches-historic-world-series-grand-slam/
+2024-10-30 17:28:07,066 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/ballot-drop-box-fires-raise-voter-concerns/
+2024-10-30 17:28:07,066 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/examining-election-challenge-certification-process/
+2024-10-30 17:28:07,067 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/significance-harris-closing-argument-park-trump-spoke-before-jan-6-attack/
+2024-10-30 17:28:07,067 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/a-behind-the-scenes-look-at-an-arizona-ballot-printing-facility/
+2024-10-30 17:28:07,067 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/key-trump-ally-steve-bannon-released-from-prison/
+2024-10-30 17:28:07,067 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/trump-campaign-continues-to-face-backlash-over-madison-square-garden-rally/
+2024-10-30 17:28:07,068 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-gives-closing-message-at-ellipse-in-d-c/
+2024-10-30 17:28:07,068 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/cbs-evening-news-headlines-for-tuesday-oct-29-2024/
+2024-10-30 17:28:07,068 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/who-will-win-pennsylvania-swingiest-county/
+2024-10-30 17:28:07,068 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/arab-american-voters-michigan-sound-off-harris-israel-hamas-war/
+2024-10-30 17:28:07,068 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/two-key-senate-races-narrow-before-election-day/
+2024-10-30 17:28:07,069 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-closing-argument-ellipse-speech-what-to-expect/
+2024-10-30 17:28:07,069 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-trump-tied-pennsylvania-1-week-left-poll/
+2024-10-30 17:28:07,070 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/michelle-obama-rallying-voters-atlanta/
+2024-10-30 17:28:07,070 - INFO - RSS 피드에서 필터링된 기사 수: 6개
+2024-10-30 17:28:07,070 - INFO - CBS News 뉴스 수집 완료: 6개
+2024-10-30 17:28:07,070 - INFO - Collecting news from The Washington Post
+2024-10-30 17:28:15,540 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:28:15,541 - INFO - The Washington Post 뉴스 수집 완료: 20개
+2024-10-30 17:28:15,541 - INFO - Collecting news from CCTV
+2024-10-30 17:28:16,469 - ERROR - RSS 뉴스 수집 중 오류 발생 (http://news.cctv.com/rss/world.xml): 404 Client Error: Not Found for url: http://news.cctv.com/rss/world.xml
+2024-10-30 17:28:16,471 - INFO - CCTV 뉴스 수집 완료: 0개
+2024-10-30 17:28:16,471 - INFO - 총 크롤링할 기사 수: 153개
+2024-10-30 17:28:16,867 - INFO - 기사 본문 추출 성공: Police recover more than 40,000 stolen Bluey coins (발행일: 2024-10-30 04:03:38+00:00)
+2024-10-30 17:28:16,868 - INFO - 기사 본문 추출 성공: At least 13 dead in flash floods in Spain (발행일: 2024-10-30 02:39:51+00:00)
+2024-10-30 17:28:16,869 - INFO - 기사 본문 추출 성공: Government says it became aware of new Southport charges in last few weeks (발행일: 2024-10-30 01:18:55+00:00)
+2024-10-30 17:28:16,909 - INFO - 기사 본문 추출 성공: Ukraine in new mobilisation drive as Russia advances (발행일: 2024-10-30 06:06:16+00:00)
+2024-10-30 17:28:16,909 - INFO - 기사 본문 추출 성공: Chris Mason: A big Budget that will set agenda for years to come (발행일: 2024-10-29 22:31:08+00:00)
+2024-10-30 17:28:16,910 - INFO - 기사 본문 추출 성공: Minimum wage to rise to £12.21 an hour next year (발행일: 2024-10-30 07:52:50+00:00)
+2024-10-30 17:28:16,910 - INFO - 기사 본문 추출 성공: Two in hospital after major fire at UK's nuclear submarine shipyard (발행일: 2024-10-30 08:23:45+00:00)
+2024-10-30 17:28:16,924 - INFO - 기사 본문 추출 성공: Extreme drought areas treble in size since 80s - study (발행일: 2024-10-30 00:15:58+00:00)
+2024-10-30 17:28:16,924 - INFO - 기사 본문 추출 성공: China declares success as its youngest astronauts reach space (발행일: 2024-10-30 06:16:40+00:00)
+2024-10-30 17:28:16,964 - INFO - 기사 본문 추출 성공: How X users can earn thousands from US election misinformation and AI images (발행일: 2024-10-29 23:42:50+00:00)
+2024-10-30 17:28:17,085 - INFO - 기사 본문 추출 성공: What time is the Budget and what could be in it? (발행일: 2024-10-29 18:00:29+00:00)
+2024-10-30 17:28:17,141 - INFO - 기사 본문 추출 성공: Rachel Reeves: The chess fanatic playing Labour's first big gambit (발행일: 2024-10-25 11:53:15+00:00)
+2024-10-30 17:28:17,188 - INFO - 기사 본문 추출 성공: Ancient oak named after a band is UK Tree of the Year (발행일: 2024-10-30 08:05:26+00:00)
+2024-10-30 17:28:17,189 - INFO - 기사 본문 추출 성공: I am on edge, says woman made homeless aged 75 (발행일: 2024-10-30 00:06:48+00:00)
+2024-10-30 17:28:17,239 - INFO - 기사 본문 추출 성공: Tensions rise in Beirut after influx of displaced people (발행일: 2024-10-30 00:09:03+00:00)
+2024-10-30 17:28:17,239 - INFO - 기사 본문 추출 성공: Harris pledges 'different path' at site of Trump 6 January rally (발행일: 2024-10-30 02:24:08+00:00)
+2024-10-30 17:28:17,250 - INFO - 기사 본문 추출 성공: 'I can’t afford to leave home on £1,500 a month – here’s what I need from the Budget' (발행일: 2024-10-29 18:01:02+00:00)
+2024-10-30 17:28:17,275 - INFO - 기사 본문 추출 성공: The Papers: Terror charge for Southport suspect and Reeves' first budget (발행일: 2024-10-30 05:51:28+00:00)
+2024-10-30 17:28:17,327 - INFO - 기사 본문 추출 성공: The bear who was a private in the Polish army (발행일: 2024-10-30 01:38:16+00:00)
+2024-10-30 17:28:17,328 - INFO - 기사 본문 추출 성공: What is Unrwa and why has Israel banned it? (발행일: 2024-10-29 18:25:25+00:00)
+2024-10-30 17:28:17,365 - INFO - 기사 본문 추출 성공: Trump has another response to Biden's 'garbage' comment about GOP supporters (발행일: 2024-10-30 04:02:33-04:00)
+2024-10-30 17:28:17,444 - INFO - 기사 본문 추출 성공: War torn regions have keen interest in US elections (발행일: 2024-10-30 04:00:56-04:00)
+2024-10-30 17:28:17,446 - INFO - 기사 본문 추출 성공: Martha Stewart documentary: Top 5 bombshells, from ‘bigot’ father's slap to affair with 'attractive Irishman' (발행일: 2024-10-30 04:00:59-04:00)
+2024-10-30 17:28:17,506 - INFO - 기사 본문 추출 성공: 'Abused the laws': GOP bill vows to shut down key Biden-era policies benefitting migrants (발행일: 2024-10-30 04:00:46-04:00)
+2024-10-30 17:28:17,507 - INFO - 기사 본문 추출 성공: JD Vance calls out Politico for sugarcoating Biden quote about Trump supporters being 'garbage' (발행일: 2024-10-30 04:00:42-04:00)
+2024-10-30 17:28:17,538 - INFO - 기사 본문 추출 성공: GREG GUTFELD: For Democrats, politics is upstream from everything (발행일: 2024-10-30 01:14:09-04:00)
+2024-10-30 17:28:17,659 - INFO - 기사 본문 추출 성공: White House seeks to play clean up after Biden calls Trump supporters 'garbage' (발행일: 2024-10-30 00:21:24-04:00)
+2024-10-30 17:28:17,691 - INFO - 기사 본문 추출 성공: CNN anchor skeptical of White House cleanup of Biden's 'garbage' comment: 'You can listen to it for yourself' (발행일: 2024-10-29 23:47:28-04:00)
+2024-10-30 17:28:17,725 - INFO - 기사 본문 추출 성공: Republicans react to Biden’s ‘garbage’ comments as Trump-Harris 2024 election nears (발행일: 2024-10-30 01:17:04-04:00)
+2024-10-30 17:28:17,782 - INFO - 기사 본문 추출 성공: Puerto Rico Shadow Senator endorses Trump at PA rally after 'Kill Tony' controversy at MSG (발행일: 2024-10-29 23:39:10-04:00)
+2024-10-30 17:28:17,791 - INFO - 기사 본문 추출 성공: Yankees stave off World Series sweep, force Game 5 vs Dodgers (발행일: 2024-10-29 23:26:19-04:00)
+2024-10-30 17:28:17,823 - INFO - 기사 본문 추출 성공: Trump calls for supporters to 'forgive' Biden in show of unity after president calls supporters 'garbage' (발행일: 2024-10-29 23:30:57-04:00)
+2024-10-30 17:28:17,856 - INFO - 기사 본문 추출 성공: Suspects arrested for assaulting police officer outside of Kamala Harris rally in D.C. (발행일: 2024-10-29 22:47:47-04:00)
+2024-10-30 17:28:17,885 - INFO - 기사 본문 추출 성공: PA Gov. Josh Shapiro distances himself from Biden's 'garbage' comment: 'I'd never insult' Trump supporters (발행일: 2024-10-29 22:47:27-04:00)
+2024-10-30 17:28:17,912 - INFO - 기사 본문 추출 성공: JESSE WATTERS: Kamala is campaigning like Biden now (발행일: 2024-10-29 22:01:42-04:00)
+2024-10-30 17:28:17,942 - INFO - 기사 본문 추출 성공: Shannon Sharpe rips Aaron Rodgers after Jets latest loss: 'Smug, cavalier, condescending guy' (발행일: 2024-10-29 22:33:31-04:00)
+2024-10-30 17:28:17,970 - INFO - 기사 본문 추출 성공: SEAN HANNITY: Kamala Harris didn't talk about this tonight (발행일: 2024-10-29 21:55:36-04:00)
+2024-10-30 17:28:18,007 - INFO - 기사 본문 추출 성공: FBI joins investigation as quiet mountain town rocked by hiker's slaying staged as bear attack (발행일: 2024-10-29 22:15:47-04:00)
+2024-10-30 17:28:18,007 - INFO - 기사 본문 추출 성공: 東京 三鷹 住宅に複数の男押し入り 住人に暴行も抵抗され逃走 (발행일: 2024-10-30 16:56:44+09:00)
+2024-10-30 17:28:18,037 - INFO - 기사 본문 추출 성공: New York Republican in toss-up district gains momentum in key race to determine House control (발행일: 2024-10-29 22:00:27-04:00)
+2024-10-30 17:28:18,056 - INFO - 기사 본문 추출 성공: 韓国国防当局 “北朝鮮 ICBM発射や核実験に踏み切る可能性も” (발행일: 2024-10-30 16:50:35+09:00)
+2024-10-30 17:28:18,063 - WARNING - 전처리된 본문이 없습니다: 自民 無所属で当選4人に国会内の会派入り要請し いずれも了承
+2024-10-30 17:28:18,139 - INFO - 기사 본문 추출 성공: ハロウィーン 渋谷「ハチ公」は封鎖 新宿は？池袋は？ (발행일: 2024-10-30 16:41:52+09:00)
+2024-10-30 17:28:18,150 - WARNING - 전처리된 본문이 없습니다: 秋の園遊会 パリ五輪・パラ メダリストなど招待
+2024-10-30 17:28:18,165 - INFO - 기사 본문 추출 성공: Biden Appears to Insult Trump Supporters as ‘Garbage,’ but Quickly Tries to Clarify (발행일: 2024-10-30 06:53:09+00:00)
+2024-10-30 17:28:18,191 - INFO - 기사 본문 추출 성공: How Trump Exploits Divisions Among Black and Latino Voters (발행일: 2024-10-29 23:11:49+00:00)
+2024-10-30 17:28:18,191 - INFO - 기사 본문 추출 성공: Satellite Images Suggest Israel Struck a Major Iranian Missile Plant (발행일: 2024-10-30 01:34:17+00:00)
+2024-10-30 17:28:18,213 - INFO - 기사 본문 추출 성공: ドジャース敗れて3勝1敗に ヤンキースが初勝利【詳しく】 (발행일: 2024-10-30 15:50:10+09:00)
+2024-10-30 17:28:18,221 - WARNING - 전처리된 본문이 없습니다: 国民 玉木代表 自民との会談は「政策実現につながる協議期待」
+2024-10-30 17:28:18,234 - INFO - 기사 본문 추출 성공: Israeli Military Hits Gaza Town for 3rd Time in Days, Killing Dozens, Officials Say (발행일: 2024-10-29 21:00:14+00:00)
+2024-10-30 17:28:18,264 - INFO - 기사 본문 추출 성공: Teri Garr, Comic Actress in ‘Young Frankenstein’ and ‘Tootsie,’ Dies at 79 (발행일: 2024-10-29 22:10:53+00:00)
+2024-10-30 17:28:18,265 - INFO - 기사 본문 추출 성공: Teri Garr’s Life in Pictures (발행일: 2024-10-30 01:51:52+00:00)
+2024-10-30 17:28:18,310 - INFO - 기사 본문 추출 성공: How TikTok Saved Its E-Commerce Business in Indonesia (발행일: 2024-10-30 04:30:11+00:00)
+2024-10-30 17:28:18,335 - INFO - 기사 본문 추출 성공: The U.S. Army Prepares for War With China: New Vehicles, Face Paint and a 1,200-Foot Fall (발행일: 2024-10-29 16:26:59+00:00)
+2024-10-30 17:28:18,339 - INFO - 기사 본문 추출 성공: How TikTok Worked With Tokopedia to Get Packages Delivered in Indonesia (발행일: 2024-10-30 04:33:30+00:00)
+2024-10-30 17:28:18,364 - INFO - 기사 본문 추출 성공: The New Threat to Brazil’s Forests: Chemicals (발행일: 2024-10-29 04:01:41+00:00)
+2024-10-30 17:28:18,379 - INFO - 기사 본문 추출 성공: Jaywalking Is a New York Tradition. Now It’s Legal, Too. (발행일: 2024-10-29 23:04:06+00:00)
+2024-10-30 17:28:18,394 - INFO - 기사 본문 추출 성공: In Closing, Harris Casts Herself as the Unifier and Trump as a ‘Petty Tyrant’ (발행일: 2024-10-30 05:08:02+00:00)
+2024-10-30 17:28:18,419 - INFO - 기사 본문 추출 성공: In ‘Empty Beds,’ a Stark Reminder of War’s Youngest Victims (발행일: 2024-10-29 17:16:38+00:00)
+2024-10-30 17:28:18,433 - INFO - 기사 본문 추출 성공: A Conservative Case Against Trump (발행일: 2024-10-29 23:37:05+00:00)
+2024-10-30 17:28:18,444 - INFO - 기사 본문 추출 성공: A Harris Presidency Is the Only Way to Stay Ahead of A.I. (발행일: 2024-10-29 23:00:09+00:00)
+2024-10-30 17:28:18,458 - INFO - 기사 본문 추출 성공: Giorgia Meloni Knows Exactly What She’s Doing (발행일: 2024-10-30 05:00:08+00:00)
+2024-10-30 17:28:18,470 - INFO - 기사 본문 추출 성공: Parts of Spain Get a Month’s Worth of Rain in a Day (발행일: 2024-10-30 00:23:55+00:00)
+2024-10-30 17:28:18,501 - INFO - 기사 본문 추출 성공: 101 days: Kamala Harris has yet to do formal press conference since emerging as Democratic nominee (발행일: 2024-10-30 00:08:50-04:00)
+2024-10-30 17:28:18,514 - INFO - 기사 본문 추출 성공: Au Pair Pleads Guilty to Manslaughter in Double Homicide (발행일: 2024-10-30 03:23:51+00:00)
+2024-10-30 17:28:18,527 - INFO - 기사 본문 추출 성공: What a ‘Tennessee Three’ Member Thinks She Can Achieve by Running for Senate (발행일: 2024-10-29 19:56:33+00:00)
+2024-10-30 17:28:18,791 - INFO - 기사 본문 추출 성공: China’s Latest Security Target: Halloween Partygoers (발행일: 2024-10-30 01:42:16+00:00)
+2024-10-30 17:28:18,855 - WARNING - 본문을 찾을 수 없습니다: https://www.aljazeera.com/program/newsfeed/2024/10/30/helicopter-crew-rescues-child-from-house-in-flood-hit-spain?traffic_source=rss
+2024-10-30 17:28:18,856 - WARNING - 기사 본문이 없습니다: Helicopter crew rescues child from house in flood-hit Spain
+2024-10-30 17:28:18,872 - INFO - 기사 본문 추출 성공: Heat-related deaths and diseases rising due to climate change, experts warn (발행일: 2024-10-30 08:15:06+00:00)
+2024-10-30 17:28:18,892 - INFO - 기사 본문 추출 성공: What do we know about Hezbollah’s new leader, Naim Qassem? (발행일: 2024-10-30 08:00:37+00:00)
+2024-10-30 17:28:18,985 - INFO - 기사 본문 추출 성공: ‘Horrific’ Israeli bombing of Gaza’s Beit Lahiya kills at least 93 (발행일: 2024-10-30 06:56:50+00:00)
+2024-10-30 17:28:18,989 - INFO - 기사 본문 추출 성공: What is the history of newspaper endorsements and can they swing elections? (발행일: 2024-10-30 06:45:35+00:00)
+2024-10-30 17:28:19,212 - INFO - 기사 본문 추출 성공: Ronaldo misses penalty as Al Nassr eliminated from Saudi King’s Cup (발행일: 2024-10-30 06:03:47+00:00)
+2024-10-30 17:28:19,454 - INFO - 기사 본문 추출 성공: Donald Trump attempts to recover Latino support with Pennsylvania rally (발행일: 2024-10-30 04:42:02+00:00)
+2024-10-30 17:28:19,477 - INFO - 기사 본문 추출 성공: Manchester United managerial target Amorim says ‘nothing decided yet’ (발행일: 2024-10-30 07:51:52+00:00)
+2024-10-30 17:28:19,508 - INFO - 기사 본문 추출 성공: Death and destruction as torrential rains lash Spain (발행일: 2024-10-30 07:48:05+00:00)
+2024-10-30 17:28:19,508 - INFO - 기사 본문 추출 성공: Continued conflict leaves Myanmar mired in crisis: UN (발행일: 2024-10-30 07:04:39+00:00)
+2024-10-30 17:28:19,525 - INFO - 기사 본문 추출 성공: US election: 6 days left – What polls say, what Harris and Trump are up to (발행일: 2024-10-30 07:08:29+00:00)
+2024-10-30 17:28:19,656 - INFO - 기사 본문 추출 성공: Sudan militia accused of mass killings and sexual violence as attacks escalate (발행일: 2024-10-28 14:05:24+00:00)
+2024-10-30 17:28:19,706 - INFO - 기사 본문 추출 성공: EU hikes tariffs on Chinese EVs, prompting rebuke from Beijing (발행일: 2024-10-30 03:33:04+00:00)
+2024-10-30 17:28:19,758 - INFO - 기사 본문 추출 성공: Shirley Ayorkor Botchwey appointed Commonwealth secretary general (발행일: 2024-10-26 11:01:20+00:00)
+2024-10-30 17:28:19,841 - INFO - 기사 본문 추출 성공: Mozambique ruling party declared winner of election marred by killings (발행일: 2024-10-24 16:54:31+00:00)
+2024-10-30 17:28:19,878 - INFO - 기사 본문 추출 성공: Biodiversity declining even faster in ‘protected’ areas, scientists warn Cop16 (발행일: 2024-10-24 05:00:02+00:00)
+2024-10-30 17:28:19,902 - INFO - 기사 본문 추출 성공: ‘Not who we are’: Harris seeks finish line push at crowded US capital rally (발행일: 2024-10-30 02:52:49+00:00)
+2024-10-30 17:28:19,922 - INFO - 기사 본문 추출 성공: Biden tries to end furore after seeming to call Trump supporters ‘garbage’ (발행일: 2024-10-30 05:36:07+00:00)
+2024-10-30 17:28:19,958 - INFO - 기사 본문 추출 성공: US tech stocks send Nasdaq to hit record high, as Alphabet beats forecasts (발행일: 2024-10-30 02:07:20+00:00)
+2024-10-30 17:28:19,993 - INFO - 기사 본문 추출 성공: Four in 10 deaths in war zones last year were women, UN report finds (발행일: 2024-10-23 12:11:30+00:00)
+2024-10-30 17:28:20,026 - INFO - 기사 본문 추출 성공: EU refuses to publish findings of Tunisia human rights inquiry (발행일: 2024-10-23 09:30:22+00:00)
+2024-10-30 17:28:20,110 - INFO - 기사 본문 추출 성공: Lost Maya city with temple pyramids and plazas discovered in Mexico (발행일: 2024-10-29 12:33:59+00:00)
+2024-10-30 17:28:20,159 - INFO - 기사 본문 추출 성공: Puerto Rico Republican chair demands Trump apology for rally’s racist remarks (발행일: 2024-10-29 12:32:53+00:00)
+2024-10-30 17:28:20,205 - INFO - 기사 본문 추출 성공: Bolivian minister accuses Evo Morales of ‘staged’ assassination attempt (발행일: 2024-10-29 03:45:44+00:00)
+2024-10-30 17:28:20,225 - INFO - 기사 본문 추출 성공: Trudeau facing ‘iceberg revolt’ as calls grow for embattled PM to step down (발행일: 2024-10-29 10:30:06+00:00)
+2024-10-30 17:28:20,251 - WARNING - 본문을 찾을 수 없습니다: https://www.aljazeera.com/program/newsfeed/2024/10/30/harris-makes-final-pitch-to-voters-one-week-before-us-election?traffic_source=rss
+2024-10-30 17:28:20,252 - WARNING - 기사 본문이 없습니다: Harris makes final pitch to voters one week before US election
+2024-10-30 17:28:20,303 - INFO - 기사 본문 추출 성공: Uruguay presidential election heads to runoff with center-left candidate in lead (발행일: 2024-10-28 14:26:42+00:00)
+2024-10-30 17:28:20,325 - INFO - 기사 본문 추출 성공: Mount Fuji snowless for longest time on record after sweltering Japan summer (발행일: 2024-10-30 00:52:36+00:00)
+2024-10-30 17:28:20,359 - INFO - 기사 본문 추출 성공: Indonesia blocks Apple iPhone 16 sales over lack of investment (발행일: 2024-10-28 18:42:47+00:00)
+2024-10-30 17:28:20,387 - INFO - 기사 본문 추출 성공: White Island volcano disaster: owners appeal against criminal conviction (발행일: 2024-10-29 16:24:57+00:00)
+2024-10-30 17:28:20,472 - INFO - 기사 본문 추출 성공: China’s kindergarten numbers shrink as policymakers struggle to arrest falling birthrate (발행일: 2024-10-28 06:54:44+00:00)
+2024-10-30 17:28:20,526 - INFO - 기사 본문 추출 성공: Japan election: voters have issued ‘severe judgment’, PM says after ruling coalition loses majority (발행일: 2024-10-28 03:00:18+00:00)
+2024-10-30 17:28:20,544 - INFO - 기사 본문 추출 성공: Jacinta Nampijinpa Price to pay federal court over delay in defamation defence (발행일: 2024-10-30 08:09:26+00:00)
+2024-10-30 17:28:20,560 - INFO - 기사 본문 추출 성공: Botswana election: Who is in the running and what’s at stake? (발행일: 2024-10-30 05:40:18+00:00)
+2024-10-30 17:28:20,575 - INFO - 기사 본문 추출 성공: Anthony Albanese denies ever calling ex-Qantas CEO Alan Joyce to ask for an upgrade (발행일: 2024-10-30 07:41:13+00:00)
+2024-10-30 17:28:20,625 - INFO - 기사 본문 추출 성공: Russia-Ukraine war: List of key events, day 978 (발행일: 2024-10-30 04:22:30+00:00)
+2024-10-30 17:28:20,728 - INFO - 기사 본문 추출 성공: Australia to boost missile production after China tests ICBM in Pacific (발행일: 2024-10-30 05:30:22+00:00)
+2024-10-30 17:28:20,759 - INFO - 기사 본문 추출 성공: Duterte tells Philippines ‘war on drugs’ inquiry he kept a death squad (발행일: 2024-10-28 12:16:24+00:00)
+2024-10-30 17:28:20,998 - INFO - 기사 본문 추출 성공: Racist jokes about Puerto Rico at rally bring anger and disgust: ‘Truly how the Trump party sees us’ (발행일: 2024-10-29 13:00:10+00:00)
+2024-10-30 17:28:21,061 - ERROR - 웹페이지 스크래핑 오류 (https://abcnews.go.com/Live/video/abcnews-live-41463246): 404 Client Error: Not Found for url: https://abcnews.go.com/Live/video/abcnews-live-41463246
+2024-10-30 17:28:21,061 - WARNING - 기사 본문이 없습니다: LIVE:  ABC News Live
+2024-10-30 17:28:21,230 - INFO - 기사 본문 추출 성공:  At town halls, Elon Musk works to harness his celebrity to boost Trump (발행일: 2024-10-29 19:09:27-04:00)
+2024-10-30 17:28:21,238 - INFO - 기사 본문 추출 성공: Israel again bombs Gaza’s Beit Lahiya hours after killing 93 in one strike (발행일: 2024-10-30 03:27:27+00:00)
+2024-10-30 17:28:21,316 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/US/video/woman-dies-after-backing-plane-propeller-taking-photos-115251671
+2024-10-30 17:28:21,317 - WARNING - 기사 본문이 없습니다: WATCH:  Woman dies after backing into plane propeller while taking photos
+2024-10-30 17:28:21,327 - INFO - 기사 본문 추출 성공:  Trump holds rally in Pennsylvania city with Latino-majority population (발행일: 2024-10-30 00:26:38-04:00)
+2024-10-30 17:28:21,373 - INFO - 기사 본문 추출 성공:  Harris' closing argument: 'Turn the page and start writing the next chapter' (발행일: 2024-10-29 20:28:45-04:00)
+2024-10-30 17:28:21,515 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/US/video/penguin-barely-walk-gets-life-saving-surgery-115209281
+2024-10-30 17:28:21,515 - WARNING - 기사 본문이 없습니다: WATCH:  Penguin who could barely walk gets life-saving surgery
+2024-10-30 17:28:21,577 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Culture/video/miracle-hail-mary-commanders-minute-18-15-win-115209160
+2024-10-30 17:28:21,577 - WARNING - 기사 본문이 없습니다: WATCH:  ‘Miracle’ Hail Mary gives Commanders last-minute 18-15 win over Bears
+2024-10-30 17:28:21,600 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Living/video/walt-disney-world-animals-celebrate-halloween-pumpkins-115158344
+2024-10-30 17:28:21,600 - WARNING - 기사 본문이 없습니다: WATCH:  Walt Disney World animals celebrate Halloween with pumpkins 
+2024-10-30 17:28:21,831 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Entertainment/video/timothe-chalamet-crashes-alike-contest-115200595
+2024-10-30 17:28:21,831 - WARNING - 기사 본문이 없습니다: WATCH:  Timothée Chalamet crashes his own look-alike contest
+2024-10-30 17:28:21,863 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Entertainment/video/adele-celine-dion-share-emotional-greeting-concert-115199247
+2024-10-30 17:28:21,863 - WARNING - 기사 본문이 없습니다: WATCH:  'Hello': Adele, Celine Dion share emotional greeting at concert
+2024-10-30 17:28:22,048 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Family/video/nicu-babies-dressed-taylor-swift-inspired-outfits-halloween-115120903
+2024-10-30 17:28:22,048 - WARNING - 기사 본문이 없습니다: WATCH:  NICU babies get all dressed up in Taylor Swift-inspired outfits for Halloween
+2024-10-30 17:28:22,094 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/International/video/strong-explosions-reported-tehran-iran-state-tv-confirms-115165553
+2024-10-30 17:28:22,094 - WARNING - 기사 본문이 없습니다: WATCH:  Strong explosions reported around Tehran, Iran state TV confirms
+2024-10-30 17:28:22,217 - INFO - 기사 본문 추출 성공:  2024 election updates: Biden angers GOP associating 'garbage' with Trump supporters (발행일: 2024-10-30 03:04:28-04:00)
+2024-10-30 17:28:22,264 - INFO - 기사 본문 추출 성공:  Fight intensifies over Florida ballot measure that would guarantee abortion rights (발행일: 2024-10-29 05:23:42-04:00)
+2024-10-30 17:28:22,284 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Technology/video/astronauts-return-earth-after-delayed-boeings-capsule-trouble-115140620
+2024-10-30 17:28:22,285 - WARNING - 기사 본문이 없습니다: WATCH:  Astronauts return to Earth after being delayed by Boeing's capsule trouble
+2024-10-30 17:28:22,326 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Nightline/video/wnba-champs-new-york-liberty-celebrate-1st-title-115136331
+2024-10-30 17:28:22,327 - WARNING - 기사 본문이 없습니다: WATCH:  WNBA champs New York Liberty celebrate 1st title with a Canyon of Heroes parade
+2024-10-30 17:28:22,343 - INFO - 기사 본문 추출 성공:  Slavery, involuntary servitude are on the ballot in these states (발행일: 2024-10-29 16:54:55-04:00)
+2024-10-30 17:28:22,360 - INFO - 기사 본문 추출 성공:  What you need to know about the Electoral College as 2024 race nears end (발행일: 2024-10-28 17:20:22-04:00)
+2024-10-30 17:28:22,634 - INFO - 기사 본문 추출 성공:  Trump calls Madison Square Garden rally a 'lovefest' as backlash continues (발행일: 2024-10-29 13:07:41-04:00)
+2024-10-30 17:28:22,659 - INFO - 기사 본문 추출 성공:  The 2024 election could hinge on Pennsylvania (발행일: 2024-10-29 16:27:21-04:00)
+2024-10-30 17:28:22,710 - INFO - 기사 본문 추출 성공: Anthony Volpe does it all, Yankees rout Dodgers in Game 4 (발행일: 2024-10-30 01:18:21-04:00)
+2024-10-30 17:28:22,757 - INFO - 기사 본문 추출 성공: Biden remark about Trump "garbage" rally angers GOP (발행일: 2024-10-29 23:27:00-04:00)
+2024-10-30 17:28:23,051 - INFO - 기사 본문 추출 성공: Rural Georgia voters weigh in ahead of election as residents find common ground (발행일: 2024-10-29 19:45:15-04:00)
+2024-10-30 17:28:23,676 - INFO - 기사 본문 추출 성공: Teens who made history with math discovery publish paper with new proofs (발행일: 2024-10-29 19:06:55-04:00)
+2024-10-30 17:28:23,938 - INFO - 기사 본문 추출 성공: Inside a secure Arizona facility printing election ballots (발행일: 2024-10-29 20:18:07-04:00)
+2024-10-30 17:28:24,055 - INFO - 기사 본문 추출 성공: Man who threatened Fani Willis gets nearly 2 years in prison (발행일: 2024-10-29 22:58:56-04:00)
+2024-10-30 17:28:42,387 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/israel-iran-war-news-gaza-palestine-hamas/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,388 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/russia-ukraine-pow-executions/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,390 - WARNING - 기사 본문이 없습니다: Live Briefing: U.S. presses Israel for answers on Gaza strike that killed dozens
+2024-10-30 17:28:42,394 - WARNING - 기사 본문이 없습니다: Ukraine accuses Russia of sudden spike in POW killings
+2024-10-30 17:28:42,731 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,734 - WARNING - 기사 본문이 없습니다: More than 90 killed in strike in northern Gaza
+2024-10-30 17:28:42,761 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,762 - WARNING - 기사 본문이 없습니다: What visuals reveal about the impact of Israeli strikes on Iran
+2024-10-30 17:28:42,776 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,777 - WARNING - 기사 본문이 없습니다: Hezbollah, seeking stability, names new leader after Nasrallah’s killing
+2024-10-30 17:28:42,807 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/trump-harris-election-democracy-autocracy/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:42,808 - WARNING - 기사 본문이 없습니다: The world beyond the election: So much for democracy vs. autocracy
+2024-10-30 17:28:43,149 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:43,151 - WARNING - 기사 본문이 없습니다: Israeli parliament votes to ban UNRWA within Israel and sever ties
+2024-10-30 17:28:43,757 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/israel-iran-war-news-gaza-palestine/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:43,760 - WARNING - 기사 본문이 없습니다: Israeli attack in northern Gaza kills 93
+2024-10-30 17:28:43,992 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/gaza-north-israel-strike-aid-unrwa/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:43,993 - WARNING - 기사 본문이 없습니다: More than 90 killed in north Gaza strike as Israel bans U.N. relief agency  
+2024-10-30 17:28:44,135 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:28:44,137 - WARNING - 기사 본문이 없습니다: At least 93 killed in Israeli strike in north Gaza, health official says
+2024-10-30 17:29:02,449 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/iran-israel-strikes-missiles-air-defense/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:02,450 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:02,452 - WARNING - 기사 본문이 없습니다: What visuals reveal about the impact of Israeli strikes on Iran
+2024-10-30 17:29:02,455 - WARNING - 기사 본문이 없습니다: Hezbollah names new leader one month after Nasrallah killing
+2024-10-30 17:29:02,792 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/london-cheese-heist-neals-yard-dairy/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:02,794 - WARNING - 기사 본문이 없습니다: Who stole 24 tons of cheddar? ‘Sophisticated’ cheese heist sparks police hunt.
+2024-10-30 17:29:02,807 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/hezbollah-new-leader-naim-qassem/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:02,810 - WARNING - 기사 본문이 없습니다: Hezbollah, seeking stability, names new leader after Nasrallah’s killing
+2024-10-30 17:29:02,823 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/north-korea-elite-troops-russia-ukraine-war/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:02,823 - WARNING - 기사 본문이 없습니다: North Korea’s elite troops are in Russia to fight Ukraine: What we know
+2024-10-30 17:29:03,229 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/mali-bamako-jnim-attack-qaeda/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:03,230 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:03,231 - WARNING - 기사 본문이 없습니다: Bloody attack in Mali’s capital shows al-Qaeda’s shifting strategy
+2024-10-30 17:29:03,234 - WARNING - 기사 본문이 없습니다: U.S. officials push for cease-fire, hostage swap in renewed talks
+2024-10-30 17:29:03,837 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:03,838 - WARNING - 기사 본문이 없습니다: Families separated by Israel’s war in Gaza fear they will never reunite
+2024-10-30 17:29:04,056 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/28/israel-iran-war-news-gaza-hamas/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:04,058 - WARNING - 기사 본문이 없습니다: IDF withdraws from north Gaza’s last working hospital; cease-fire talks resume
+2024-10-30 17:29:04,165 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:29:04,168 - WARNING - 기사 본문이 없습니다: Israeli parliament votes to ban UNRWA within Israel and sever ties
+2024-10-30 17:29:04,174 - INFO - 수집된 유효한 기사 수: 117개
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Police recover more than 40,000 stolen Bluey coins
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: At least 13 dead in flash floods in Spain
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Government says it became aware of new Southport charges in last few weeks
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Ukraine in new mobilisation drive as Russia advances
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Chris Mason: A big Budget that will set agenda for years to come
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Minimum wage to rise to £12.21 an hour next year
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Two in hospital after major fire at UK's nuclear submarine shipyard
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: Extreme drought areas treble in size since 80s - study
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: China declares success as its youngest astronauts reach space
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: How X users can earn thousands from US election misinformation and AI images
+2024-10-30 17:29:13,428 - INFO - 글로벌 새로운 트리 생성: What time is the Budget and what could be in it?
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Rachel Reeves: The chess fanatic playing Labour's first big gambit
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Ancient oak named after a band is UK Tree of the Year
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: I am on edge, says woman made homeless aged 75
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Tensions rise in Beirut after influx of displaced people
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Harris pledges 'different path' at site of Trump 6 January rally
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: 'I can’t afford to leave home on £1,500 a month – here’s what I need from the Budget'
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: The Papers: Terror charge for Southport suspect and Reeves' first budget
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: The bear who was a private in the Polish army
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: What is Unrwa and why has Israel banned it?
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Trump has another response to Biden's 'garbage' comment about GOP supporters
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: War torn regions have keen interest in US elections
+2024-10-30 17:29:13,430 - INFO - 글로벌 새로운 트리 생성: Martha Stewart documentary: Top 5 bombshells, from ‘bigot’ father's slap to affair with 'attractive Irishman'
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: 'Abused the laws': GOP bill vows to shut down key Biden-era policies benefitting migrants
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: JD Vance calls out Politico for sugarcoating Biden quote about Trump supporters being 'garbage'
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: GREG GUTFELD: For Democrats, politics is upstream from everything
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: White House seeks to play clean up after Biden calls Trump supporters 'garbage'
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: CNN anchor skeptical of White House cleanup of Biden's 'garbage' comment: 'You can listen to it for yourself'
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: Republicans react to Biden’s ‘garbage’ comments as Trump-Harris 2024 election nears
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: Puerto Rico Shadow Senator endorses Trump at PA rally after 'Kill Tony' controversy at MSG
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: Yankees stave off World Series sweep, force Game 5 vs Dodgers
+2024-10-30 17:29:13,431 - INFO - 글로벌 새로운 트리 생성: Trump calls for supporters to 'forgive' Biden in show of unity after president calls supporters 'garbage'
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: Suspects arrested for assaulting police officer outside of Kamala Harris rally in D.C.
+2024-10-30 17:29:13,432 - INFO - 글로벌 트리 병합 완료: PA Gov. Josh Shapiro distances himself from Biden's 'garbage' comment: 'I'd never insult' Trump supporters (유사도: 0.43)
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: JESSE WATTERS: Kamala is campaigning like Biden now
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: Shannon Sharpe rips Aaron Rodgers after Jets latest loss: 'Smug, cavalier, condescending guy'
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: SEAN HANNITY: Kamala Harris didn't talk about this tonight
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: FBI joins investigation as quiet mountain town rocked by hiker's slaying staged as bear attack
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: 東京 三鷹 住宅に複数の男押し入り 住人に暴行も抵抗され逃走
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: New York Republican in toss-up district gains momentum in key race to determine House control
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: 韓国国防当局 “北朝鮮 ICBM発射や核実験に踏み切る可能性も”
+2024-10-30 17:29:13,432 - INFO - 글로벌 새로운 트리 생성: ハロウィーン 渋谷「ハチ公」は封鎖 新宿は？池袋は？
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: Biden Appears to Insult Trump Supporters as ‘Garbage,’ but Quickly Tries to Clarify
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: How Trump Exploits Divisions Among Black and Latino Voters
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: Satellite Images Suggest Israel Struck a Major Iranian Missile Plant
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: ドジャース敗れて3勝1敗に ヤンキースが初勝利【詳しく】
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: Israeli Military Hits Gaza Town for 3rd Time in Days, Killing Dozens, Officials Say
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: Teri Garr, Comic Actress in ‘Young Frankenstein’ and ‘Tootsie,’ Dies at 79
+2024-10-30 17:29:13,433 - INFO - 글로벌 새로운 트리 생성: Teri Garr’s Life in Pictures
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: How TikTok Saved Its E-Commerce Business in Indonesia
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: The U.S. Army Prepares for War With China: New Vehicles, Face Paint and a 1,200-Foot Fall
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: How TikTok Worked With Tokopedia to Get Packages Delivered in Indonesia
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: The New Threat to Brazil’s Forests: Chemicals
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: Jaywalking Is a New York Tradition. Now It’s Legal, Too.
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: In Closing, Harris Casts Herself as the Unifier and Trump as a ‘Petty Tyrant’
+2024-10-30 17:29:13,434 - INFO - 글로벌 새로운 트리 생성: In ‘Empty Beds,’ a Stark Reminder of War’s Youngest Victims
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: A Conservative Case Against Trump
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: A Harris Presidency Is the Only Way to Stay Ahead of A.I.
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: Giorgia Meloni Knows Exactly What She’s Doing
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: Parts of Spain Get a Month’s Worth of Rain in a Day
+2024-10-30 17:29:13,435 - INFO - 글로벌 트리 병합 완료: 101 days: Kamala Harris has yet to do formal press conference since emerging as Democratic nominee (유사도: 0.33)
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: Au Pair Pleads Guilty to Manslaughter in Double Homicide
+2024-10-30 17:29:13,435 - INFO - 글로벌 새로운 트리 생성: What a ‘Tennessee Three’ Member Thinks She Can Achieve by Running for Senate
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: China’s Latest Security Target: Halloween Partygoers
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: Heat-related deaths and diseases rising due to climate change, experts warn
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: What do we know about Hezbollah’s new leader, Naim Qassem?
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: ‘Horrific’ Israeli bombing of Gaza’s Beit Lahiya kills at least 93
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: What is the history of newspaper endorsements and can they swing elections?
+2024-10-30 17:29:13,436 - INFO - 글로벌 새로운 트리 생성: Ronaldo misses penalty as Al Nassr eliminated from Saudi King’s Cup
+2024-10-30 17:29:13,437 - INFO - 글로벌 새로운 트리 생성: Donald Trump attempts to recover Latino support with Pennsylvania rally
+2024-10-30 17:29:13,437 - INFO - 글로벌 새로운 트리 생성: Manchester United managerial target Amorim says ‘nothing decided yet’
+2024-10-30 17:29:13,437 - INFO - 글로벌 새로운 트리 생성: Death and destruction as torrential rains lash Spain
+2024-10-30 17:29:13,437 - INFO - 글로벌 새로운 트리 생성: Continued conflict leaves Myanmar mired in crisis: UN
+2024-10-30 17:29:13,437 - INFO - 글로벌 새로운 트리 생성: US election: 6 days left – What polls say, what Harris and Trump are up to
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: Sudan militia accused of mass killings and sexual violence as attacks escalate
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: EU hikes tariffs on Chinese EVs, prompting rebuke from Beijing
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: Shirley Ayorkor Botchwey appointed Commonwealth secretary general
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: Mozambique ruling party declared winner of election marred by killings
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: Biodiversity declining even faster in ‘protected’ areas, scientists warn Cop16
+2024-10-30 17:29:13,438 - INFO - 글로벌 새로운 트리 생성: ‘Not who we are’: Harris seeks finish line push at crowded US capital rally
+2024-10-30 17:29:13,439 - INFO - 글로벌 트리 병합 완료: Biden tries to end furore after seeming to call Trump supporters ‘garbage’ (유사도: 0.33)
+2024-10-30 17:29:13,439 - INFO - 글로벌 새로운 트리 생성: US tech stocks send Nasdaq to hit record high, as Alphabet beats forecasts
+2024-10-30 17:29:13,439 - INFO - 글로벌 새로운 트리 생성: Four in 10 deaths in war zones last year were women, UN report finds
+2024-10-30 17:29:13,439 - INFO - 글로벌 새로운 트리 생성: EU refuses to publish findings of Tunisia human rights inquiry
+2024-10-30 17:29:13,439 - INFO - 글로벌 새로운 트리 생성: Lost Maya city with temple pyramids and plazas discovered in Mexico
+2024-10-30 17:29:13,440 - INFO - 글로벌 새로운 트리 생성: Puerto Rico Republican chair demands Trump apology for rally’s racist remarks
+2024-10-30 17:29:13,440 - INFO - 글로벌 새로운 트리 생성: Bolivian minister accuses Evo Morales of ‘staged’ assassination attempt
+2024-10-30 17:29:13,440 - INFO - 글로벌 새로운 트리 생성: Trudeau facing ‘iceberg revolt’ as calls grow for embattled PM to step down
+2024-10-30 17:29:13,440 - INFO - 글로벌 새로운 트리 생성: Uruguay presidential election heads to runoff with center-left candidate in lead
+2024-10-30 17:29:13,440 - INFO - 글로벌 새로운 트리 생성: Mount Fuji snowless for longest time on record after sweltering Japan summer
+2024-10-30 17:29:13,441 - INFO - 글로벌 새로운 트리 생성: Indonesia blocks Apple iPhone 16 sales over lack of investment
+2024-10-30 17:29:13,441 - INFO - 글로벌 새로운 트리 생성: White Island volcano disaster: owners appeal against criminal conviction
+2024-10-30 17:29:13,441 - INFO - 글로벌 새로운 트리 생성: China’s kindergarten numbers shrink as policymakers struggle to arrest falling birthrate
+2024-10-30 17:29:13,441 - INFO - 글로벌 새로운 트리 생성: Japan election: voters have issued ‘severe judgment’, PM says after ruling coalition loses majority
+2024-10-30 17:29:13,441 - INFO - 글로벌 새로운 트리 생성: Jacinta Nampijinpa Price to pay federal court over delay in defamation defence
+2024-10-30 17:29:13,442 - INFO - 글로벌 새로운 트리 생성: Botswana election: Who is in the running and what’s at stake?
+2024-10-30 17:29:13,442 - INFO - 글로벌 새로운 트리 생성: Anthony Albanese denies ever calling ex-Qantas CEO Alan Joyce to ask for an upgrade
+2024-10-30 17:29:13,442 - INFO - 글로벌 새로운 트리 생성: Russia-Ukraine war: List of key events, day 978
+2024-10-30 17:29:13,442 - INFO - 글로벌 새로운 트리 생성: Australia to boost missile production after China tests ICBM in Pacific
+2024-10-30 17:29:13,443 - INFO - 글로벌 새로운 트리 생성: Duterte tells Philippines ‘war on drugs’ inquiry he kept a death squad
+2024-10-30 17:29:13,443 - INFO - 글로벌 새로운 트리 생성: Racist jokes about Puerto Rico at rally bring anger and disgust: ‘Truly how the Trump party sees us’
+2024-10-30 17:29:13,443 - INFO - 글로벌 새로운 트리 생성:  At town halls, Elon Musk works to harness his celebrity to boost Trump
+2024-10-30 17:29:13,443 - INFO - 글로벌 새로운 트리 생성: Israel again bombs Gaza’s Beit Lahiya hours after killing 93 in one strike
+2024-10-30 17:29:13,443 - INFO - 글로벌 새로운 트리 생성:  Trump holds rally in Pennsylvania city with Latino-majority population
+2024-10-30 17:29:13,444 - INFO - 글로벌 트리 병합 완료:  Harris' closing argument: 'Turn the page and start writing the next chapter' (유사도: 0.33)
+2024-10-30 17:29:13,444 - INFO - 글로벌 트리 병합 완료:  2024 election updates: Biden angers GOP associating 'garbage' with Trump supporters (유사도: 0.33)
+2024-10-30 17:29:13,444 - INFO - 글로벌 새로운 트리 생성:  Fight intensifies over Florida ballot measure that would guarantee abortion rights
+2024-10-30 17:29:13,444 - INFO - 글로벌 새로운 트리 생성:  Slavery, involuntary servitude are on the ballot in these states
+2024-10-30 17:29:13,444 - INFO - 글로벌 새로운 트리 생성:  What you need to know about the Electoral College as 2024 race nears end
+2024-10-30 17:29:13,445 - INFO - 글로벌 새로운 트리 생성:  Trump calls Madison Square Garden rally a 'lovefest' as backlash continues
+2024-10-30 17:29:13,445 - INFO - 글로벌 새로운 트리 생성:  The 2024 election could hinge on Pennsylvania
+2024-10-30 17:29:13,445 - INFO - 글로벌 새로운 트리 생성: Anthony Volpe does it all, Yankees rout Dodgers in Game 4
+2024-10-30 17:29:13,445 - INFO - 글로벌 새로운 트리 생성: Biden remark about Trump "garbage" rally angers GOP
+2024-10-30 17:29:13,446 - INFO - 글로벌 새로운 트리 생성: Rural Georgia voters weigh in ahead of election as residents find common ground
+2024-10-30 17:29:13,446 - INFO - 글로벌 새로운 트리 생성: Teens who made history with math discovery publish paper with new proofs
+2024-10-30 17:29:13,446 - INFO - 글로벌 새로운 트리 생성: Inside a secure Arizona facility printing election ballots
+2024-10-30 17:29:13,446 - INFO - 글로벌 새로운 트리 생성: Man who threatened Fani Willis gets nearly 2 years in prison
+2024-10-30 17:29:13,446 - INFO - 글로벌 트리의 개수: 112
+2024-10-30 17:29:13,449 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: united_states)
+2024-10-30 17:29:13,455 - INFO - Google 트렌드 새로운 트리 생성: Lakers (국가: united_states)
+2024-10-30 17:29:13,459 - INFO - Google 트렌드 새로운 트리 생성: Mavericks vs Timberwolves (국가: united_states)
+2024-10-30 17:29:13,464 - INFO - Google 트렌드 새로운 트리 생성: Pittsburgh Steelers (국가: united_states)
+2024-10-30 17:29:13,468 - INFO - Google 트렌드 새로운 트리 생성: Warriors (국가: united_states)
+2024-10-30 17:29:13,472 - INFO - Google 트렌드 새로운 트리 생성: Ted Cruz (국가: united_states)
+2024-10-30 17:29:13,475 - INFO - Google 트렌드 새로운 트리 생성: Diontae Johnson (국가: united_states)
+2024-10-30 17:29:13,479 - INFO - Google 트렌드 새로운 트리 생성: Celtics (국가: united_states)
+2024-10-30 17:29:13,483 - INFO - Google 트렌드 새로운 트리 생성: Charvarius Ward (국가: united_states)
+2024-10-30 17:29:13,487 - INFO - Google 트렌드 새로운 트리 생성: Shawn Mendes (국가: united_states)
+2024-10-30 17:29:13,490 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: united_kingdom)
+2024-10-30 17:29:13,494 - INFO - Google 트렌드 새로운 트리 생성: Minimum wage (국가: united_kingdom)
+2024-10-30 17:29:13,497 - INFO - Google 트렌드 새로운 트리 생성: Ricin (국가: united_kingdom)
+2024-10-30 17:29:13,501 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: united_kingdom)
+2024-10-30 17:29:13,504 - INFO - Google 트렌드 새로운 트리 생성: England vs South Africa (국가: united_kingdom)
+2024-10-30 17:29:13,508 - INFO - Google 트렌드 새로운 트리 생성: Southampton vs Stoke City (국가: united_kingdom)
+2024-10-30 17:29:13,511 - INFO - Google 트렌드 새로운 트리 생성: Carabao Cup (국가: united_kingdom)
+2024-10-30 17:29:13,515 - INFO - Google 트렌드 새로운 트리 생성: Milan vs Napoli (국가: united_kingdom)
+2024-10-30 17:29:13,518 - INFO - Google 트렌드 새로운 트리 생성: UNRWA (국가: united_kingdom)
+2024-10-30 17:29:13,522 - INFO - Google 트렌드 새로운 트리 생성: Gisele Bündchen (국가: united_kingdom)
+2024-10-30 17:29:13,526 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: japan)
+2024-10-30 17:29:13,530 - INFO - Google 트렌드 새로운 트리 생성: RB Leipzig – St. Pauli (국가: germany)
+2024-10-30 17:29:13,533 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin (국가: germany)
+2024-10-30 17:29:13,537 - INFO - Google 트렌드 새로운 트리 생성: Edzard Reuter (국가: germany)
+2024-10-30 17:29:13,540 - INFO - Google 트렌드 새로운 트리 생성: 1. FC Köln (국가: germany)
+2024-10-30 17:29:13,544 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: germany)
+2024-10-30 17:29:13,547 - INFO - Google 트렌드 새로운 트리 생성: Leverkusen (국가: germany)
+2024-10-30 17:29:13,550 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: germany)
+2024-10-30 17:29:13,554 - INFO - Google 트렌드 새로운 트리 생성: Tour de France 2025 (국가: germany)
+2024-10-30 17:29:13,557 - INFO - Google 트렌드 새로운 트리 생성: DFB-Pokal (국가: germany)
+2024-10-30 17:29:13,564 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: brazil)
+2024-10-30 17:29:13,567 - INFO - Google 트렌드 새로운 트리 생성: Lotofacil 3232 (국가: brazil)
+2024-10-30 17:29:13,571 - INFO - Google 트렌드 새로운 트리 생성: River Plate x Atlético-MG (국가: brazil)
+2024-10-30 17:29:13,575 - INFO - Google 트렌드 새로운 트리 생성: Tabela do Brasileirão (국가: brazil)
+2024-10-30 17:29:13,578 - INFO - Google 트렌드 새로운 트리 생성: Serie a (국가: brazil)
+2024-10-30 17:29:13,582 - INFO - Google 트렌드 새로운 트리 생성: Brasil x Colômbia (국가: brazil)
+2024-10-30 17:29:13,589 - INFO - Google 트렌드 새로운 트리 생성: Al-Hilal (국가: brazil)
+2024-10-30 17:29:13,593 - INFO - Google 트렌드 새로운 트리 생성: Guarani x Novorizontino (국가: brazil)
+2024-10-30 17:29:13,602 - INFO - Google 트렌드 새로운 트리 생성: Valence (Espagne (국가: france)
+2024-10-30 17:29:13,606 - INFO - Google 트렌드 새로운 트리 생성: Tour de France 2025 (국가: france)
+2024-10-30 17:29:13,609 - INFO - Google 트렌드 새로운 트리 생성: Slimane (국가: france)
+2024-10-30 17:29:13,612 - INFO - Google 트렌드 새로운 트리 생성: Ligue 2 (국가: france)
+2024-10-30 17:29:13,616 - INFO - Google 트렌드 새로운 트리 생성: Thon mercure (국가: france)
+2024-10-30 17:29:13,619 - INFO - Google 트렌드 새로운 트리 생성: UNRWA (국가: france)
+2024-10-30 17:29:13,622 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin (국가: france)
+2024-10-30 17:29:13,625 - INFO - Google 트렌드 새로운 트리 생성: Giovanni Mpetshi Perricard (국가: france)
+2024-10-30 17:29:13,629 - INFO - Google 트렌드 새로운 트리 생성: Paul de Saint Sernin (국가: france)
+2024-10-30 17:29:13,636 - INFO - Google 트렌드 새로운 트리 생성: Campionato Serie A (국가: italy)
+2024-10-30 17:29:13,642 - INFO - Google 트렌드 새로운 트리 생성: Campionato (국가: italy)
+2024-10-30 17:29:13,646 - INFO - Google 트렌드 새로운 트리 생성: ATP Finals (국가: italy)
+2024-10-30 17:29:13,653 - INFO - Google 트렌드 새로운 트리 생성: Cagliari-Bologna (국가: italy)
+2024-10-30 17:29:13,656 - INFO - Google 트렌드 새로운 트리 생성: Lecce Verona (국가: italy)
+2024-10-30 17:29:13,659 - INFO - Google 트렌드 새로운 트리 생성: Serie B (국가: italy)
+2024-10-30 17:29:13,663 - INFO - Google 트렌드 새로운 트리 생성: Carlos Alcaraz (국가: italy)
+2024-10-30 17:29:13,666 - INFO - Google 트렌드 새로운 트리 생성: MLB (국가: canada)
+2024-10-30 17:29:13,669 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: canada)
+2024-10-30 17:29:13,676 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin Price (국가: canada)
+2024-10-30 17:29:13,679 - INFO - Google 트렌드 새로운 트리 생성: Freddie Freeman (국가: canada)
+2024-10-30 17:29:13,683 - INFO - Google 트렌드 새로운 트리 생성: Kraken – Canadiens (국가: canada)
+2024-10-30 17:29:13,686 - INFO - Google 트렌드 새로운 트리 생성: Mehdi Hasan (국가: canada)
+2024-10-30 17:29:13,689 - INFO - Google 트렌드 새로운 트리 생성: Shawn Mendes (국가: canada)
+2024-10-30 17:29:13,692 - INFO - Google 트렌드 새로운 트리 생성: Lakers (국가: canada)
+2024-10-30 17:29:13,695 - INFO - Google 트렌드 새로운 트리 생성: AMD stock (국가: canada)
+2024-10-30 17:29:13,699 - INFO - Google 트렌드 새로운 트리 생성: Red Dead Redemption (국가: russia)
+2024-10-30 17:29:13,704 - INFO - Google 트렌드 새로운 트리 생성: AMD (국가: south_korea)
+2024-10-30 17:29:13,707 - INFO - Google 트렌드 새로운 트리 생성: MLB (국가: south_korea)
+2024-10-30 17:29:13,707 - INFO - Google 트렌드 트리의 개수: 66
+2024-10-30 17:29:13,989 - INFO - Representative issue added: stolen Bluey coins - Importance: 1 - Source: Global News
+2024-10-30 17:29:14,342 - INFO - Representative issue added: missing people - Importance: 1 - Source: Global News
+2024-10-30 17:29:14,596 - INFO - Representative issue added: new Southport charges - Importance: 1 - Source: Global News
+2024-10-30 17:29:14,890 - INFO - Representative issue added: North Korean troops - Importance: 1 - Source: Global News
+2024-10-30 17:29:15,180 - INFO - Representative issue added: big borrowing - Importance: 1 - Source: Global News
+2024-10-30 17:29:15,484 - INFO - Representative issue added: minimum wage increases - Importance: 1 - Source: Global News
+2024-10-30 17:29:15,757 - INFO - Representative issue added: BAE Systems - Importance: 1 - Source: Global News
+2024-10-30 17:29:16,052 - INFO - Representative issue added: extreme drought water - Importance: 1 - Source: Global News
+2024-10-30 17:29:16,327 - INFO - Representative issue added: space missions - Importance: 1 - Source: Global News
+2024-10-30 17:29:16,618 - INFO - Representative issue added: X users AI - Importance: 1 - Source: Global News
+2024-10-30 17:29:16,890 - INFO - Representative issue added: tax income - Importance: 1 - Source: Global News
+2024-10-30 17:29:17,173 - INFO - Representative issue added: nails Reeves time - Importance: 1 - Source: Global News
+2024-10-30 17:29:17,514 - INFO - Representative issue added: years old next - Importance: 1 - Source: Global News
+2024-10-30 17:29:18,103 - INFO - Representative issue added: Susan Curtis - Importance: 1 - Source: Global News
+2024-10-30 17:29:18,366 - INFO - Representative issue added: displaced people - Importance: 1 - Source: Global News
+2024-10-30 17:29:18,696 - INFO - Representative issue added: Harris Kamala - Importance: 2 - Source: Global News
+2024-10-30 17:29:19,001 - INFO - Representative issue added: pension tax relief - Importance: 1 - Source: Global News
+2024-10-30 17:29:19,301 - INFO - Representative issue added: Southport suspect Chancellor - Importance: 1 - Source: Global News
+2024-10-30 17:29:19,626 - INFO - Representative issue added: Wojtek Mrs Butler - Importance: 1 - Source: Global News
+2024-10-30 17:29:19,907 - INFO - Representative issue added: Gaza aid agencies - Importance: 1 - Source: Global News
+2024-10-30 17:29:20,233 - INFO - Representative issue added: Trump supporters President - Importance: 1 - Source: Global News
+2024-10-30 17:29:20,564 - INFO - Representative issue added: Israel Harris - Importance: 1 - Source: Global News
+2024-10-30 17:29:20,884 - INFO - Representative issue added: Andrew Stewart - Importance: 1 - Source: Global News
+2024-10-30 17:29:21,194 - INFO - Representative issue added: Biden Harris border - Importance: 1 - Source: Global News
+2024-10-30 17:29:21,504 - INFO - Representative issue added: President Biden Trump - Importance: 2 - Source: Global News
+2024-10-30 17:29:21,818 - INFO - Representative issue added: Video Fox News - Importance: 1 - Source: Global News
+2024-10-30 17:29:22,106 - INFO - 유사한 이슈 발견, 제외됨: President Trump
+2024-10-30 17:29:22,414 - INFO - Representative issue added: Allentown Pennsylvania President - Importance: 1 - Source: Global News
+2024-10-30 17:29:22,720 - INFO - Representative issue added: Trump supporters garbage - Importance: 1 - Source: Global News
+2024-10-30 17:29:23,026 - INFO - Representative issue added: Trump Charles Creitz - Importance: 1 - Source: Global News
+2024-10-30 17:29:23,413 - INFO - Representative issue added: New York Yankees - Importance: 1 - Source: Global News
+2024-10-30 17:29:23,729 - INFO - Representative issue added: Biden calling supporters - Importance: 1 - Source: Global News
+2024-10-30 17:29:24,113 - INFO - 유사한 이슈 발견, 제외됨: Kamala Harris Vice
+2024-10-30 17:29:24,448 - INFO - Representative issue added: Vice President Kamala - Importance: 1 - Source: Global News
+2024-10-30 17:29:24,825 - INFO - Representative issue added: Aaron Rodgers New - Importance: 1 - Source: Global News
+2024-10-30 17:29:25,178 - INFO - Representative issue added: Video Sean Hannity - Importance: 1 - Source: Global News
+2024-10-30 17:29:25,518 - INFO - 유사한 이슈 발견, 제외됨: Fox News
+2024-10-30 17:29:25,838 - INFO - Representative issue added: JR - Importance: 1 - Source: Global News
+2024-10-30 17:29:26,459 - INFO - Representative issue added: Form a world - Importance: 1 - Source: Global News
+2024-10-30 17:29:26,784 - INFO - Representative issue added: ICBM ICBM ICBM ICBM - Importance: 1 - Source: Global News
+2024-10-30 17:29:27,127 - INFO - Representative issue added: JR OK - Importance: 1 - Source: Global News
+2024-10-30 17:29:27,475 - INFO - Representative issue added: garbage Mr Biden - Importance: 1 - Source: Global News
+2024-10-30 17:29:27,786 - INFO - Representative issue added: Mr Trump Native - Importance: 1 - Source: Global News
+2024-10-30 17:29:28,117 - INFO - Representative issue added: southern Iran Israel - Importance: 1 - Source: Global News
+2024-10-30 17:29:28,547 - INFO - Representative issue added: NHK BS - Importance: 1 - Source: Global News
+2024-10-30 17:29:28,881 - INFO - Representative issue added: northern Gaza - Importance: 1 - Source: Global News
+2024-10-30 17:29:29,233 - INFO - Representative issue added: Ms Garr Teri - Importance: 1 - Source: Global News
+2024-10-30 17:29:29,549 - INFO - Representative issue added: Garr Neil - Importance: 1 - Source: Global News
+2024-10-30 17:29:29,911 - INFO - Representative issue added: Tiktok Shop - Importance: 1 - Source: Global News
+2024-10-30 17:29:30,280 - INFO - Representative issue added: Great Power War - Importance: 1 - Source: Global News
+2024-10-30 17:29:30,666 - INFO - Representative issue added: Tokopedia Iran - Importance: 1 - Source: Global News
+2024-10-30 17:29:31,102 - INFO - Representative issue added: Mr Lemes Claudecy - Importance: 1 - Source: Global News
+2024-10-30 17:29:31,629 - INFO - Representative issue added: New York City - Importance: 1 - Source: Global News
+2024-10-30 17:29:32,214 - INFO - Representative issue added: Washington Ms Harris - Importance: 1 - Source: Global News
+2024-10-30 17:29:32,634 - INFO - Representative issue added: Ukrainian children Empty - Importance: 1 - Source: Global News
+2024-10-30 17:29:33,499 - INFO - Representative issue added: Trump cases - Importance: 1 - Source: Global News
+2024-10-30 17:29:33,912 - INFO - Representative issue added: polymathic artificial general - Importance: 1 - Source: Global News
+2024-10-30 17:29:34,292 - INFO - Representative issue added: Giorgia Meloni Italy - Importance: 1 - Source: Global News
+2024-10-30 17:29:34,722 - INFO - Representative issue added: southern Spain - Importance: 1 - Source: Global News
+2024-10-30 17:29:35,066 - INFO - Representative issue added: Mas Maglah - Importance: 1 - Source: Global News
+2024-10-30 17:29:35,447 - INFO - Representative issue added: Tennessee voters - Importance: 1 - Source: Global News
+2024-10-30 17:29:35,800 - INFO - Representative issue added: last year recent - Importance: 1 - Source: Global News
+2024-10-30 17:29:36,187 - INFO - Representative issue added: Last year last - Importance: 1 - Source: Global News
+2024-10-30 17:29:36,555 - INFO - Representative issue added: passed - Importance: 1 - Source: Global News
+2024-10-30 17:29:36,913 - INFO - 유사한 이슈 발견, 제외됨: northern Gaza Civil
+2024-10-30 17:29:37,276 - INFO - Representative issue added: Newspaper endorsements newspaper - Importance: 1 - Source: Global News
+2024-10-30 17:29:37,669 - INFO - Representative issue added: Al Nasser - Importance: 1 - Source: Global News
+2024-10-30 17:29:38,084 - INFO - Representative issue added: Trump Pennsylvania - Importance: 1 - Source: Global News
+2024-10-30 17:29:38,488 - INFO - Representative issue added: United Sporting - Importance: 1 - Source: Global News
+2024-10-30 17:29:38,853 - INFO - Representative issue added: Valencia airport intense - Importance: 1 - Source: Global News
+2024-10-30 17:29:39,266 - INFO - Representative issue added: Crisis a Myanmar - Importance: 1 - Source: Global News
+2024-10-30 17:29:39,684 - INFO - Representative issue added: Donald Trump - Importance: 2 - Source: Global News
+2024-10-30 17:29:40,111 - INFO - Representative issue added: rape targeted attacks - Importance: 1 - Source: Global News
+2024-10-30 17:29:40,449 - INFO - Representative issue added: tariffs Chinese carmakers - Importance: 1 - Source: Global News
+2024-10-30 17:29:40,822 - INFO - Representative issue added: Commonwealth secretary general - Importance: 1 - Source: Global News
+2024-10-30 17:29:41,164 - INFO - Representative issue added: election results EU - Importance: 1 - Source: Global News
+2024-10-30 17:29:41,508 - INFO - Representative issue added: key protected areas - Importance: 1 - Source: Global News
+2024-10-30 17:29:41,876 - INFO - Representative issue added: Lebanon Harris Biden - Importance: 1 - Source: Global News
+2024-10-30 17:29:42,282 - INFO - Representative issue added: percent percent percent - Importance: 1 - Source: Global News
+2024-10-30 17:29:42,666 - INFO - Representative issue added: women UN report - Importance: 1 - Source: Global News
+2024-10-30 17:29:43,020 - INFO - Representative issue added: Tunisia human rights - Importance: 1 - Source: Global News
+2024-10-30 17:29:43,423 - INFO - Representative issue added: Lost Maya city - Importance: 1 - Source: Global News
+2024-10-30 17:29:43,786 - INFO - Representative issue added: Puerto Rico Hinchcliffe - Importance: 1 - Source: Global News
+2024-10-30 17:29:44,355 - INFO - Representative issue added: former president Evo - Importance: 1 - Source: Global News
+2024-10-30 17:29:44,738 - INFO - Representative issue added: prime ministers party - Importance: 1 - Source: Global News
+2024-10-30 17:29:45,116 - INFO - Representative issue added: center left candidate - Importance: 1 - Source: Global News
+2024-10-30 17:29:45,839 - INFO - Representative issue added: last year snow - Importance: 1 - Source: Global News
+2024-10-30 17:29:46,228 - INFO - Representative issue added: Friday Apple Indonesia - Importance: 1 - Source: Global News
+2024-10-30 17:29:46,624 - INFO - Representative issue added: tour companies White - Importance: 1 - Source: Global News
+2024-10-30 17:29:47,004 - INFO - Representative issue added: southern China Last - Importance: 1 - Source: Global News
+2024-10-30 17:29:47,373 - INFO - Representative issue added: Japan Innovation party - Importance: 1 - Source: Global News
+2024-10-30 17:29:47,750 - INFO - Representative issue added: Lesley Turner Nampijinpa - Importance: 1 - Source: Global News
+2024-10-30 17:29:48,165 - INFO - Representative issue added: Botswana Democratic Party - Importance: 1 - Source: Global News
+2024-10-30 17:29:48,571 - INFO - Representative issue added: free Qantas flight - Importance: 1 - Source: Global News
+2024-10-30 17:29:49,054 - INFO - Representative issue added: key events day - Importance: 1 - Source: Global News
+2024-10-30 17:29:49,500 - INFO - Representative issue added: Pacific Australia missile - Importance: 1 - Source: Global News
+2024-10-30 17:29:49,890 - INFO - Representative issue added: Monday Duterte - Importance: 1 - Source: Global News
+2024-10-30 17:29:50,232 - INFO - Representative issue added: US citizens Puerto - Importance: 1 - Source: Global News
+2024-10-30 17:29:50,664 - INFO - Representative issue added: Elon Musk - Importance: 1 - Source: Global News
+2024-10-30 17:29:51,039 - INFO - Representative issue added: Gaza Israel north - Importance: 1 - Source: Global News
+2024-10-30 17:29:51,447 - INFO - Representative issue added: garbage Trump Former - Importance: 1 - Source: Global News
+2024-10-30 17:29:51,825 - INFO - Representative issue added: Florida ballot measure - Importance: 1 - Source: Global News
+2024-10-30 17:29:52,214 - INFO - Representative issue added: state jails many - Importance: 1 - Source: Global News
+2024-10-30 17:29:52,621 - INFO - Representative issue added: electoral votes Many - Importance: 1 - Source: Global News
+2024-10-30 17:29:52,966 - INFO - 유사한 이슈 발견, 제외됨: Trump Donald
+2024-10-30 17:29:53,752 - INFO - Representative issue added: Pennsylvania state level - Importance: 1 - Source: Global News
+2024-10-30 17:29:54,087 - INFO - 유사한 이슈 발견, 제외됨: Yankees New York
+2024-10-30 17:29:54,530 - INFO - Representative issue added: Trump garbage rally - Importance: 1 - Source: Global News
+2024-10-30 17:29:54,958 - INFO - Representative issue added: shy Harris voter - Importance: 1 - Source: Global News
+2024-10-30 17:29:55,381 - INFO - Representative issue added: new proofs math - Importance: 1 - Source: Global News
+2024-10-30 17:29:55,749 - INFO - Representative issue added: paper ballots - Importance: 1 - Source: Global News
+2024-10-30 17:29:56,177 - INFO - Representative issue added: Willis Hanson Labat - Importance: 1 - Source: Global News
+2024-10-30 17:29:56,486 - INFO - Representative issue added: Teri Garr - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:56,794 - INFO - Representative issue added: Lakers - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:57,111 - INFO - Representative issue added: Mavericks Timberwolves - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:57,440 - INFO - Representative issue added: Pittsburgh Steelers - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:57,770 - INFO - Representative issue added: Warriors - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:58,139 - INFO - Representative issue added: TED CROSS - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:58,503 - INFO - Representative issue added: Diontae Johnson - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:59,083 - INFO - Representative issue added: Celtics - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:59,478 - INFO - Representative issue added: Charvarius Ward - Importance: 1 - Source: Google Trends
+2024-10-30 17:29:59,763 - INFO - Representative issue added: Shawn Mendes - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:00,050 - INFO - Representative issue added: Mac mini - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:00,318 - INFO - Representative issue added: Minimum wage - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:00,611 - INFO - Representative issue added: Ricin - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:00,954 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:30:01,245 - INFO - Representative issue added: South Africa England - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:01,574 - INFO - Representative issue added: Southampton vs Stoke - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:01,898 - INFO - Representative issue added: Carabao Cup - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:02,206 - INFO - Representative issue added: Milan vs. - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:02,519 - INFO - Representative issue added: UNRWA - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:02,827 - INFO - Representative issue added: Gisele b Notchen - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:03,174 - INFO - 유사한 이슈 발견, 제외됨: Mac mini
+2024-10-30 17:30:03,660 - INFO - Representative issue added: RB Leipzig St Pauli - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:04,014 - INFO - Representative issue added: Bitcoin - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:04,340 - INFO - Representative issue added: Edzard Reuter - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:04,696 - INFO - Representative issue added: FC K LN - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:05,016 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:30:05,321 - INFO - Representative issue added: Leverkusen - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:05,656 - INFO - 유사한 이슈 발견, 제외됨: Mac mini
+2024-10-30 17:30:05,996 - INFO - Representative issue added: Tour de France - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:06,310 - INFO - Representative issue added: DFB Cup - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:06,636 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:30:07,046 - INFO - Representative issue added: Lotofacil - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:07,419 - INFO - Representative issue added: River Plate x - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:07,758 - INFO - Representative issue added: Table - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:08,090 - INFO - Representative issue added: Serie - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:08,400 - INFO - Representative issue added: Brazil X Colombia - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:08,742 - INFO - Representative issue added: Al Hilal - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:09,113 - INFO - Representative issue added: Guarani x Novorizontino - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:09,411 - INFO - Representative issue added: Valence Spain - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:09,760 - INFO - 유사한 이슈 발견, 제외됨: Tour de France
+2024-10-30 17:30:10,126 - INFO - Representative issue added: Slimane - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:10,437 - INFO - Representative issue added: Ligue - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:10,799 - INFO - Representative issue added: Mercury tuna - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:11,171 - INFO - 유사한 이슈 발견, 제외됨: UNRWA
+2024-10-30 17:30:11,524 - INFO - 유사한 이슈 발견, 제외됨: Bitcoin
+2024-10-30 17:30:11,870 - INFO - Representative issue added: Giovanni Mpeshi Pericard - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:12,194 - INFO - Representative issue added: Paul de Saint Sernin - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:12,974 - INFO - Representative issue added: Series championship - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:13,332 - INFO - Representative issue added: Championship - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:13,722 - INFO - Representative issue added: ATP Finals - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:14,142 - INFO - Representative issue added: Cagliari Bologna - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:14,481 - INFO - Representative issue added: Lecce Verona - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:14,800 - INFO - 유사한 이슈 발견, 제외됨: Serie B
+2024-10-30 17:30:15,186 - INFO - Representative issue added: Carlos Alcaraz - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:15,571 - INFO - Representative issue added: MLB - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:15,957 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:30:16,289 - INFO - Representative issue added: Bitcoin Price - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:16,652 - INFO - Representative issue added: Freddie Freeman - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:17,020 - INFO - Representative issue added: Kraken Canadiens - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:17,718 - INFO - Representative issue added: Mehdi Hasan - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:18,001 - INFO - 유사한 이슈 발견, 제외됨: Shawn Mendes
+2024-10-30 17:30:18,278 - INFO - 유사한 이슈 발견, 제외됨: Lakers
+2024-10-30 17:30:18,628 - INFO - Representative issue added: AMD stock - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:19,011 - INFO - Representative issue added: Red Dead Redemption - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:19,376 - INFO - Representative issue added: AMD - Importance: 1 - Source: Google Trends
+2024-10-30 17:30:19,773 - INFO - 유사한 이슈 발견, 제외됨: MLB
+2024-10-30 17:33:54,132 - INFO - 스크립트가 시작되었습니다.
+2024-10-30 17:33:54,829 - INFO - Collecting trends for united_states
+2024-10-30 17:33:55,320 - INFO - united_states trends collected: 20 keywords
+2024-10-30 17:33:56,322 - INFO - Collecting trends for united_kingdom
+2024-10-30 17:33:56,777 - INFO - united_kingdom trends collected: 20 keywords
+2024-10-30 17:33:57,778 - INFO - Collecting trends for japan
+2024-10-30 17:33:58,551 - INFO - japan trends collected: 20 keywords
+2024-10-30 17:33:59,552 - INFO - Collecting trends for germany
+2024-10-30 17:34:00,170 - INFO - germany trends collected: 20 keywords
+2024-10-30 17:34:01,171 - INFO - Collecting trends for brazil
+2024-10-30 17:34:01,676 - INFO - brazil trends collected: 20 keywords
+2024-10-30 17:34:02,677 - INFO - Collecting trends for france
+2024-10-30 17:34:03,120 - INFO - france trends collected: 20 keywords
+2024-10-30 17:34:04,122 - INFO - Collecting trends for italy
+2024-10-30 17:34:04,602 - INFO - italy trends collected: 20 keywords
+2024-10-30 17:34:05,603 - INFO - Collecting trends for canada
+2024-10-30 17:34:06,106 - INFO - canada trends collected: 20 keywords
+2024-10-30 17:34:07,107 - INFO - Collecting trends for russia
+2024-10-30 17:34:07,585 - INFO - russia trends collected: 20 keywords
+2024-10-30 17:34:08,586 - INFO - Collecting trends for south_korea
+2024-10-30 17:34:09,058 - INFO - south_korea trends collected: 20 keywords
+2024-10-30 17:34:10,060 - INFO - G10 국가 구글 트렌드 수집 완료
+2024-10-30 17:34:10,060 - INFO - Collecting news from BBC
+2024-10-30 17:34:10,630 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:10,630 - INFO - BBC 뉴스 수집 완료: 20개
+2024-10-30 17:34:10,630 - INFO - Collecting news from CNN
+2024-10-30 17:34:11,529 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/politics/2023/04/05/maggie-haberman-donald-trump-speech-indictment-reaction-sot-cnntm-vpx.cnn
+2024-10-30 17:34:11,530 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/02/russian-military-blogger-vladlen-tatarsky-killed-cafe-explosion-chance-vpx.cnn
+2024-10-30 17:34:11,531 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/soldiers-russia-ukraine-war-david-mckenzie-pkg-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:34:11,531 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/finland-prime-minister-sanna-marin-concedes-election-right-wing-party-wins-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:34:11,532 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/04/03/man-throws-yogurt-on-women-iran-president-raisi-hijab-is-law-nada-bashir-ovn-intl-ldn-vpx.cnn
+2024-10-30 17:34:11,533 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/weather/2023/04/02/little-rock-arkansas-tornado-man-inside-van-cnntmw-vpx.cnn
+2024-10-30 17:34:11,533 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/politics/2023/04/02/john-fetterman-depression-downward-spiral-acostanr-sot-vpx.cnn
+2024-10-30 17:34:11,534 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/world/2023/03/31/israel-protests-rise-taxi-driver-attacked-robertson-pkg-intl-vpx.cnn
+2024-10-30 17:34:11,535 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/travel/2023/04/03/snailfish-deepest-fish-on-camera-lon-orig-ao-cprog-scn.cnn
+2024-10-30 17:34:11,536 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/media/2023/04/02/mark-hamill-star-wars-jim-acosta-skywalker-cprog-acostanr-vpx.cnn
+2024-10-30 17:34:11,537 - INFO - 비디오 링크 스킵: https://www.cnn.com/videos/us/2023/03/31/snowboarder-rescue-mt-baker-washington-cprog-lon-orig-na.cnn
+2024-10-30 17:34:11,537 - INFO - RSS 피드에서 필터링된 기사 수: 0개
+2024-10-30 17:34:11,537 - INFO - CNN 뉴스 수집 완료: 0개
+2024-10-30 17:34:11,537 - INFO - Collecting news from FOX NEWS
+2024-10-30 17:34:12,623 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:12,623 - INFO - FOX NEWS 뉴스 수집 완료: 20개
+2024-10-30 17:34:12,623 - INFO - Collecting news from NHK
+2024-10-30 17:34:12,754 - INFO - RSS 피드에서 필터링된 기사 수: 7개
+2024-10-30 17:34:12,754 - INFO - NHK 뉴스 수집 완료: 7개
+2024-10-30 17:34:12,754 - INFO - Collecting news from New York Times
+2024-10-30 17:34:12,862 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:12,862 - INFO - New York Times 뉴스 수집 완료: 20개
+2024-10-30 17:34:12,862 - INFO - Collecting news from Reuters
+2024-10-30 17:34:12,879 - ERROR - RSS 뉴스 수집 중 오류 발생 (http://feeds.reuters.com/reuters/topNews): HTTPConnectionPool(host='feeds.reuters.com', port=80): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x0000018B9A68EA80>: Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2024-10-30 17:34:12,879 - INFO - Reuters 뉴스 수집 완료: 0개
+2024-10-30 17:34:12,879 - INFO - Collecting news from Al Jazeera
+2024-10-30 17:34:13,272 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:13,273 - INFO - Al Jazeera 뉴스 수집 완료: 20개
+2024-10-30 17:34:13,273 - INFO - Collecting news from The Guardian
+2024-10-30 17:34:13,747 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:13,747 - INFO - The Guardian 뉴스 수집 완료: 20개
+2024-10-30 17:34:13,747 - INFO - Collecting news from Bloomberg
+2024-10-30 17:34:14,648 - ERROR - RSS 뉴스 수집 중 오류 발생 (https://www.bloomberg.com/feed/podcast/top-news.xml): 404 Client Error: Not Found for url: https://www.bloomberg.com/feed/podcast/top-news.xml
+2024-10-30 17:34:14,649 - INFO - Bloomberg 뉴스 수집 완료: 0개
+2024-10-30 17:34:14,649 - INFO - Collecting news from Financial Times
+2024-10-30 17:34:15,256 - ERROR - RSS 뉴스 수집 중 오류 발생 (https://www.ft.com/?format=rss): 406 Client Error: Not Acceptable for url: https://www.ft.com/rss/home/uk
+2024-10-30 17:34:15,256 - INFO - Financial Times 뉴스 수집 완료: 0개
+2024-10-30 17:34:15,256 - INFO - Collecting news from ABC News
+2024-10-30 17:34:15,851 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:15,851 - INFO - ABC News 뉴스 수집 완료: 20개
+2024-10-30 17:34:15,851 - INFO - Collecting news from CBS News
+2024-10-30 17:34:16,308 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/how-rural-voters-in-georgia-see-the-november-election/
+2024-10-30 17:34:16,309 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/from-the-archives-teri-garr-on-living-with-ms/
+2024-10-30 17:34:16,309 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/phone-companies-should-do-more-prevent-robocalls-texts-report-says/
+2024-10-30 17:34:16,309 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/voters-helped-biden-win-2020-share-why-not-vote-harris/
+2024-10-30 17:34:16,309 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/israeli-strike-kills-dozens-gaza-hamas-run-health-ministry/
+2024-10-30 17:34:16,309 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/breaking-down-harris-final-appeal-voters-ellipse/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/michelle-obama/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/far-right-israeli-settler-movement-aims-push-palestinians-out-gaza/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/north-carolina-voters-trending-i2024/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/10-year-old-catches-historic-world-series-grand-slam/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/ballot-drop-box-fires-raise-voter-concerns/
+2024-10-30 17:34:16,310 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/examining-election-challenge-certification-process/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/significance-harris-closing-argument-park-trump-spoke-before-jan-6-attack/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/a-behind-the-scenes-look-at-an-arizona-ballot-printing-facility/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/key-trump-ally-steve-bannon-released-from-prison/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/trump-campaign-continues-to-face-backlash-over-madison-square-garden-rally/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-gives-closing-message-at-ellipse-in-d-c/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/cbs-evening-news-headlines-for-tuesday-oct-29-2024/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/who-will-win-pennsylvania-swingiest-county/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/arab-american-voters-michigan-sound-off-harris-israel-hamas-war/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/two-key-senate-races-narrow-before-election-day/
+2024-10-30 17:34:16,311 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-closing-argument-ellipse-speech-what-to-expect/
+2024-10-30 17:34:16,312 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/harris-trump-tied-pennsylvania-1-week-left-poll/
+2024-10-30 17:34:16,312 - INFO - 비디오 링크 스킵: https://www.cbsnews.com/video/michelle-obama-rallying-voters-atlanta/
+2024-10-30 17:34:16,312 - INFO - RSS 피드에서 필터링된 기사 수: 6개
+2024-10-30 17:34:16,312 - INFO - CBS News 뉴스 수집 완료: 6개
+2024-10-30 17:34:16,312 - INFO - Collecting news from The Washington Post
+2024-10-30 17:34:25,390 - INFO - RSS 피드에서 필터링된 기사 수: 20개
+2024-10-30 17:34:25,390 - INFO - The Washington Post 뉴스 수집 완료: 20개
+2024-10-30 17:34:25,390 - INFO - Collecting news from CCTV
+2024-10-30 17:34:26,081 - ERROR - RSS 뉴스 수집 중 오류 발생 (http://news.cctv.com/rss/world.xml): 404 Client Error: Not Found for url: http://news.cctv.com/rss/world.xml
+2024-10-30 17:34:26,084 - INFO - CCTV 뉴스 수집 완료: 0개
+2024-10-30 17:34:26,084 - INFO - 총 크롤링할 기사 수: 153개
+2024-10-30 17:34:26,241 - INFO - 기사 본문 추출 성공: Minimum wage to rise to £12.21 an hour next year (발행일: 2024-10-30 07:52:50+00:00)
+2024-10-30 17:34:26,268 - INFO - 기사 본문 추출 성공: China declares success as its youngest astronauts reach space (발행일: 2024-10-30 06:16:40+00:00)
+2024-10-30 17:34:26,268 - INFO - 기사 본문 추출 성공: Government says it became aware of new Southport charges in last few weeks (발행일: 2024-10-30 01:18:55+00:00)
+2024-10-30 17:34:26,268 - INFO - 기사 본문 추출 성공: Chris Mason: A big Budget that will set agenda for years to come (발행일: 2024-10-29 22:31:08+00:00)
+2024-10-30 17:34:26,288 - INFO - 기사 본문 추출 성공: Police recover more than 40,000 stolen Bluey coins (발행일: 2024-10-30 04:03:38+00:00)
+2024-10-30 17:34:26,328 - INFO - 기사 본문 추출 성공: At least 13 dead in flash floods in Spain (발행일: 2024-10-30 02:39:51+00:00)
+2024-10-30 17:34:26,328 - INFO - 기사 본문 추출 성공: Ukraine in new mobilisation drive as Russia advances (발행일: 2024-10-30 06:06:16+00:00)
+2024-10-30 17:34:26,351 - INFO - 기사 본문 추출 성공: Two in hospital after UK nuclear sub shipyard fire (발행일: 2024-10-30 08:23:45+00:00)
+2024-10-30 17:34:26,375 - INFO - 기사 본문 추출 성공: Extreme drought areas treble in size since 80s - study (발행일: 2024-10-30 00:15:58+00:00)
+2024-10-30 17:34:26,415 - INFO - 기사 본문 추출 성공: How X users can earn thousands from US election misinformation and AI images (발행일: 2024-10-29 23:42:50+00:00)
+2024-10-30 17:34:26,573 - INFO - 기사 본문 추출 성공: 'I can’t afford to leave home on £1,500 a month – here’s what I need from the Budget' (발행일: 2024-10-29 18:01:02+00:00)
+2024-10-30 17:34:26,574 - INFO - 기사 본문 추출 성공: Rachel Reeves: The chess fanatic playing Labour's first big gambit (발행일: 2024-10-25 11:53:15+00:00)
+2024-10-30 17:34:26,574 - INFO - 기사 본문 추출 성공: The Papers: Terror charge for Southport suspect and Reeves' first budget (발행일: 2024-10-30 05:51:28+00:00)
+2024-10-30 17:34:26,627 - INFO - 기사 본문 추출 성공: What time is the Budget and what could be in it? (발행일: 2024-10-29 18:00:29+00:00)
+2024-10-30 17:34:26,628 - INFO - 기사 본문 추출 성공: Ancient oak named after a band is UK Tree of the Year (발행일: 2024-10-30 08:05:26+00:00)
+2024-10-30 17:34:26,680 - INFO - 기사 본문 추출 성공: I am on edge, says woman made homeless aged 75 (발행일: 2024-10-30 00:06:48+00:00)
+2024-10-30 17:34:26,709 - INFO - 기사 본문 추출 성공: Harris pledges 'different path' at site of Trump 6 January rally (발행일: 2024-10-30 02:24:08+00:00)
+2024-10-30 17:34:26,709 - INFO - 기사 본문 추출 성공: A human is not designed to see what I saw (발행일: 2024-10-30 06:07:24+00:00)
+2024-10-30 17:34:26,734 - INFO - 기사 본문 추출 성공: Tensions rise in Beirut after influx of displaced people (발행일: 2024-10-30 00:09:03+00:00)
+2024-10-30 17:34:26,782 - INFO - 기사 본문 추출 성공: Trump has another response to Biden's 'garbage' comment about GOP supporters (발행일: 2024-10-30 04:02:33-04:00)
+2024-10-30 17:34:26,826 - INFO - 기사 본문 추출 성공: Martha Stewart documentary: Top 5 bombshells, from ‘bigot’ father's slap to affair with 'attractive Irishman' (발행일: 2024-10-30 04:00:59-04:00)
+2024-10-30 17:34:26,861 - INFO - 기사 본문 추출 성공: War torn regions have keen interest in US elections (발행일: 2024-10-30 04:00:56-04:00)
+2024-10-30 17:34:26,891 - INFO - 기사 본문 추출 성공: GREG GUTFELD: For Democrats, politics is upstream from everything (발행일: 2024-10-30 01:14:09-04:00)
+2024-10-30 17:34:26,920 - INFO - 기사 본문 추출 성공: JD Vance calls out Politico for sugarcoating Biden quote about Trump supporters being 'garbage' (발행일: 2024-10-30 04:00:42-04:00)
+2024-10-30 17:34:26,952 - INFO - 기사 본문 추출 성공: 'Abused the laws': GOP bill vows to shut down key Biden-era policies benefitting migrants (발행일: 2024-10-30 04:00:46-04:00)
+2024-10-30 17:34:27,089 - INFO - 기사 본문 추출 성공: Republicans react to Biden’s ‘garbage’ comments as Trump-Harris 2024 election nears (발행일: 2024-10-30 01:17:04-04:00)
+2024-10-30 17:34:27,103 - INFO - 기사 본문 추출 성공: 101 days: Kamala Harris has yet to do formal press conference since emerging as Democratic nominee (발행일: 2024-10-30 00:08:50-04:00)
+2024-10-30 17:34:27,132 - INFO - 기사 본문 추출 성공: The bear who was a private in the Polish army (발행일: 2024-10-30 01:38:16+00:00)
+2024-10-30 17:34:27,162 - INFO - 기사 본문 추출 성공: CNN anchor skeptical of White House cleanup of Biden's 'garbage' comment: 'You can listen to it for yourself' (발행일: 2024-10-29 23:47:28-04:00)
+2024-10-30 17:34:27,196 - INFO - 기사 본문 추출 성공: Puerto Rico Shadow Senator endorses Trump at PA rally after 'Kill Tony' controversy at MSG (발행일: 2024-10-29 23:39:10-04:00)
+2024-10-30 17:34:27,226 - INFO - 기사 본문 추출 성공: Trump calls for supporters to 'forgive' Biden in show of unity after president calls supporters 'garbage' (발행일: 2024-10-29 23:30:57-04:00)
+2024-10-30 17:34:27,289 - INFO - 기사 본문 추출 성공: White House seeks to play clean up after Biden calls Trump supporters 'garbage' (발행일: 2024-10-30 00:21:24-04:00)
+2024-10-30 17:34:27,291 - INFO - 기사 본문 추출 성공: PA Gov. Josh Shapiro distances himself from Biden's 'garbage' comment: 'I'd never insult' Trump supporters (발행일: 2024-10-29 22:47:27-04:00)
+2024-10-30 17:34:27,337 - INFO - 기사 본문 추출 성공: New York Republican in toss-up district gains momentum in key race to determine House control (발행일: 2024-10-29 22:00:27-04:00)
+2024-10-30 17:34:27,357 - INFO - 기사 본문 추출 성공: FBI joins investigation as quiet mountain town rocked by hiker's slaying staged as bear attack (발행일: 2024-10-29 22:15:47-04:00)
+2024-10-30 17:34:27,357 - INFO - 기사 본문 추출 성공: 東京 三鷹 住宅に複数の男押し入り 住人に暴行も抵抗され逃走 (발행일: 2024-10-30 16:56:44+09:00)
+2024-10-30 17:34:27,387 - INFO - 기사 본문 추출 성공: SEAN HANNITY: Kamala Harris didn't talk about this tonight (발행일: 2024-10-29 21:55:36-04:00)
+2024-10-30 17:34:27,392 - INFO - 기사 본문 추출 성공: 韓国国防当局 “北朝鮮 ICBM発射や核実験に踏み切る可能性も” (발행일: 2024-10-30 16:50:35+09:00)
+2024-10-30 17:34:27,435 - INFO - 기사 본문 추출 성공: Suspects arrested for assaulting police officer outside of Kamala Harris rally in D.C. (발행일: 2024-10-29 22:47:47-04:00)
+2024-10-30 17:34:27,441 - WARNING - 전처리된 본문이 없습니다: 国民 玉木代表 自民との会談は「政策実現につながる協議期待」
+2024-10-30 17:34:27,448 - WARNING - 전처리된 본문이 없습니다: 秋の園遊会 パリ五輪・パラ メダリストなど招待
+2024-10-30 17:34:27,492 - INFO - 기사 본문 추출 성공: ハロウィーン 渋谷「ハチ公」は封鎖 新宿は？池袋は？ (발행일: 2024-10-30 16:41:52+09:00)
+2024-10-30 17:34:27,507 - WARNING - 전처리된 본문이 없습니다: 自民 無所属で当選4人に国会内の会派入り要請し いずれも了承
+2024-10-30 17:34:27,519 - INFO - 기사 본문 추출 성공: Shannon Sharpe rips Aaron Rodgers after Jets latest loss: 'Smug, cavalier, condescending guy' (발행일: 2024-10-29 22:33:31-04:00)
+2024-10-30 17:34:27,519 - INFO - 기사 본문 추출 성공: Yankees stave off World Series sweep, force Game 5 vs Dodgers (발행일: 2024-10-29 23:26:19-04:00)
+2024-10-30 17:34:27,554 - INFO - 기사 본문 추출 성공: ドジャース敗れて3勝1敗に ヤンキースが初勝利【詳しく】 (발행일: 2024-10-30 15:50:10+09:00)
+2024-10-30 17:34:27,584 - INFO - 기사 본문 추출 성공: JESSE WATTERS: Kamala is campaigning like Biden now (발행일: 2024-10-29 22:01:42-04:00)
+2024-10-30 17:34:27,601 - INFO - 기사 본문 추출 성공: In Closing, Harris Casts Herself as the Unifier and Trump as a ‘Petty Tyrant’ (발행일: 2024-10-30 05:08:02+00:00)
+2024-10-30 17:34:27,612 - INFO - 기사 본문 추출 성공: Israeli Military Hits Gaza Town for 3rd Time in Days, Killing Dozens, Officials Say (발행일: 2024-10-29 21:00:14+00:00)
+2024-10-30 17:34:27,625 - INFO - 기사 본문 추출 성공: Biden Appears to Insult Trump Supporters as ‘Garbage,’ but Quickly Tries to Clarify (발행일: 2024-10-30 06:53:09+00:00)
+2024-10-30 17:34:27,657 - INFO - 기사 본문 추출 성공: Teri Garr, Comic Actress in ‘Young Frankenstein’ and ‘Tootsie,’ Dies at 79 (발행일: 2024-10-29 22:10:53+00:00)
+2024-10-30 17:34:27,673 - INFO - 기사 본문 추출 성공: Teri Garr’s Life in Pictures (발행일: 2024-10-30 01:51:52+00:00)
+2024-10-30 17:34:27,686 - INFO - 기사 본문 추출 성공: Satellite Images Suggest Israel Struck a Major Iranian Missile Plant (발행일: 2024-10-30 01:34:17+00:00)
+2024-10-30 17:34:27,700 - INFO - 기사 본문 추출 성공: How TikTok Saved Its E-Commerce Business in Indonesia (발행일: 2024-10-30 04:30:11+00:00)
+2024-10-30 17:34:27,715 - INFO - 기사 본문 추출 성공: How TikTok Worked With Tokopedia to Get Packages Delivered in Indonesia (발행일: 2024-10-30 04:33:30+00:00)
+2024-10-30 17:34:27,727 - INFO - 기사 본문 추출 성공: The U.S. Army Prepares for War With China: New Vehicles, Face Paint and a 1,200-Foot Fall (발행일: 2024-10-29 16:26:59+00:00)
+2024-10-30 17:34:27,742 - INFO - 기사 본문 추출 성공: In ‘Empty Beds,’ a Stark Reminder of War’s Youngest Victims (발행일: 2024-10-29 17:16:38+00:00)
+2024-10-30 17:34:27,754 - INFO - 기사 본문 추출 성공: Jaywalking Is a New York Tradition. Now It’s Legal, Too. (발행일: 2024-10-29 23:04:06+00:00)
+2024-10-30 17:34:27,766 - INFO - 기사 본문 추출 성공: The New Threat to Brazil’s Forests: Chemicals (발행일: 2024-10-29 04:01:41+00:00)
+2024-10-30 17:34:27,788 - INFO - 기사 본문 추출 성공: A Harris Presidency Is the Only Way to Stay Ahead of A.I. (발행일: 2024-10-29 23:00:09+00:00)
+2024-10-30 17:34:27,802 - INFO - 기사 본문 추출 성공: Giorgia Meloni Knows Exactly What She’s Doing (발행일: 2024-10-30 05:00:08+00:00)
+2024-10-30 17:34:27,815 - INFO - 기사 본문 추출 성공: Parts of Spain Get a Month’s Worth of Rain in a Day (발행일: 2024-10-30 00:23:55+00:00)
+2024-10-30 17:34:27,831 - INFO - 기사 본문 추출 성공: How Trump Exploits Divisions Among Black and Latino Voters (발행일: 2024-10-29 23:11:49+00:00)
+2024-10-30 17:34:28,041 - INFO - 기사 본문 추출 성공: A Conservative Case Against Trump (발행일: 2024-10-29 23:37:05+00:00)
+2024-10-30 17:34:28,117 - INFO - 기사 본문 추출 성공: China’s Latest Security Target: Halloween Partygoers (발행일: 2024-10-30 01:42:16+00:00)
+2024-10-30 17:34:28,128 - INFO - 기사 본문 추출 성공: What a ‘Tennessee Three’ Member Thinks She Can Achieve by Running for Senate (발행일: 2024-10-29 19:56:33+00:00)
+2024-10-30 17:34:28,158 - INFO - 기사 본문 추출 성공: Au Pair Pleads Guilty to Manslaughter in Double Homicide (발행일: 2024-10-30 03:23:51+00:00)
+2024-10-30 17:34:28,309 - INFO - 기사 본문 추출 성공: Manchester United managerial target Amorim says ‘nothing decided yet’ (발행일: 2024-10-30 07:51:52+00:00)
+2024-10-30 17:34:28,341 - INFO - 기사 본문 추출 성공: Heat-related deaths and diseases rising due to climate change, experts warn (발행일: 2024-10-30 08:15:06+00:00)
+2024-10-30 17:34:28,356 - INFO - 기사 본문 추출 성공: US election: 6 days left – What polls say, what Harris and Trump are up to (발행일: 2024-10-30 07:08:29+00:00)
+2024-10-30 17:34:28,369 - INFO - 기사 본문 추출 성공: What do we know about Hezbollah’s new leader, Naim Qassem? (발행일: 2024-10-30 08:00:37+00:00)
+2024-10-30 17:34:28,400 - INFO - 기사 본문 추출 성공: Death and destruction as torrential rains lash Spain (발행일: 2024-10-30 07:48:05+00:00)
+2024-10-30 17:34:28,623 - INFO - 기사 본문 추출 성공: What is the history of newspaper endorsements and can they swing elections? (발행일: 2024-10-30 06:45:35+00:00)
+2024-10-30 17:34:28,646 - WARNING - 본문을 찾을 수 없습니다: https://www.aljazeera.com/program/newsfeed/2024/10/30/helicopter-crew-rescues-child-from-house-in-flood-hit-spain?traffic_source=rss
+2024-10-30 17:34:28,647 - WARNING - 기사 본문이 없습니다: Helicopter crew rescues child from house in flood-hit Spain
+2024-10-30 17:34:28,790 - INFO - 기사 본문 추출 성공: Biden tries to end furore after seeming to call Trump supporters ‘garbage’ (발행일: 2024-10-30 05:36:07+00:00)
+2024-10-30 17:34:28,809 - INFO - 기사 본문 추출 성공: Donald Trump attempts to recover Latino support with Pennsylvania rally (발행일: 2024-10-30 04:42:02+00:00)
+2024-10-30 17:34:28,858 - INFO - 기사 본문 추출 성공: Continued conflict leaves Myanmar mired in crisis: UN (발행일: 2024-10-30 07:04:39+00:00)
+2024-10-30 17:34:29,042 - INFO - 기사 본문 추출 성공: Ronaldo misses penalty as Al Nassr eliminated from Saudi King’s Cup (발행일: 2024-10-30 06:03:47+00:00)
+2024-10-30 17:34:29,132 - INFO - 기사 본문 추출 성공: Sudan militia accused of mass killings and sexual violence as attacks escalate (발행일: 2024-10-28 14:05:24+00:00)
+2024-10-30 17:34:29,171 - INFO - 기사 본문 추출 성공: ‘Not who we are’: Harris seeks finish line push at crowded US capital rally (발행일: 2024-10-30 02:52:49+00:00)
+2024-10-30 17:34:29,280 - INFO - 기사 본문 추출 성공: Shirley Ayorkor Botchwey appointed Commonwealth secretary general (발행일: 2024-10-26 11:01:20+00:00)
+2024-10-30 17:34:29,306 - INFO - 기사 본문 추출 성공: Mozambique ruling party declared winner of election marred by killings (발행일: 2024-10-24 16:54:31+00:00)
+2024-10-30 17:34:29,352 - INFO - 기사 본문 추출 성공: ‘Horrific’ Israeli bombing of Gaza’s Beit Lahiya kills at least 93 (발행일: 2024-10-30 06:56:50+00:00)
+2024-10-30 17:34:29,528 - INFO - 기사 본문 추출 성공: EU refuses to publish findings of Tunisia human rights inquiry (발행일: 2024-10-23 09:30:22+00:00)
+2024-10-30 17:34:29,546 - INFO - 기사 본문 추출 성공: Australia to boost missile production after China tests ICBM in Pacific (발행일: 2024-10-30 05:30:22+00:00)
+2024-10-30 17:34:29,560 - INFO - 기사 본문 추출 성공: US tech stocks send Nasdaq to hit record high, as Alphabet beats forecasts (발행일: 2024-10-30 02:07:20+00:00)
+2024-10-30 17:34:29,592 - INFO - 기사 본문 추출 성공: Israel again bombs Gaza’s Beit Lahiya hours after killing 93 in one strike (발행일: 2024-10-30 03:27:27+00:00)
+2024-10-30 17:34:29,620 - INFO - 기사 본문 추출 성공: Racist jokes about Puerto Rico at rally bring anger and disgust: ‘Truly how the Trump party sees us’ (발행일: 2024-10-29 13:00:10+00:00)
+2024-10-30 17:34:29,648 - INFO - 기사 본문 추출 성공: Puerto Rico Republican chair demands Trump apology for rally’s racist remarks (발행일: 2024-10-29 12:32:53+00:00)
+2024-10-30 17:34:29,701 - INFO - 기사 본문 추출 성공: Trudeau facing ‘iceberg revolt’ as calls grow for embattled PM to step down (발행일: 2024-10-29 10:30:06+00:00)
+2024-10-30 17:34:29,726 - INFO - 기사 본문 추출 성공: Bolivian minister accuses Evo Morales of ‘staged’ assassination attempt (발행일: 2024-10-29 03:45:44+00:00)
+2024-10-30 17:34:29,802 - WARNING - 본문을 찾을 수 없습니다: https://www.aljazeera.com/program/newsfeed/2024/10/30/harris-makes-final-pitch-to-voters-one-week-before-us-election?traffic_source=rss
+2024-10-30 17:34:29,818 - WARNING - 기사 본문이 없습니다: Harris makes final pitch to voters one week before US election
+2024-10-30 17:34:29,829 - INFO - 기사 본문 추출 성공: Uruguay presidential election heads to runoff with center-left candidate in lead (발행일: 2024-10-28 14:26:42+00:00)
+2024-10-30 17:34:29,857 - INFO - 기사 본문 추출 성공: Mount Fuji snowless for longest time on record after sweltering Japan summer (발행일: 2024-10-30 00:52:36+00:00)
+2024-10-30 17:34:29,889 - INFO - 기사 본문 추출 성공: Lost Maya city with temple pyramids and plazas discovered in Mexico (발행일: 2024-10-29 12:33:59+00:00)
+2024-10-30 17:34:29,914 - INFO - 기사 본문 추출 성공: White Island volcano disaster: owners appeal against criminal conviction (발행일: 2024-10-29 16:24:57+00:00)
+2024-10-30 17:34:29,944 - INFO - 기사 본문 추출 성공: Indonesia blocks Apple iPhone 16 sales over lack of investment (발행일: 2024-10-28 18:42:47+00:00)
+2024-10-30 17:34:29,979 - INFO - 기사 본문 추출 성공: Duterte tells Philippines ‘war on drugs’ inquiry he kept a death squad (발행일: 2024-10-28 12:16:24+00:00)
+2024-10-30 17:34:30,007 - INFO - 기사 본문 추출 성공: China’s kindergarten numbers shrink as policymakers struggle to arrest falling birthrate (발행일: 2024-10-28 06:54:44+00:00)
+2024-10-30 17:34:30,032 - INFO - 기사 본문 추출 성공: Japan election: voters have issued ‘severe judgment’, PM says after ruling coalition loses majority (발행일: 2024-10-28 03:00:18+00:00)
+2024-10-30 17:34:30,167 - INFO - 기사 본문 추출 성공: Russia-Ukraine war: List of key events, day 978 (발행일: 2024-10-30 04:22:30+00:00)
+2024-10-30 17:34:30,368 - INFO - 기사 본문 추출 성공: Botswana election: Who is in the running and what’s at stake? (발행일: 2024-10-30 05:40:18+00:00)
+2024-10-30 17:34:30,397 - INFO - 기사 본문 추출 성공: ABC chair says pressing ‘digital titans’ for revenue is a ‘mainstream democratic imperative’ (발행일: 2024-10-30 08:15:22+00:00)
+2024-10-30 17:34:30,482 - INFO - 기사 본문 추출 성공: Biodiversity declining even faster in ‘protected’ areas, scientists warn Cop16 (발행일: 2024-10-24 05:00:02+00:00)
+2024-10-30 17:34:30,482 - INFO - 기사 본문 추출 성공: Four in 10 deaths in war zones last year were women, UN report finds (발행일: 2024-10-23 12:11:30+00:00)
+2024-10-30 17:34:30,507 - INFO - 기사 본문 추출 성공: Jacinta Nampijinpa Price to pay federal court over delay in defamation defence (발행일: 2024-10-30 08:09:26+00:00)
+2024-10-30 17:34:30,548 - ERROR - 웹페이지 스크래핑 오류 (https://abcnews.go.com/Live/video/abcnews-live-41463246): 404 Client Error: Not Found for url: https://abcnews.go.com/Live/video/abcnews-live-41463246
+2024-10-30 17:34:30,548 - WARNING - 기사 본문이 없습니다: LIVE:  ABC News Live
+2024-10-30 17:34:30,775 - INFO - 기사 본문 추출 성공:  Trump holds rally in Pennsylvania city with Latino-majority population (발행일: 2024-10-30 00:26:38-04:00)
+2024-10-30 17:34:30,792 - INFO - 기사 본문 추출 성공:  Harris' closing argument: 'Turn the page and start writing the next chapter' (발행일: 2024-10-29 20:28:45-04:00)
+2024-10-30 17:34:30,938 - INFO - 기사 본문 추출 성공:  At town halls, Elon Musk works to harness his celebrity to boost Trump (발행일: 2024-10-29 19:09:27-04:00)
+2024-10-30 17:34:31,047 - INFO - 기사 본문 추출 성공: EU hikes tariffs on Chinese EVs, prompting rebuke from Beijing (발행일: 2024-10-30 03:33:04+00:00)
+2024-10-30 17:34:31,128 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/US/video/woman-dies-after-backing-plane-propeller-taking-photos-115251671
+2024-10-30 17:34:31,129 - WARNING - 기사 본문이 없습니다: WATCH:  Woman dies after backing into plane propeller while taking photos
+2024-10-30 17:34:31,210 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Culture/video/miracle-hail-mary-commanders-minute-18-15-win-115209160
+2024-10-30 17:34:31,211 - WARNING - 기사 본문이 없습니다: WATCH:  ‘Miracle’ Hail Mary gives Commanders last-minute 18-15 win over Bears
+2024-10-30 17:34:31,253 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/US/video/penguin-barely-walk-gets-life-saving-surgery-115209281
+2024-10-30 17:34:31,254 - WARNING - 기사 본문이 없습니다: WATCH:  Penguin who could barely walk gets life-saving surgery
+2024-10-30 17:34:31,298 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Entertainment/video/timothe-chalamet-crashes-alike-contest-115200595
+2024-10-30 17:34:31,299 - WARNING - 기사 본문이 없습니다: WATCH:  Timothée Chalamet crashes his own look-alike contest
+2024-10-30 17:34:31,336 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Living/video/walt-disney-world-animals-celebrate-halloween-pumpkins-115158344
+2024-10-30 17:34:31,338 - WARNING - 기사 본문이 없습니다: WATCH:  Walt Disney World animals celebrate Halloween with pumpkins 
+2024-10-30 17:34:31,377 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Entertainment/video/adele-celine-dion-share-emotional-greeting-concert-115199247
+2024-10-30 17:34:31,377 - WARNING - 기사 본문이 없습니다: WATCH:  'Hello': Adele, Celine Dion share emotional greeting at concert
+2024-10-30 17:34:31,530 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/GMA/Family/video/nicu-babies-dressed-taylor-swift-inspired-outfits-halloween-115120903
+2024-10-30 17:34:31,531 - WARNING - 기사 본문이 없습니다: WATCH:  NICU babies get all dressed up in Taylor Swift-inspired outfits for Halloween
+2024-10-30 17:34:31,709 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/International/video/strong-explosions-reported-tehran-iran-state-tv-confirms-115165553
+2024-10-30 17:34:31,710 - WARNING - 기사 본문이 없습니다: WATCH:  Strong explosions reported around Tehran, Iran state TV confirms
+2024-10-30 17:34:31,748 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Nightline/video/wnba-champs-new-york-liberty-celebrate-1st-title-115136331
+2024-10-30 17:34:31,749 - WARNING - 기사 본문이 없습니다: WATCH:  WNBA champs New York Liberty celebrate 1st title with a Canyon of Heroes parade
+2024-10-30 17:34:31,856 - WARNING - 본문을 찾을 수 없습니다: https://abcnews.go.com/Technology/video/astronauts-return-earth-after-delayed-boeings-capsule-trouble-115140620
+2024-10-30 17:34:31,857 - WARNING - 기사 본문이 없습니다: WATCH:  Astronauts return to Earth after being delayed by Boeing's capsule trouble
+2024-10-30 17:34:31,910 - INFO - 기사 본문 추출 성공:  Fight intensifies over Florida ballot measure that would guarantee abortion rights (발행일: 2024-10-29 05:23:42-04:00)
+2024-10-30 17:34:31,946 - INFO - 기사 본문 추출 성공:  What you need to know about the Electoral College as 2024 race nears end (발행일: 2024-10-28 17:20:22-04:00)
+2024-10-30 17:34:31,981 - INFO - 기사 본문 추출 성공:  2024 election updates: Biden angers GOP associating 'garbage' with Trump supporters (발행일: 2024-10-30 03:04:28-04:00)
+2024-10-30 17:34:32,127 - INFO - 기사 본문 추출 성공:  The 2024 election could hinge on Pennsylvania (발행일: 2024-10-29 16:27:21-04:00)
+2024-10-30 17:34:32,143 - INFO - 기사 본문 추출 성공:  Slavery, involuntary servitude are on the ballot in these states (발행일: 2024-10-29 16:54:55-04:00)
+2024-10-30 17:34:32,182 - INFO - 기사 본문 추출 성공:  Trump calls Madison Square Garden rally a 'lovefest' as backlash continues (발행일: 2024-10-29 13:07:41-04:00)
+2024-10-30 17:34:32,183 - INFO - 기사 본문 추출 성공: Anthony Volpe does it all, Yankees rout Dodgers in Game 4 (발행일: 2024-10-30 01:18:21-04:00)
+2024-10-30 17:34:32,314 - INFO - 기사 본문 추출 성공: Biden remark about Trump "garbage" rally angers GOP (발행일: 2024-10-29 23:27:00-04:00)
+2024-10-30 17:34:32,406 - INFO - 기사 본문 추출 성공: Man who threatened Fani Willis gets nearly 2 years in prison (발행일: 2024-10-29 22:58:56-04:00)
+2024-10-30 17:34:32,515 - INFO - 기사 본문 추출 성공: Inside a secure Arizona facility printing election ballots (발행일: 2024-10-29 20:18:07-04:00)
+2024-10-30 17:34:32,547 - INFO - 기사 본문 추출 성공: Teens who made history with math discovery publish paper with new proofs (발행일: 2024-10-29 19:06:55-04:00)
+2024-10-30 17:34:32,587 - INFO - 기사 본문 추출 성공: Rural Georgia voters weigh in ahead of election as residents find common ground (발행일: 2024-10-29 19:45:15-04:00)
+2024-10-30 17:34:51,766 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/israel-iran-war-news-gaza-palestine-hamas/): ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-10-30 17:34:51,769 - WARNING - 기사 본문이 없습니다: Live Briefing: U.S. presses Israel for answers on Gaza strike that killed dozens
+2024-10-30 17:34:52,281 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,284 - WARNING - 기사 본문이 없습니다: Hezbollah, seeking stability, names new leader after Nasrallah’s killing
+2024-10-30 17:34:52,297 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,301 - WARNING - 기사 본문이 없습니다: What visuals reveal about the impact of Israeli strikes on Iran
+2024-10-30 17:34:52,327 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/russia-ukraine-pow-executions/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,328 - WARNING - 기사 본문이 없습니다: Ukraine accuses Russia of sudden spike in POW killings
+2024-10-30 17:34:52,374 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/30/trump-harris-election-democracy-autocracy/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,375 - WARNING - 기사 본문이 없습니다: The world beyond the election: So much for democracy vs. autocracy
+2024-10-30 17:34:52,452 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,452 - WARNING - 기사 본문이 없습니다: Israeli parliament votes to ban UNRWA within Israel and sever ties
+2024-10-30 17:34:52,590 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/israel-iran-war-news-gaza-palestine/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,594 - WARNING - 기사 본문이 없습니다: Israeli attack in northern Gaza kills 93
+2024-10-30 17:34:52,637 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,640 - WARNING - 기사 본문이 없습니다: At least 93 killed in Israeli strike in north Gaza, health official says
+2024-10-30 17:34:52,684 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,685 - WARNING - 기사 본문이 없습니다: More than 90 killed in strike in northern Gaza
+2024-10-30 17:34:52,948 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/gaza-north-israel-strike-aid-unrwa/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:34:52,950 - WARNING - 기사 본문이 없습니다: More than 90 killed in north Gaza strike as Israel bans U.N. relief agency  
+2024-10-30 17:35:11,532 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/london-cheese-heist-neals-yard-dairy/): ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-10-30 17:35:11,535 - WARNING - 기사 본문이 없습니다: Who stole 24 tons of cheddar? ‘Sophisticated’ cheese heist sparks police hunt.
+2024-10-30 17:35:11,847 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:11,850 - WARNING - 기사 본문이 없습니다: Hezbollah names new leader one month after Nasrallah killing
+2024-10-30 17:35:12,331 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/iran-israel-strikes-missiles-air-defense/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,335 - WARNING - 기사 본문이 없습니다: What visuals reveal about the impact of Israeli strikes on Iran
+2024-10-30 17:35:12,394 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/hezbollah-new-leader-naim-qassem/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,395 - WARNING - 기사 본문이 없습니다: Hezbollah, seeking stability, names new leader after Nasrallah’s killing
+2024-10-30 17:35:12,456 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/north-korea-elite-troops-russia-ukraine-war/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,457 - WARNING - 기사 본문이 없습니다: North Korea’s elite troops are in Russia to fight Ukraine: What we know
+2024-10-30 17:35:12,487 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/29/mali-bamako-jnim-attack-qaeda/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,487 - WARNING - 기사 본문이 없습니다: Bloody attack in Mali’s capital shows al-Qaeda’s shifting strategy
+2024-10-30 17:35:12,658 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,661 - WARNING - 기사 본문이 없습니다: U.S. officials push for cease-fire, hostage swap in renewed talks
+2024-10-30 17:35:12,690 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,691 - WARNING - 기사 본문이 없습니다: Families separated by Israel’s war in Gaza fear they will never reunite
+2024-10-30 17:35:12,736 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com/world/2024/10/28/israel-iran-war-news-gaza-hamas/): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:12,737 - WARNING - 기사 본문이 없습니다: IDF withdraws from north Gaza’s last working hospital; cease-fire talks resume
+2024-10-30 17:35:13,050 - ERROR - 웹페이지 스크래핑 오류 (https://www.washingtonpost.com): HTTPSConnectionPool(host='www.washingtonpost.com', port=443): Read timed out. (read timeout=20)
+2024-10-30 17:35:13,052 - WARNING - 기사 본문이 없습니다: Israeli parliament votes to ban UNRWA within Israel and sever ties
+2024-10-30 17:35:13,055 - INFO - 수집된 유효한 기사 수: 117개
+2024-10-30 17:35:22,421 - INFO - 글로벌 새로운 트리 생성: Minimum wage to rise to £12.21 an hour next year
+2024-10-30 17:35:22,421 - INFO - 글로벌 새로운 트리 생성: China declares success as its youngest astronauts reach space
+2024-10-30 17:35:22,421 - INFO - 글로벌 새로운 트리 생성: Government says it became aware of new Southport charges in last few weeks
+2024-10-30 17:35:22,421 - INFO - 글로벌 새로운 트리 생성: Chris Mason: A big Budget that will set agenda for years to come
+2024-10-30 17:35:22,421 - INFO - 글로벌 새로운 트리 생성: Police recover more than 40,000 stolen Bluey coins
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: At least 13 dead in flash floods in Spain
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Ukraine in new mobilisation drive as Russia advances
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Two in hospital after UK nuclear sub shipyard fire
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Extreme drought areas treble in size since 80s - study
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: How X users can earn thousands from US election misinformation and AI images
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: 'I can’t afford to leave home on £1,500 a month – here’s what I need from the Budget'
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Rachel Reeves: The chess fanatic playing Labour's first big gambit
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: The Papers: Terror charge for Southport suspect and Reeves' first budget
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: What time is the Budget and what could be in it?
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Ancient oak named after a band is UK Tree of the Year
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: I am on edge, says woman made homeless aged 75
+2024-10-30 17:35:22,422 - INFO - 글로벌 새로운 트리 생성: Harris pledges 'different path' at site of Trump 6 January rally
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: A human is not designed to see what I saw
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: Tensions rise in Beirut after influx of displaced people
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: Trump has another response to Biden's 'garbage' comment about GOP supporters
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: Martha Stewart documentary: Top 5 bombshells, from ‘bigot’ father's slap to affair with 'attractive Irishman'
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: War torn regions have keen interest in US elections
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: GREG GUTFELD: For Democrats, politics is upstream from everything
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: JD Vance calls out Politico for sugarcoating Biden quote about Trump supporters being 'garbage'
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: 'Abused the laws': GOP bill vows to shut down key Biden-era policies benefitting migrants
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: Republicans react to Biden’s ‘garbage’ comments as Trump-Harris 2024 election nears
+2024-10-30 17:35:22,423 - INFO - 글로벌 새로운 트리 생성: 101 days: Kamala Harris has yet to do formal press conference since emerging as Democratic nominee
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: The bear who was a private in the Polish army
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: CNN anchor skeptical of White House cleanup of Biden's 'garbage' comment: 'You can listen to it for yourself'
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: Puerto Rico Shadow Senator endorses Trump at PA rally after 'Kill Tony' controversy at MSG
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: Trump calls for supporters to 'forgive' Biden in show of unity after president calls supporters 'garbage'
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: White House seeks to play clean up after Biden calls Trump supporters 'garbage'
+2024-10-30 17:35:22,424 - INFO - 글로벌 트리 병합 완료: PA Gov. Josh Shapiro distances himself from Biden's 'garbage' comment: 'I'd never insult' Trump supporters (유사도: 0.43)
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: New York Republican in toss-up district gains momentum in key race to determine House control
+2024-10-30 17:35:22,424 - INFO - 글로벌 새로운 트리 생성: FBI joins investigation as quiet mountain town rocked by hiker's slaying staged as bear attack
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: 東京 三鷹 住宅に複数の男押し入り 住人に暴行も抵抗され逃走
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: SEAN HANNITY: Kamala Harris didn't talk about this tonight
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: 韓国国防当局 “北朝鮮 ICBM発射や核実験に踏み切る可能性も”
+2024-10-30 17:35:22,425 - INFO - 글로벌 트리 병합 완료: Suspects arrested for assaulting police officer outside of Kamala Harris rally in D.C. (유사도: 0.33)
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: ハロウィーン 渋谷「ハチ公」は封鎖 新宿は？池袋は？
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: Shannon Sharpe rips Aaron Rodgers after Jets latest loss: 'Smug, cavalier, condescending guy'
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: Yankees stave off World Series sweep, force Game 5 vs Dodgers
+2024-10-30 17:35:22,425 - INFO - 글로벌 새로운 트리 생성: ドジャース敗れて3勝1敗に ヤンキースが初勝利【詳しく】
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: JESSE WATTERS: Kamala is campaigning like Biden now
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: In Closing, Harris Casts Herself as the Unifier and Trump as a ‘Petty Tyrant’
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: Israeli Military Hits Gaza Town for 3rd Time in Days, Killing Dozens, Officials Say
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: Biden Appears to Insult Trump Supporters as ‘Garbage,’ but Quickly Tries to Clarify
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: Teri Garr, Comic Actress in ‘Young Frankenstein’ and ‘Tootsie,’ Dies at 79
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: Teri Garr’s Life in Pictures
+2024-10-30 17:35:22,426 - INFO - 글로벌 새로운 트리 생성: Satellite Images Suggest Israel Struck a Major Iranian Missile Plant
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: How TikTok Saved Its E-Commerce Business in Indonesia
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: How TikTok Worked With Tokopedia to Get Packages Delivered in Indonesia
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: The U.S. Army Prepares for War With China: New Vehicles, Face Paint and a 1,200-Foot Fall
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: In ‘Empty Beds,’ a Stark Reminder of War’s Youngest Victims
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: Jaywalking Is a New York Tradition. Now It’s Legal, Too.
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: The New Threat to Brazil’s Forests: Chemicals
+2024-10-30 17:35:22,427 - INFO - 글로벌 새로운 트리 생성: A Harris Presidency Is the Only Way to Stay Ahead of A.I.
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: Giorgia Meloni Knows Exactly What She’s Doing
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: Parts of Spain Get a Month’s Worth of Rain in a Day
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: How Trump Exploits Divisions Among Black and Latino Voters
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: A Conservative Case Against Trump
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: China’s Latest Security Target: Halloween Partygoers
+2024-10-30 17:35:22,428 - INFO - 글로벌 새로운 트리 생성: What a ‘Tennessee Three’ Member Thinks She Can Achieve by Running for Senate
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: Au Pair Pleads Guilty to Manslaughter in Double Homicide
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: Manchester United managerial target Amorim says ‘nothing decided yet’
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: Heat-related deaths and diseases rising due to climate change, experts warn
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: US election: 6 days left – What polls say, what Harris and Trump are up to
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: What do we know about Hezbollah’s new leader, Naim Qassem?
+2024-10-30 17:35:22,429 - INFO - 글로벌 새로운 트리 생성: Death and destruction as torrential rains lash Spain
+2024-10-30 17:35:22,430 - INFO - 글로벌 새로운 트리 생성: What is the history of newspaper endorsements and can they swing elections?
+2024-10-30 17:35:22,430 - INFO - 글로벌 트리 병합 완료: Biden tries to end furore after seeming to call Trump supporters ‘garbage’ (유사도: 0.33)
+2024-10-30 17:35:22,430 - INFO - 글로벌 새로운 트리 생성: Donald Trump attempts to recover Latino support with Pennsylvania rally
+2024-10-30 17:35:22,430 - INFO - 글로벌 새로운 트리 생성: Continued conflict leaves Myanmar mired in crisis: UN
+2024-10-30 17:35:22,430 - INFO - 글로벌 새로운 트리 생성: Ronaldo misses penalty as Al Nassr eliminated from Saudi King’s Cup
+2024-10-30 17:35:22,430 - INFO - 글로벌 새로운 트리 생성: Sudan militia accused of mass killings and sexual violence as attacks escalate
+2024-10-30 17:35:22,431 - INFO - 글로벌 새로운 트리 생성: ‘Not who we are’: Harris seeks finish line push at crowded US capital rally
+2024-10-30 17:35:22,431 - INFO - 글로벌 새로운 트리 생성: Shirley Ayorkor Botchwey appointed Commonwealth secretary general
+2024-10-30 17:35:22,431 - INFO - 글로벌 새로운 트리 생성: Mozambique ruling party declared winner of election marred by killings
+2024-10-30 17:35:22,431 - INFO - 글로벌 새로운 트리 생성: ‘Horrific’ Israeli bombing of Gaza’s Beit Lahiya kills at least 93
+2024-10-30 17:35:22,431 - INFO - 글로벌 새로운 트리 생성: EU refuses to publish findings of Tunisia human rights inquiry
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: Australia to boost missile production after China tests ICBM in Pacific
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: US tech stocks send Nasdaq to hit record high, as Alphabet beats forecasts
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: Israel again bombs Gaza’s Beit Lahiya hours after killing 93 in one strike
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: Racist jokes about Puerto Rico at rally bring anger and disgust: ‘Truly how the Trump party sees us’
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: Puerto Rico Republican chair demands Trump apology for rally’s racist remarks
+2024-10-30 17:35:22,432 - INFO - 글로벌 새로운 트리 생성: Trudeau facing ‘iceberg revolt’ as calls grow for embattled PM to step down
+2024-10-30 17:35:22,433 - INFO - 글로벌 새로운 트리 생성: Bolivian minister accuses Evo Morales of ‘staged’ assassination attempt
+2024-10-30 17:35:22,433 - INFO - 글로벌 새로운 트리 생성: Uruguay presidential election heads to runoff with center-left candidate in lead
+2024-10-30 17:35:22,433 - INFO - 글로벌 새로운 트리 생성: Mount Fuji snowless for longest time on record after sweltering Japan summer
+2024-10-30 17:35:22,433 - INFO - 글로벌 새로운 트리 생성: Lost Maya city with temple pyramids and plazas discovered in Mexico
+2024-10-30 17:35:22,434 - INFO - 글로벌 새로운 트리 생성: White Island volcano disaster: owners appeal against criminal conviction
+2024-10-30 17:35:22,434 - INFO - 글로벌 새로운 트리 생성: Indonesia blocks Apple iPhone 16 sales over lack of investment
+2024-10-30 17:35:22,434 - INFO - 글로벌 새로운 트리 생성: Duterte tells Philippines ‘war on drugs’ inquiry he kept a death squad
+2024-10-30 17:35:22,434 - INFO - 글로벌 새로운 트리 생성: China’s kindergarten numbers shrink as policymakers struggle to arrest falling birthrate
+2024-10-30 17:35:22,434 - INFO - 글로벌 새로운 트리 생성: Japan election: voters have issued ‘severe judgment’, PM says after ruling coalition loses majority
+2024-10-30 17:35:22,435 - INFO - 글로벌 새로운 트리 생성: Russia-Ukraine war: List of key events, day 978
+2024-10-30 17:35:22,435 - INFO - 글로벌 새로운 트리 생성: Botswana election: Who is in the running and what’s at stake?
+2024-10-30 17:35:22,435 - INFO - 글로벌 새로운 트리 생성: ABC chair says pressing ‘digital titans’ for revenue is a ‘mainstream democratic imperative’
+2024-10-30 17:35:22,435 - INFO - 글로벌 새로운 트리 생성: Biodiversity declining even faster in ‘protected’ areas, scientists warn Cop16
+2024-10-30 17:35:22,435 - INFO - 글로벌 새로운 트리 생성: Four in 10 deaths in war zones last year were women, UN report finds
+2024-10-30 17:35:22,436 - INFO - 글로벌 새로운 트리 생성: Jacinta Nampijinpa Price to pay federal court over delay in defamation defence
+2024-10-30 17:35:22,436 - INFO - 글로벌 새로운 트리 생성:  Trump holds rally in Pennsylvania city with Latino-majority population
+2024-10-30 17:35:22,436 - INFO - 글로벌 트리 병합 완료:  Harris' closing argument: 'Turn the page and start writing the next chapter' (유사도: 0.33)
+2024-10-30 17:35:22,436 - INFO - 글로벌 새로운 트리 생성:  At town halls, Elon Musk works to harness his celebrity to boost Trump
+2024-10-30 17:35:22,437 - INFO - 글로벌 새로운 트리 생성: EU hikes tariffs on Chinese EVs, prompting rebuke from Beijing
+2024-10-30 17:35:22,437 - INFO - 글로벌 새로운 트리 생성:  Fight intensifies over Florida ballot measure that would guarantee abortion rights
+2024-10-30 17:35:22,437 - INFO - 글로벌 새로운 트리 생성:  What you need to know about the Electoral College as 2024 race nears end
+2024-10-30 17:35:22,437 - INFO - 글로벌 트리 병합 완료:  2024 election updates: Biden angers GOP associating 'garbage' with Trump supporters (유사도: 0.33)
+2024-10-30 17:35:22,437 - INFO - 글로벌 새로운 트리 생성:  The 2024 election could hinge on Pennsylvania
+2024-10-30 17:35:22,438 - INFO - 글로벌 새로운 트리 생성:  Slavery, involuntary servitude are on the ballot in these states
+2024-10-30 17:35:22,438 - INFO - 글로벌 새로운 트리 생성:  Trump calls Madison Square Garden rally a 'lovefest' as backlash continues
+2024-10-30 17:35:22,438 - INFO - 글로벌 새로운 트리 생성: Anthony Volpe does it all, Yankees rout Dodgers in Game 4
+2024-10-30 17:35:22,438 - INFO - 글로벌 새로운 트리 생성: Biden remark about Trump "garbage" rally angers GOP
+2024-10-30 17:35:22,439 - INFO - 글로벌 새로운 트리 생성: Man who threatened Fani Willis gets nearly 2 years in prison
+2024-10-30 17:35:22,439 - INFO - 글로벌 새로운 트리 생성: Inside a secure Arizona facility printing election ballots
+2024-10-30 17:35:22,439 - INFO - 글로벌 새로운 트리 생성: Teens who made history with math discovery publish paper with new proofs
+2024-10-30 17:35:22,439 - INFO - 글로벌 새로운 트리 생성: Rural Georgia voters weigh in ahead of election as residents find common ground
+2024-10-30 17:35:22,439 - INFO - 글로벌 트리의 개수: 112
+2024-10-30 17:35:22,444 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: united_states)
+2024-10-30 17:35:22,448 - INFO - Google 트렌드 새로운 트리 생성: Lakers (국가: united_states)
+2024-10-30 17:35:22,453 - INFO - Google 트렌드 새로운 트리 생성: Mavericks vs Timberwolves (국가: united_states)
+2024-10-30 17:35:22,457 - INFO - Google 트렌드 새로운 트리 생성: Pittsburgh Steelers (국가: united_states)
+2024-10-30 17:35:22,461 - INFO - Google 트렌드 새로운 트리 생성: Warriors (국가: united_states)
+2024-10-30 17:35:22,465 - INFO - Google 트렌드 새로운 트리 생성: Ted Cruz (국가: united_states)
+2024-10-30 17:35:22,470 - INFO - Google 트렌드 새로운 트리 생성: Diontae Johnson (국가: united_states)
+2024-10-30 17:35:22,473 - INFO - Google 트렌드 새로운 트리 생성: Celtics (국가: united_states)
+2024-10-30 17:35:22,477 - INFO - Google 트렌드 새로운 트리 생성: Charvarius Ward (국가: united_states)
+2024-10-30 17:35:22,481 - INFO - Google 트렌드 새로운 트리 생성: Shawn Mendes (국가: united_states)
+2024-10-30 17:35:22,485 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: united_kingdom)
+2024-10-30 17:35:22,488 - INFO - Google 트렌드 새로운 트리 생성: Minimum wage (국가: united_kingdom)
+2024-10-30 17:35:22,492 - INFO - Google 트렌드 새로운 트리 생성: Ricin (국가: united_kingdom)
+2024-10-30 17:35:22,496 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: united_kingdom)
+2024-10-30 17:35:22,500 - INFO - Google 트렌드 새로운 트리 생성: England vs South Africa (국가: united_kingdom)
+2024-10-30 17:35:22,503 - INFO - Google 트렌드 새로운 트리 생성: Southampton vs Stoke City (국가: united_kingdom)
+2024-10-30 17:35:22,507 - INFO - Google 트렌드 새로운 트리 생성: Carabao Cup (국가: united_kingdom)
+2024-10-30 17:35:22,511 - INFO - Google 트렌드 새로운 트리 생성: Milan vs Napoli (국가: united_kingdom)
+2024-10-30 17:35:22,515 - INFO - Google 트렌드 새로운 트리 생성: UNRWA (국가: united_kingdom)
+2024-10-30 17:35:22,518 - INFO - Google 트렌드 새로운 트리 생성: Gisele Bündchen (국가: united_kingdom)
+2024-10-30 17:35:22,523 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: japan)
+2024-10-30 17:35:22,527 - INFO - Google 트렌드 새로운 트리 생성: RB Leipzig – St. Pauli (국가: germany)
+2024-10-30 17:35:22,531 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin (국가: germany)
+2024-10-30 17:35:22,535 - INFO - Google 트렌드 새로운 트리 생성: Edzard Reuter (국가: germany)
+2024-10-30 17:35:22,538 - INFO - Google 트렌드 새로운 트리 생성: 1. FC Köln (국가: germany)
+2024-10-30 17:35:22,542 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: germany)
+2024-10-30 17:35:22,546 - INFO - Google 트렌드 새로운 트리 생성: Leverkusen (국가: germany)
+2024-10-30 17:35:22,550 - INFO - Google 트렌드 새로운 트리 생성: Mac mini (국가: germany)
+2024-10-30 17:35:22,553 - INFO - Google 트렌드 새로운 트리 생성: Tour de France 2025 (국가: germany)
+2024-10-30 17:35:22,557 - INFO - Google 트렌드 새로운 트리 생성: DFB-Pokal (국가: germany)
+2024-10-30 17:35:22,565 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: brazil)
+2024-10-30 17:35:22,568 - INFO - Google 트렌드 새로운 트리 생성: Lotofacil 3232 (국가: brazil)
+2024-10-30 17:35:22,573 - INFO - Google 트렌드 새로운 트리 생성: River Plate x Atlético-MG (국가: brazil)
+2024-10-30 17:35:22,577 - INFO - Google 트렌드 새로운 트리 생성: Tabela do Brasileirão (국가: brazil)
+2024-10-30 17:35:22,581 - INFO - Google 트렌드 새로운 트리 생성: Serie a (국가: brazil)
+2024-10-30 17:35:22,585 - INFO - Google 트렌드 새로운 트리 생성: Brasil x Colômbia (국가: brazil)
+2024-10-30 17:35:22,592 - INFO - Google 트렌드 새로운 트리 생성: Al-Hilal (국가: brazil)
+2024-10-30 17:35:22,596 - INFO - Google 트렌드 새로운 트리 생성: Guarani x Novorizontino (국가: brazil)
+2024-10-30 17:35:22,607 - INFO - Google 트렌드 새로운 트리 생성: Valence (Espagne (국가: france)
+2024-10-30 17:35:22,611 - INFO - Google 트렌드 새로운 트리 생성: Tour de France 2025 (국가: france)
+2024-10-30 17:35:22,614 - INFO - Google 트렌드 새로운 트리 생성: Slimane (국가: france)
+2024-10-30 17:35:22,617 - INFO - Google 트렌드 새로운 트리 생성: Ligue 2 (국가: france)
+2024-10-30 17:35:22,621 - INFO - Google 트렌드 새로운 트리 생성: Thon mercure (국가: france)
+2024-10-30 17:35:22,624 - INFO - Google 트렌드 새로운 트리 생성: UNRWA (국가: france)
+2024-10-30 17:35:22,628 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin (국가: france)
+2024-10-30 17:35:22,632 - INFO - Google 트렌드 새로운 트리 생성: Giovanni Mpetshi Perricard (국가: france)
+2024-10-30 17:35:22,636 - INFO - Google 트렌드 새로운 트리 생성: Paul de Saint Sernin (국가: france)
+2024-10-30 17:35:22,643 - INFO - Google 트렌드 새로운 트리 생성: Campionato Serie A (국가: italy)
+2024-10-30 17:35:22,650 - INFO - Google 트렌드 새로운 트리 생성: Campionato (국가: italy)
+2024-10-30 17:35:22,654 - INFO - Google 트렌드 새로운 트리 생성: ATP Finals (국가: italy)
+2024-10-30 17:35:22,661 - INFO - Google 트렌드 새로운 트리 생성: Cagliari-Bologna (국가: italy)
+2024-10-30 17:35:22,664 - INFO - Google 트렌드 새로운 트리 생성: Lecce Verona (국가: italy)
+2024-10-30 17:35:22,668 - INFO - Google 트렌드 새로운 트리 생성: Serie B (국가: italy)
+2024-10-30 17:35:22,671 - INFO - Google 트렌드 새로운 트리 생성: Carlos Alcaraz (국가: italy)
+2024-10-30 17:35:22,675 - INFO - Google 트렌드 새로운 트리 생성: MLB (국가: canada)
+2024-10-30 17:35:22,679 - INFO - Google 트렌드 새로운 트리 생성: Teri Garr (국가: canada)
+2024-10-30 17:35:22,686 - INFO - Google 트렌드 새로운 트리 생성: Bitcoin Price (국가: canada)
+2024-10-30 17:35:22,689 - INFO - Google 트렌드 새로운 트리 생성: Freddie Freeman (국가: canada)
+2024-10-30 17:35:22,693 - INFO - Google 트렌드 새로운 트리 생성: Kraken – Canadiens (국가: canada)
+2024-10-30 17:35:22,697 - INFO - Google 트렌드 새로운 트리 생성: Mehdi Hasan (국가: canada)
+2024-10-30 17:35:22,700 - INFO - Google 트렌드 새로운 트리 생성: Shawn Mendes (국가: canada)
+2024-10-30 17:35:22,703 - INFO - Google 트렌드 새로운 트리 생성: Lakers (국가: canada)
+2024-10-30 17:35:22,707 - INFO - Google 트렌드 새로운 트리 생성: AMD stock (국가: canada)
+2024-10-30 17:35:22,711 - INFO - Google 트렌드 새로운 트리 생성: Red Dead Redemption (국가: russia)
+2024-10-30 17:35:22,716 - INFO - Google 트렌드 새로운 트리 생성: AMD (국가: south_korea)
+2024-10-30 17:35:22,720 - INFO - Google 트렌드 새로운 트리 생성: MLB (국가: south_korea)
+2024-10-30 17:35:22,720 - INFO - Google 트렌드 트리의 개수: 66
+2024-10-30 17:35:23,018 - INFO - Representative issue added: minimum wage increases - Importance: 1 - Source: Global News
+2024-10-30 17:35:23,322 - INFO - Representative issue added: space missions - Importance: 1 - Source: Global News
+2024-10-30 17:35:23,911 - INFO - Representative issue added: new Southport charges - Importance: 1 - Source: Global News
+2024-10-30 17:35:24,223 - INFO - Representative issue added: big borrowing - Importance: 1 - Source: Global News
+2024-10-30 17:35:24,602 - INFO - Representative issue added: stolen Bluey coins - Importance: 1 - Source: Global News
+2024-10-30 17:35:24,927 - INFO - Representative issue added: missing people - Importance: 1 - Source: Global News
+2024-10-30 17:35:25,287 - INFO - Representative issue added: North Korean troops - Importance: 1 - Source: Global News
+2024-10-30 17:35:25,602 - INFO - Representative issue added: BAE Systems UK - Importance: 1 - Source: Global News
+2024-10-30 17:35:25,900 - INFO - Representative issue added: extreme drought water - Importance: 1 - Source: Global News
+2024-10-30 17:35:26,251 - INFO - Representative issue added: X users AI - Importance: 1 - Source: Global News
+2024-10-30 17:35:26,530 - INFO - Representative issue added: pension tax relief - Importance: 1 - Source: Global News
+2024-10-30 17:35:26,814 - INFO - Representative issue added: nails Reeves time - Importance: 1 - Source: Global News
+2024-10-30 17:35:27,116 - INFO - Representative issue added: Southport suspect Chancellor - Importance: 1 - Source: Global News
+2024-10-30 17:35:27,454 - INFO - Representative issue added: tax income - Importance: 1 - Source: Global News
+2024-10-30 17:35:27,773 - INFO - Representative issue added: years old next - Importance: 1 - Source: Global News
+2024-10-30 17:35:28,277 - INFO - Representative issue added: Susan Curtis - Importance: 1 - Source: Global News
+2024-10-30 17:35:28,562 - INFO - Representative issue added: Harris Kamala - Importance: 2 - Source: Global News
+2024-10-30 17:35:28,894 - INFO - Representative issue added: Sgt Peters Ahmed - Importance: 1 - Source: Global News
+2024-10-30 17:35:29,308 - INFO - Representative issue added: displaced people - Importance: 1 - Source: Global News
+2024-10-30 17:35:29,646 - INFO - Representative issue added: Trump supporters President - Importance: 1 - Source: Global News
+2024-10-30 17:35:29,971 - INFO - Representative issue added: Andrew Stewart - Importance: 1 - Source: Global News
+2024-10-30 17:35:30,264 - INFO - Representative issue added: Israel Harris - Importance: 1 - Source: Global News
+2024-10-30 17:35:30,538 - INFO - Representative issue added: Video Fox News - Importance: 1 - Source: Global News
+2024-10-30 17:35:30,830 - INFO - Representative issue added: President Biden Trump - Importance: 2 - Source: Global News
+2024-10-30 17:35:31,140 - INFO - Representative issue added: Biden Harris border - Importance: 1 - Source: Global News
+2024-10-30 17:35:31,522 - INFO - Representative issue added: Trump supporters garbage - Importance: 1 - Source: Global News
+2024-10-30 17:35:31,837 - INFO - Representative issue added: Vice President Harris - Importance: 2 - Source: Global News
+2024-10-30 17:35:32,163 - INFO - Representative issue added: Wojtek Mrs Butler - Importance: 1 - Source: Global News
+2024-10-30 17:35:32,480 - INFO - Representative issue added: Allentown Pennsylvania President - Importance: 1 - Source: Global News
+2024-10-30 17:35:32,821 - INFO - Representative issue added: Trump Charles Creitz - Importance: 1 - Source: Global News
+2024-10-30 17:35:33,221 - INFO - Representative issue added: Biden calling supporters - Importance: 1 - Source: Global News
+2024-10-30 17:35:33,484 - INFO - 유사한 이슈 발견, 제외됨: President Trump
+2024-10-30 17:35:33,864 - INFO - Representative issue added: Form a world - Importance: 1 - Source: Global News
+2024-10-30 17:35:34,035 - INFO - 유사한 이슈 발견, 제외됨: Fox News
+2024-10-30 17:35:34,410 - INFO - Representative issue added: JR - Importance: 1 - Source: Global News
+2024-10-30 17:35:34,728 - INFO - 유사한 이슈 발견, 제외됨: Kamala Harris Video
+2024-10-30 17:35:35,049 - INFO - Representative issue added: ICBM ICBM ICBM ICBM - Importance: 1 - Source: Global News
+2024-10-30 17:35:35,371 - INFO - Representative issue added: JR OK - Importance: 1 - Source: Global News
+2024-10-30 17:35:35,596 - INFO - Representative issue added: Aaron Rodgers New - Importance: 1 - Source: Global News
+2024-10-30 17:35:35,738 - INFO - Representative issue added: New York Yankees - Importance: 1 - Source: Global News
+2024-10-30 17:35:36,062 - INFO - Representative issue added: NHK BS - Importance: 1 - Source: Global News
+2024-10-30 17:35:36,381 - INFO - Representative issue added: Vice President Kamala - Importance: 1 - Source: Global News
+2024-10-30 17:35:37,043 - INFO - Representative issue added: Washington Ms Harris - Importance: 1 - Source: Global News
+2024-10-30 17:35:37,400 - INFO - Representative issue added: northern Gaza - Importance: 1 - Source: Global News
+2024-10-30 17:35:37,729 - INFO - Representative issue added: garbage Mr Biden - Importance: 1 - Source: Global News
+2024-10-30 17:35:38,038 - INFO - Representative issue added: Ms Garr Teri - Importance: 1 - Source: Global News
+2024-10-30 17:35:38,376 - INFO - Representative issue added: Garr Neil - Importance: 1 - Source: Global News
+2024-10-30 17:35:38,677 - INFO - Representative issue added: southern Iran Israel - Importance: 1 - Source: Global News
+2024-10-30 17:35:39,006 - INFO - Representative issue added: Tiktok Shop - Importance: 1 - Source: Global News
+2024-10-30 17:35:39,308 - INFO - Representative issue added: Tokopedia Iran - Importance: 1 - Source: Global News
+2024-10-30 17:35:39,626 - INFO - Representative issue added: Great Power War - Importance: 1 - Source: Global News
+2024-10-30 17:35:39,954 - INFO - Representative issue added: Ukrainian children Empty - Importance: 1 - Source: Global News
+2024-10-30 17:35:40,250 - INFO - Representative issue added: New York City - Importance: 1 - Source: Global News
+2024-10-30 17:35:40,584 - INFO - Representative issue added: Mr Lemes Claudecy - Importance: 1 - Source: Global News
+2024-10-30 17:35:40,945 - INFO - Representative issue added: polymathic artificial general - Importance: 1 - Source: Global News
+2024-10-30 17:35:41,336 - INFO - Representative issue added: Giorgia Meloni Italy - Importance: 1 - Source: Global News
+2024-10-30 17:35:41,639 - INFO - Representative issue added: southern Spain - Importance: 1 - Source: Global News
+2024-10-30 17:35:41,967 - INFO - Representative issue added: Mr Trump Native - Importance: 1 - Source: Global News
+2024-10-30 17:35:42,318 - INFO - Representative issue added: Trump cases - Importance: 1 - Source: Global News
+2024-10-30 17:35:42,653 - INFO - Representative issue added: last year recent - Importance: 1 - Source: Global News
+2024-10-30 17:35:42,985 - INFO - Representative issue added: Tennessee voters - Importance: 1 - Source: Global News
+2024-10-30 17:35:43,612 - INFO - Representative issue added: Mas Maglah - Importance: 1 - Source: Global News
+2024-10-30 17:35:43,957 - INFO - Representative issue added: United Sporting - Importance: 1 - Source: Global News
+2024-10-30 17:35:44,311 - INFO - Representative issue added: Last year last - Importance: 1 - Source: Global News
+2024-10-30 17:35:44,706 - INFO - Representative issue added: Donald Trump - Importance: 2 - Source: Global News
+2024-10-30 17:35:45,070 - INFO - Representative issue added: passed - Importance: 1 - Source: Global News
+2024-10-30 17:35:45,475 - INFO - Representative issue added: Valencia airport intense - Importance: 1 - Source: Global News
+2024-10-30 17:35:45,786 - INFO - Representative issue added: Newspaper endorsements newspaper - Importance: 1 - Source: Global News
+2024-10-30 17:35:46,145 - INFO - Representative issue added: Trump Pennsylvania - Importance: 1 - Source: Global News
+2024-10-30 17:35:46,496 - INFO - Representative issue added: Crisis a Myanmar - Importance: 1 - Source: Global News
+2024-10-30 17:35:47,163 - INFO - Representative issue added: Al Nasser - Importance: 1 - Source: Global News
+2024-10-30 17:35:47,479 - INFO - Representative issue added: rape targeted attacks - Importance: 1 - Source: Global News
+2024-10-30 17:35:47,902 - INFO - Representative issue added: Lebanon Harris Biden - Importance: 1 - Source: Global News
+2024-10-30 17:35:48,273 - INFO - Representative issue added: Commonwealth secretary general - Importance: 1 - Source: Global News
+2024-10-30 17:35:48,621 - INFO - Representative issue added: election results EU - Importance: 1 - Source: Global News
+2024-10-30 17:35:48,848 - INFO - 유사한 이슈 발견, 제외됨: northern Gaza Civil
+2024-10-30 17:35:49,019 - INFO - Representative issue added: Tunisia human rights - Importance: 1 - Source: Global News
+2024-10-30 17:35:49,371 - INFO - Representative issue added: Pacific Australia missile - Importance: 1 - Source: Global News
+2024-10-30 17:35:49,711 - INFO - Representative issue added: percent percent percent - Importance: 1 - Source: Global News
+2024-10-30 17:35:50,069 - INFO - Representative issue added: Gaza Israel north - Importance: 1 - Source: Global News
+2024-10-30 17:35:50,413 - INFO - Representative issue added: US citizens Puerto - Importance: 1 - Source: Global News
+2024-10-30 17:35:50,829 - INFO - Representative issue added: Puerto Rico Hinchcliffe - Importance: 1 - Source: Global News
+2024-10-30 17:35:51,221 - INFO - Representative issue added: prime ministers party - Importance: 1 - Source: Global News
+2024-10-30 17:35:51,596 - INFO - Representative issue added: former president Evo - Importance: 1 - Source: Global News
+2024-10-30 17:35:51,919 - INFO - Representative issue added: center left candidate - Importance: 1 - Source: Global News
+2024-10-30 17:35:52,295 - INFO - Representative issue added: last year snow - Importance: 1 - Source: Global News
+2024-10-30 17:35:52,643 - INFO - Representative issue added: Lost Maya city - Importance: 1 - Source: Global News
+2024-10-30 17:35:52,968 - INFO - Representative issue added: tour companies White - Importance: 1 - Source: Global News
+2024-10-30 17:35:53,403 - INFO - Representative issue added: Friday Apple Indonesia - Importance: 1 - Source: Global News
+2024-10-30 17:35:53,759 - INFO - Representative issue added: Monday Duterte - Importance: 1 - Source: Global News
+2024-10-30 17:35:54,387 - INFO - Representative issue added: southern China Last - Importance: 1 - Source: Global News
+2024-10-30 17:35:54,732 - INFO - Representative issue added: Japan Innovation party - Importance: 1 - Source: Global News
+2024-10-30 17:35:55,092 - INFO - Representative issue added: key events day - Importance: 1 - Source: Global News
+2024-10-30 17:35:55,475 - INFO - Representative issue added: Botswana Democratic Party - Importance: 1 - Source: Global News
+2024-10-30 17:35:55,891 - INFO - Representative issue added: News Corp Australia - Importance: 1 - Source: Global News
+2024-10-30 17:35:56,258 - INFO - Representative issue added: key protected areas - Importance: 1 - Source: Global News
+2024-10-30 17:35:56,656 - INFO - Representative issue added: women UN report - Importance: 1 - Source: Global News
+2024-10-30 17:35:57,124 - INFO - Representative issue added: Lesley Turner Nampijinpa - Importance: 1 - Source: Global News
+2024-10-30 17:35:57,497 - INFO - Representative issue added: garbage Trump Former - Importance: 1 - Source: Global News
+2024-10-30 17:35:57,853 - INFO - Representative issue added: Elon Musk - Importance: 1 - Source: Global News
+2024-10-30 17:35:58,296 - INFO - Representative issue added: tariffs Chinese carmakers - Importance: 1 - Source: Global News
+2024-10-30 17:35:58,665 - INFO - Representative issue added: Florida ballot measure - Importance: 1 - Source: Global News
+2024-10-30 17:35:59,066 - INFO - Representative issue added: electoral votes Many - Importance: 1 - Source: Global News
+2024-10-30 17:35:59,435 - INFO - Representative issue added: Pennsylvania state level - Importance: 1 - Source: Global News
+2024-10-30 17:35:59,843 - INFO - Representative issue added: state jails many - Importance: 1 - Source: Global News
+2024-10-30 17:36:00,188 - INFO - 유사한 이슈 발견, 제외됨: Trump Donald
+2024-10-30 17:36:00,552 - INFO - 유사한 이슈 발견, 제외됨: Yankees New York
+2024-10-30 17:36:00,933 - INFO - Representative issue added: Trump garbage rally - Importance: 1 - Source: Global News
+2024-10-30 17:36:01,347 - INFO - Representative issue added: Willis Hanson Labat - Importance: 1 - Source: Global News
+2024-10-30 17:36:01,769 - INFO - Representative issue added: paper ballots - Importance: 1 - Source: Global News
+2024-10-30 17:36:02,167 - INFO - Representative issue added: new proofs math - Importance: 1 - Source: Global News
+2024-10-30 17:36:02,568 - INFO - Representative issue added: shy Harris voter - Importance: 1 - Source: Global News
+2024-10-30 17:36:02,867 - INFO - Representative issue added: Teri Garr - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:03,179 - INFO - Representative issue added: Lakers - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:03,484 - INFO - Representative issue added: Mavericks Timberwolves - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:03,798 - INFO - Representative issue added: Pittsburgh Steelers - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:04,112 - INFO - Representative issue added: Warriors - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:04,462 - INFO - Representative issue added: TED CROSS - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:04,788 - INFO - Representative issue added: Diontae Johnson - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:05,144 - INFO - Representative issue added: Celtics - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:05,399 - INFO - Representative issue added: Charvarius Ward - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:05,695 - INFO - Representative issue added: Shawn Mendes - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:05,978 - INFO - Representative issue added: Mac mini - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:06,303 - INFO - Representative issue added: Minimum wage - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:06,626 - INFO - Representative issue added: Ricin - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:06,902 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:36:07,297 - INFO - Representative issue added: South Africa England - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:07,767 - INFO - Representative issue added: Southampton vs Stoke - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:08,171 - INFO - Representative issue added: Carabao Cup - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:08,533 - INFO - Representative issue added: Milan vs. - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:08,919 - INFO - Representative issue added: UNRWA - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:09,302 - INFO - Representative issue added: Gisele b Notchen - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:09,632 - INFO - 유사한 이슈 발견, 제외됨: Mac mini
+2024-10-30 17:36:10,011 - INFO - Representative issue added: RB Leipzig St Pauli - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:10,484 - INFO - Representative issue added: Bitcoin - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:10,994 - INFO - Representative issue added: Edzard Reuter - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:11,455 - INFO - Representative issue added: FC K LN - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:11,941 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:36:12,451 - INFO - Representative issue added: Leverkusen - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:12,885 - INFO - 유사한 이슈 발견, 제외됨: Mac mini
+2024-10-30 17:36:13,332 - INFO - Representative issue added: Tour de France - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:14,107 - INFO - Representative issue added: DFB Cup - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:14,538 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:36:14,998 - INFO - Representative issue added: Lotofacil - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:15,494 - INFO - Representative issue added: River Plate x - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:15,952 - INFO - Representative issue added: Table - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:16,435 - INFO - Representative issue added: Serie - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:16,923 - INFO - Representative issue added: Brazil X Colombia - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:17,424 - INFO - Representative issue added: Al Hilal - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:17,894 - INFO - Representative issue added: Guarani x Novorizontino - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:18,369 - INFO - Representative issue added: Valence Spain - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:18,815 - INFO - 유사한 이슈 발견, 제외됨: Tour de France
+2024-10-30 17:36:19,304 - INFO - Representative issue added: Slimane - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:19,820 - INFO - Representative issue added: Ligue - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:20,333 - INFO - Representative issue added: Mercury tuna - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:20,765 - INFO - 유사한 이슈 발견, 제외됨: UNRWA
+2024-10-30 17:36:21,186 - INFO - 유사한 이슈 발견, 제외됨: Bitcoin
+2024-10-30 17:36:21,477 - INFO - Representative issue added: Giovanni Mpeshi Pericard - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:22,073 - INFO - Representative issue added: Paul de Saint Sernin - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:22,497 - INFO - Representative issue added: Series championship - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:22,867 - INFO - Representative issue added: Championship - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:23,220 - INFO - Representative issue added: ATP Finals - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:23,571 - INFO - Representative issue added: Cagliari Bologna - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:23,942 - INFO - Representative issue added: Lecce Verona - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:24,270 - INFO - 유사한 이슈 발견, 제외됨: Serie B
+2024-10-30 17:36:24,588 - INFO - Representative issue added: Carlos Alcaraz - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:24,941 - INFO - Representative issue added: MLB - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:25,246 - INFO - 유사한 이슈 발견, 제외됨: Teri Garr
+2024-10-30 17:36:25,614 - INFO - Representative issue added: Bitcoin Price - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:25,971 - INFO - Representative issue added: Freddie Freeman - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:26,322 - INFO - Representative issue added: Kraken Canadiens - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:26,712 - INFO - Representative issue added: Mehdi Hasan - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:27,067 - INFO - 유사한 이슈 발견, 제외됨: Shawn Mendes
+2024-10-30 17:36:27,389 - INFO - 유사한 이슈 발견, 제외됨: Lakers
+2024-10-30 17:36:27,710 - INFO - Representative issue added: AMD stock - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:28,049 - INFO - Representative issue added: Red Dead Redemption - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:28,382 - INFO - Representative issue added: AMD - Importance: 1 - Source: Google Trends
+2024-10-30 17:36:28,729 - INFO - 유사한 이슈 발견, 제외됨: MLB

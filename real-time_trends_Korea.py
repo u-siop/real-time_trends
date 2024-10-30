@@ -24,6 +24,7 @@ from soynlp.word import WordExtractor
 from pytrends.request import TrendReq
 
 import numpy as np
+from tqdm import tqdm  # 진행 표시기 추가
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -221,6 +222,48 @@ def extract_keywords(text, stopwords, top_n=10):
         logging.error(f"키워드 추출 중 오류 발생: {e}")
         return []
 
+# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수
+def search_naver_news_with_keyword(keyword, stopwords):
+    try:
+        search_url = f"https://search.naver.com/search.naver?&where=news&query={requests.utils.quote(keyword)}"
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(search_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # 뉴스 검색 결과에서 제목과 링크 추출
+        news_elements = soup.select('.list_news .news_area')
+        news_items = []
+        for elem in news_elements:
+            title_elem = elem.select_one('.news_tit')
+            if title_elem:
+                title = title_elem.get_text(strip=True)
+                link = title_elem.get('href')
+                news_items.append({'title': title, 'link': link})
+
+        # 상위 10개 뉴스 기사에서 텍스트 추출
+        articles_texts = []
+        for news in news_items[:10]:
+            article_text = scrape_webpage(news['link'])
+            if article_text:
+                full_text = preprocess_text(news['title'] + ' ' + article_text)
+                if full_text:
+                    articles_texts.append(full_text)
+
+        if not articles_texts:
+            logging.warning(f"네이버 뉴스 검색 결과에서 텍스트를 추출할 수 없습니다: {keyword}")
+            return []
+
+        # 키워드 추출
+        keywords = extract_keywords(' '.join(articles_texts), stopwords, top_n=10)
+        top_3_keywords = keywords[:3] if len(keywords) >= 3 else keywords
+
+        logging.info(f"키워드 '{keyword}'에 대한 상위 3개 키워드: {top_3_keywords}")
+        return top_3_keywords
+    except Exception as e:
+        logging.error(f"네이버 뉴스 검색 중 오류 발생 ({keyword}): {e}")
+        return []
+
 # 메인 함수
 def main():
     # Google 트렌드 키워드 수집
@@ -231,7 +274,9 @@ def main():
     trend_trees = []
     
     logging.info("Google 트렌드 검색량 수집 시작")
-    for keyword in trending_keywords:
+    
+    # tqdm을 이용한 진행 표시기 추가
+    for keyword in tqdm(trending_keywords, desc="Google 트렌드 키워드 처리"):
         try:
             if keyword in stopwords:
                 logging.info(f"불용어 키워드 스킵: {keyword}")
@@ -252,14 +297,14 @@ def main():
             logging.error(f"키워드 '{keyword}' 검색량 가져오는 중 오류 발생: {e}")
             keyword_volume.append((keyword, 0))
     
-    # 검색량 기준으로 키워드 정렬 (내림차순)
-    sorted_keywords = sorted(keyword_volume, key=lambda x: x[1], reverse=True)
-    logging.info("검색량 기준으로 정렬된 트렌드 키워드:")
+    # 검색량 기준으로 키워드 정렬 (내림차순) 및 상위 5개 선택
+    sorted_keywords = sorted(keyword_volume, key=lambda x: x[1], reverse=True)[:5]  # 상위 5개만 선택
+    logging.info("검색량 기준으로 정렬된 상위 5개 트렌드 키워드:")
     for i, (kw, vol) in enumerate(sorted_keywords, 1):
         logging.info(f"{i}. {kw} - 검색량: {vol}")
 
     # 트렌드 트리 생성 (검색량 기준으로 중요도 설정)
-    for keyword, volume in sorted_keywords:
+    for keyword, volume in tqdm(sorted_keywords, desc="Google 트렌드 트리 생성"):
         if keyword in stopwords or volume <= 0:
             continue
         # 키워드 전처리 및 추출
@@ -280,6 +325,21 @@ def main():
         logging.info(f"Google 트렌드 새로운 트리 생성: {keyword} (검색량: {volume})")
 
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
+
+    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출
+    trend_top3_keywords = []
+    logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
+    for keyword, _ in tqdm(sorted_keywords, desc="Google 트렌드 키워드 네이버 뉴스 검색"):
+        top3 = search_naver_news_with_keyword(keyword, stopwords)
+        if top3:
+            for kw in top3:
+                trend_top3_keywords.append({
+                    'phrase': kw,
+                    'importance': None,  # 중요도는 별도로 설정할 수 있음
+                    'source': 'Google Trends (Naver Search)'
+                })
+
+    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
 
     # 네이버 뉴스 처리
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
@@ -327,7 +387,8 @@ def main():
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items}
-        for future in as_completed(future_to_news):
+        # tqdm을 이용한 진행 표시기 추가
+        for future in tqdm(as_completed(future_to_news), total=len(future_to_news), desc="뉴스 기사 스크래핑"):
             news = future_to_news[future]
             try:
                 article_text = future.result()
@@ -360,7 +421,7 @@ def main():
 
     # 뉴스 기사별로 키워드 추출
     articles_keywords_list = []
-    for idx, text in enumerate(articles_texts):
+    for idx, text in tqdm(enumerate(articles_texts), total=len(articles_texts), desc="뉴스 기사 키워드 추출"):
         keywords = extract_keywords(text, stopwords, top_n=10)
         if keywords:
             articles_keywords_list.append(keywords)
@@ -373,7 +434,7 @@ def main():
     naver_trees = []  # 네이버 뉴스 트리 정보의 리스트
 
     # 네이버 뉴스 기사별로 트리 생성
-    for idx, news in enumerate(articles_metadata):
+    for idx, news in enumerate(tqdm(articles_metadata, desc="네이버 트리 생성")):
         keywords = articles_keywords_list[idx]
         if not keywords:
             continue
@@ -431,13 +492,16 @@ def main():
     # 상위 4개 트렌드 이슈 선택
     top_trend_issues = sorted_trend_trees_info[:4]
 
-    # 중복 이슈 제거는 하지 않음 (각 소스에서 독립적으로 선택)
+    # Google 트렌드 키워드 기반 상위 3개 키워드 추가
+    top_trend_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
+
     # 최종 이슈 리스트 생성
     final_naver_issues = top_naver_issues
     final_trend_issues = top_trend_issues
+    final_search_keywords = top_trend_search_keywords
 
-    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈를 합침
-    final_issues = final_naver_issues + final_trend_issues
+    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 합침
+    final_issues = final_naver_issues + final_trend_issues + final_search_keywords
 
     # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용이나 트렌드 전용에서 추가
     if len(final_issues) < 10:
@@ -455,7 +519,7 @@ def main():
     # 최종 이슈가 10개 미만일 경우, 추가로 채우기
     final_issues = final_issues[:10]
 
-    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈를 별도로 출력
+    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 3개 키워드를 별도로 출력
     print("\n실시간 이슈:")
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
@@ -467,8 +531,13 @@ def main():
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
 
+    print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드:")
+    for rank, item in enumerate(final_search_keywords[:15], 1):  # 상위 15개까지 출력 (5 키워드 * 3)
+        phrase = item['phrase']
+        print(f"{rank}. {phrase}")
+
     # 필요시 전체 10개 이슈를 함께 출력
-    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개):")
+    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개 + Google 트렌드 검색 기반 상위 15개):")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
