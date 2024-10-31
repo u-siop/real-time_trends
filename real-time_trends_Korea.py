@@ -144,7 +144,7 @@ def preprocess_text(text):
         logging.warning("유효하지 않은 입력 텍스트.")
         return ""
     # 특수 문자 제거
-    text = re.sub(r'[^가-힣\s]', ' ', text)
+    text = re.sub(r'[^가-힣a-zA-Z\s]', ' ', text)
     # 여러 개의 공백을 하나로
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
@@ -222,10 +222,14 @@ def extract_representative_info(trees, source='Naver'):
         else:
             phrase = rep_keyword
 
+        # 가장 적절한 링크 선택 (첫 번째 기사 링크 사용)
+        representative_link = articles[0]['link'] if articles else 'No Link'
+
         combined_info = {
             'phrase': phrase,
             'importance': importance,
-            'source': source  # 트리의 출처 추가
+            'source': source,  # 트리의 출처 추가
+            'representative_link': representative_link  # 대표 링크 추가
         }
         trees_info.append(combined_info)
         logging.info(f"Representative issue added: {phrase} - Importance: {importance} - Source: {source}")
@@ -374,8 +378,9 @@ def main():
         # 네이버 뉴스에서 추가 키워드 검색
         top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords)
         
-        # Google 트렌드 키워드와 네이버 뉴스 상위 키워드를 합침
-        combined_keywords = keywords + [kw for kw in top3_news_keywords if kw not in keywords and kw not in stopwords]
+        # Google 트렌드 키워드와 네이버 뉴스 상위 키워드를 합침 (원본 트렌드 키워드도 포함)
+        combined_keywords = keywords + top3_news_keywords + [keyword]  # 원본 트렌드 키워드 추가
+        combined_keywords = list(set(combined_keywords) - stopwords)  # 불용어 제거 및 중복 제거
         
         # 트렌드 트리 생성
         trend_tree = {
@@ -385,7 +390,8 @@ def main():
                 'keywords': combined_keywords
             }],
             'all_keywords': set(combined_keywords),
-            'importance': volume  # 검색량을 중요도로 설정
+            'importance': volume,  # 검색량을 중요도로 설정
+            'google_trends_keywords': [keyword]  # 원본 트렌드 키워드 저장
         }
         
         trend_trees.append(trend_tree)
@@ -572,20 +578,21 @@ def main():
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase}")
+        link = item['representative_link']
+        print(f"{rank}. {phrase} - 링크: {link}")
 
     print("\nGoogle 트렌드 상위 4개 이슈:")
     for rank, item in enumerate(top_trend_issues, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase}")
+        link = item['representative_link']
+        print(f"{rank}. {phrase} - 링크: {link}")
 
     # 필요시 전체 10개 이슈를 함께 출력
-    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개:")
+    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개):")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
-        link = item['link']
-        print(f"{rank}. {phrase}")
-        print(f"\n{link}\n")
+        link = item['representative_link']
+        print(f"{rank}. {phrase} - 링크: {link}")
 
 if __name__ == "__main__":
     main()

@@ -598,7 +598,7 @@ def main():
                 keywords, 
                 tree_info['all_keywords']
             )
-            if similarity >= 0.3:  # 유사도 임계값
+            if similarity >= 0.2:  # 유사도 임계값
                 # 트리에 뉴스 추가
                 tree_info['articles'].append(news)
                 tree_info['all_keywords'].update([kw for kw in keywords if kw.lower() not in english_stopwords])  # 집합으로 업데이트
