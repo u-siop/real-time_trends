@@ -127,7 +127,7 @@ def scrape_webpage(url):
     except Exception as e:
         logging.error(f"웹페이지 스크래핑 중 오류 발생 ({url}): {e}")
         return ""
-
+    
 # Google 트렌드 키워드 수집 함수
 def get_google_trends_keywords():
     try:
@@ -244,6 +244,8 @@ def extract_keywords(text, stopwords, top_n=10):
         tokens = okt.nouns(text)
         # 불용어 및 1단어, 4단어 이상 단어 필터링
         filtered_tokens = sorted([word for word in tokens if 2 <= len(word) <= 3 and word not in stopwords])
+        if not filtered_tokens:
+            return []
         # 단어 빈도수 계산
         token_counts = Counter(filtered_tokens)
         top_keywords = [word for word, count in token_counts.most_common(top_n)]
@@ -322,12 +324,12 @@ def search_naver_news_with_keyword(keyword, stopwords, selenium_manager):
 
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
-        with ThreadPoolExecutor(max_workers=8) as executor:
+        with ThreadPoolExecutor(max_workers=12) as executor:
             futures = [executor.submit(scrape_webpage, news['link']) for news in news_items[:10]]
             for future in as_completed(futures):
                 article_text = future.result()
                 if article_text:
-                    full_text = preprocess_text(article_text)
+                    full_text = preprocess_text(news_items[futures.index(future)]['title'] + ' ' + article_text)
                     if full_text:
                         articles_texts.append(full_text)
 
@@ -380,7 +382,7 @@ def main():
         except Exception as e:
             logging.error(f"키워드 '{keyword}' 검색량 가져오는 중 오류 발생: {e}")
             keyword_volume.append((keyword, 0))
-    
+
     # 검색량 기준으로 키워드 정렬 (내림차순) 및 상위 5개 선택
     sorted_keywords = sorted(keyword_volume, key=lambda x: x[1], reverse=True)[:5]  # 상위 5개만 선택
     logging.info("검색량 기준으로 정렬된 상위 5개 트렌드 키워드:")
@@ -403,6 +405,9 @@ def main():
         combined_keywords = keywords + top3_news_keywords + [keyword]  # 원본 트렌드 키워드 추가
         combined_keywords = list(set(combined_keywords) - stopwords)  # 불용어 제거 및 중복 제거
         
+        if not combined_keywords:
+            continue  # 키워드가 없으면 스킵
+        
         # 트렌드 트리 생성
         trend_tree = {
             'articles': [{
@@ -420,19 +425,38 @@ def main():
 
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
 
+    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출
+    trend_top3_keywords = []
+    logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
+    for keyword, _ in tqdm(sorted_keywords, desc="Google 트렌드 키워드 네이버 뉴스 검색"):
+        top3 = search_naver_news_with_keyword(keyword, stopwords, selenium_manager)
+        if top3:
+            for kw in top3:
+                trend_top3_keywords.append({
+                    'phrase': kw,
+                    'importance': None,  # 중요도는 별도로 설정할 수 있음
+                    'source': 'Google Trends (Naver Search)'
+                })
+
+    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
+
     # 네이버 뉴스 처리
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
 
+    # "다른 언론사 랭킹 더보기" 버튼 클릭 반복 (최대 3번 클릭)
     try:
         selenium_manager.get(site_url)
+        clicks = 0
+        max_clicks = 3  # 최대 클릭 횟수 설정
 
-        # "다른 언론사 랭킹 더보기" 버튼 클릭 반복
-        while True:
+        while clicks < max_clicks:
             try:
                 more_button = selenium_manager.find_element(By.CSS_SELECTOR, '.button_rankingnews_more')
                 if more_button.is_displayed():
                     selenium_manager.click_element(By.CSS_SELECTOR, '.button_rankingnews_more')
                     logging.info("더보기 버튼 클릭")
+                    clicks += 1
+                    time.sleep(2)  # 페이지 로딩 시간 대기
                 else:
                     break
             except TimeoutException:
@@ -449,16 +473,18 @@ def main():
             for elem in news_elements 
         ]
         logging.info(f"수집된 뉴스 기사 수: {len(news_items)}")
+    except Exception as e:
+        logging.error(f"네이버 뉴스 페이지 로딩 중 오류 발생: {e}")
     finally:
-        # Selenium 드라이버 종료
-        selenium_manager.quit()
+        # Selenium 드라이버 종료는 이후에 할 것이므로 여기서는 하지 않습니다.
+        pass
 
     # 기사별 텍스트 수집
     articles_texts = []
     articles_metadata = []
 
-    with ThreadPoolExecutor(max_workers=8) as executor:
-        future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items}
+    with ThreadPoolExecutor(max_workers=12) as executor:
+        future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items[:200]}  # 최대 50개 기사로 제한
         # tqdm을 이용한 진행 표시기 추가
         for future in tqdm(as_completed(future_to_news), total=len(future_to_news), desc="뉴스 기사 스크래핑"):
             news = future_to_news[future]
@@ -564,12 +590,16 @@ def main():
     # 상위 4개 트렌드 이슈 선택
     top_trend_issues = sorted_trend_trees_info[:4]
 
+    # Google 트렌드 키워드 기반 상위 3개 키워드 추가
+    top_trend_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
+
     # 최종 이슈 리스트 생성
     final_naver_issues = top_naver_issues
     final_trend_issues = top_trend_issues
+    final_search_keywords = top_trend_search_keywords
 
     # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 합침
-    final_issues = final_naver_issues + final_trend_issues
+    final_issues = final_naver_issues + final_trend_issues + final_search_keywords
 
     # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용이나 트렌드 전용에서 추가
     if len(final_issues) < 10:
@@ -592,21 +622,26 @@ def main():
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
         phrase = item['phrase']
-        link = item['representative_link']
+        link = item.get('representative_link', '링크 없음')
         print(f"{rank}. {phrase} - 링크: {link}")
 
     print("\nGoogle 트렌드 상위 4개 이슈:")
     for rank, item in enumerate(top_trend_issues, 1):
         phrase = item['phrase']
-        link = item['representative_link']
+        link = item.get('representative_link', '링크 없음')
         print(f"{rank}. {phrase} - 링크: {link}")
 
+    print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드:")
+    for rank, item in enumerate(final_search_keywords[:15], 1):  # 상위 15개까지 출력 (5 키워드 * 3)
+        phrase = item['phrase']
+        print(f"{rank}. {phrase}")
+
     # 필요시 전체 10개 이슈를 함께 출력
-    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개):")
+    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개 + Google 트렌드 검색 기반 상위 15개):")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
-        link = item['representative_link']
-        print(f"{rank}. {phrase} - 링크: {link}")
+        link = item.get('representative_link', '링크 없음')
+        print(f"{rank}. {phrase}")
 
 if __name__ == "__main__":
     main()
