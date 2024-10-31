@@ -16,6 +16,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -27,7 +29,7 @@ import numpy as np
 from tqdm import tqdm  # 진행 표시기 추가
 
 # 로깅 설정
-logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 형태소 분석기 초기화 (Okt)
 okt = Okt()
@@ -232,7 +234,7 @@ def extract_representative_info(trees, source='Naver'):
             'representative_link': representative_link  # 대표 링크 추가
         }
         trees_info.append(combined_info)
-        logging.info(f"Representative issue added: {phrase} - Importance: {importance} - Source: {source}")
+        logging.info(f"대표 이슈 추가됨: {phrase} - 중요도: {importance} - 출처: {source}")
     return trees_info
 
 # 키워드 추출 함수 (soynlp 이용 + N-그램 + 멀티 워드)
@@ -269,23 +271,41 @@ def extract_keywords(text, stopwords, top_n=10):
         logging.error(f"키워드 추출 중 오류 발생: {e}")
         return []
 
-# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수 (Selenium 사용)
-def search_naver_news_with_keyword(keyword, stopwords):
-    try:
-        # Selenium WebDriver 설정
+# Selenium Manager 클래스 정의
+class SeleniumManager:
+    def __init__(self):
         options = Options()
         options.add_argument("--headless")  # 브라우저를 표시하지 않음
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-        
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        self.wait = WebDriverWait(self.driver, 10)  # 10초 타임아웃
+
+    def get(self, url):
+        self.driver.get(url)
+
+    def find_element(self, by, value):
+        return self.wait.until(EC.presence_of_element_located((by, value)))
+
+    def find_elements(self, by, value):
+        return self.wait.until(EC.presence_of_all_elements_located((by, value)))
+
+    def click_element(self, by, value):
+        element = self.wait.until(EC.element_to_be_clickable((by, value)))
+        element.click()
+
+    def quit(self):
+        self.driver.quit()
+
+# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수 (Selenium 사용)
+def search_naver_news_with_keyword(keyword, stopwords, selenium_manager):
+    try:
         # 네이버 뉴스 검색 URL
         search_url = f"https://search.naver.com/search.naver?&where=news&query={requests.utils.quote(keyword)}"
-        driver.get(search_url)
-        time.sleep(2)  # 페이지 로딩 대기
-
+        selenium_manager.get(search_url)
+        
         # 뉴스 검색 결과에서 제목과 링크 추출
-        news_elements = driver.find_elements(By.CSS_SELECTOR, '.list_news .news_area')
+        news_elements = selenium_manager.find_elements(By.CSS_SELECTOR, '.list_news .news_area')
         news_items = []
         for elem in news_elements:
             try:
@@ -296,15 +316,13 @@ def search_naver_news_with_keyword(keyword, stopwords):
             except NoSuchElementException:
                 continue
 
-        driver.quit()
-
         if not news_items:
             logging.warning(f"네이버 뉴스 검색 결과가 없습니다: {keyword}")
             return []
 
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
-        with ThreadPoolExecutor(max_workers=12) as executor:
+        with ThreadPoolExecutor(max_workers=8) as executor:
             futures = [executor.submit(scrape_webpage, news['link']) for news in news_items[:10]]
             for future in as_completed(futures):
                 article_text = future.result()
@@ -337,6 +355,9 @@ def main():
     trend_trees = []
     
     logging.info("Google 트렌드 검색량 수집 시작")
+    
+    # Selenium Manager 초기화
+    selenium_manager = SeleniumManager()
     
     # tqdm을 이용한 진행 표시기 추가
     for keyword in tqdm(trending_keywords, desc="Google 트렌드 키워드 처리"):
@@ -376,7 +397,7 @@ def main():
         keywords = extract_keywords(full_text, stopwords, top_n=10)
         
         # 네이버 뉴스에서 추가 키워드 검색
-        top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords)
+        top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords, selenium_manager)
         
         # Google 트렌드 키워드와 네이버 뉴스 상위 키워드를 합침 (원본 트렌드 키워드도 포함)
         combined_keywords = keywords + top3_news_keywords + [keyword]  # 원본 트렌드 키워드 추가
@@ -402,29 +423,19 @@ def main():
     # 네이버 뉴스 처리
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
 
-    # 브라우저 옵션 설정
-    options = Options()
-    options.add_argument("--headless")  # 브라우저를 표시하지 않음
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-
-    # WebDriver를 with 구문으로 안전하게 관리
-    with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) as driver:
-        driver.get(site_url)
-        time.sleep(3)
+    try:
+        selenium_manager.get(site_url)
 
         # "다른 언론사 랭킹 더보기" 버튼 클릭 반복
         while True:
             try:
-                more_button = driver.find_element(By.CSS_SELECTOR, '.button_rankingnews_more')
+                more_button = selenium_manager.find_element(By.CSS_SELECTOR, '.button_rankingnews_more')
                 if more_button.is_displayed():
-                    driver.execute_script("arguments[0].click();", more_button)
+                    selenium_manager.click_element(By.CSS_SELECTOR, '.button_rankingnews_more')
                     logging.info("더보기 버튼 클릭")
-                    time.sleep(2)  # 페이지 로딩 시간 대기
                 else:
                     break
-            except NoSuchElementException:
-                # 버튼이 없으면 루프를 종료합니다.
+            except TimeoutException:
                 logging.info("더보기 버튼이 더 이상 존재하지 않습니다.")
                 break
             except Exception as e:
@@ -432,18 +443,21 @@ def main():
                 break
 
         # 모든 뉴스 기사 요소 수집
-        news_elements = driver.find_elements(By.CSS_SELECTOR, '.rankingnews_list .list_title')
+        news_elements = selenium_manager.find_elements(By.CSS_SELECTOR, '.rankingnews_list .list_title')
         news_items = [
             {'title': elem.text, 'link': elem.get_attribute('href')}
             for elem in news_elements 
         ]
         logging.info(f"수집된 뉴스 기사 수: {len(news_items)}")
+    finally:
+        # Selenium 드라이버 종료
+        selenium_manager.quit()
 
     # 기사별 텍스트 수집
     articles_texts = []
     articles_metadata = []
 
-    with ThreadPoolExecutor(max_workers=12) as executor:
+    with ThreadPoolExecutor(max_workers=8) as executor:
         future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items}
         # tqdm을 이용한 진행 표시기 추가
         for future in tqdm(as_completed(future_to_news), total=len(future_to_news), desc="뉴스 기사 스크래핑"):
