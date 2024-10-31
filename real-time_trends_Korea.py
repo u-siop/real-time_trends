@@ -544,16 +544,12 @@ def main():
     # 상위 4개 트렌드 이슈 선택
     top_trend_issues = sorted_trend_trees_info[:4]
 
-    # Google 트렌드 키워드 기반 상위 3개 키워드 추가
-    top_trend_search_keywords = trend_tree
-
     # 최종 이슈 리스트 생성
     final_naver_issues = top_naver_issues
     final_trend_issues = top_trend_issues
-    final_search_keywords = top_trend_search_keywords
 
     # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 합침
-    final_issues = final_naver_issues + final_trend_issues + final_search_keywords
+    final_issues = final_naver_issues + final_trend_issues
 
     # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용이나 트렌드 전용에서 추가
     if len(final_issues) < 10:
@@ -583,16 +579,13 @@ def main():
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
 
-    print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드:")
-    for rank, item in enumerate(final_search_keywords[:15], 1):  # 상위 15개까지 출력 (5 키워드 * 3)
-        phrase = item['phrase']
-        print(f"{rank}. {phrase}")
-
     # 필요시 전체 10개 이슈를 함께 출력
-    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개 + Google 트렌드 검색 기반 상위 15개):")
+    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개:")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
+        link = item['link']
         print(f"{rank}. {phrase}")
+        print(f"\n{link}\n")
 
 if __name__ == "__main__":
     main()
