@@ -7,13 +7,13 @@ import time
 import logging
 from collections import Counter
 from functools import wraps
-import sys  # StreamHandler에 필요
-from urllib.parse import urlparse  # URL 파싱을 위해 추가
+import sys
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 import pandas as pd
 
-import requests  # requests 임포트 확인
+import requests
 
 from googletrans import Translator
 
@@ -24,12 +24,15 @@ from dateutil import parser as date_parser
 import datetime
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from tqdm import tqdm  # 진행 표시기 추가
+from tqdm import tqdm
 
-from pytrends.request import TrendReq  # Google 트렌드 수집용
+from pytrends.request import TrendReq
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.cluster import DBSCAN
+
+from difflib import SequenceMatcher  # 편집 거리 계산을 위한 라이브러리
 
 # spaCy 모델 및 PyTextRank 초기화
 try:
@@ -42,7 +45,7 @@ nlp.add_pipe("textrank")
 
 # 로깅 설정
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)  # INFO 레벨로 설정하여 덜 상세한 로그 출력
+logger.setLevel(logging.INFO)  # INFO 레벨로 설정
 
 # 파일 핸들러 설정 (UTF-8 인코딩)
 file_handler = logging.FileHandler("news_scraper.log", encoding='utf-8')
@@ -57,7 +60,7 @@ for handler in logger.handlers[:]:
 # 파일 핸들러만 추가
 logger.addHandler(file_handler)
 
-# 콘솔 핸들러 설정 (선택 사항, 필요 시 활성화)
+# 콘솔 핸들러 설정 (선택 사항)
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.ERROR)  # 콘솔에는 ERROR 이상만 출력
 console_handler.setFormatter(formatter)
@@ -108,7 +111,6 @@ def retry(exception_to_check, tries=3, delay=2, backoff=2):
 # 웹페이지 스크래핑 함수 (뉴스 기사 본문 추출) - Selenium 제거 및 Requests + BeautifulSoup 사용
 @retry((requests.exceptions.RequestException), tries=3, delay=2, backoff=2)
 def scrape_webpage(url):
-    try:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                           'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -122,61 +124,47 @@ def scrape_webpage(url):
         # 본문 추출 로직 (사이트별로 업데이트 필요)
         article_text = ""
         if 'bbc.co.uk' in url or 'bbc.com' in url:
-            # BBC 뉴스 본문 추출 로직 (예시, 실제 구조에 맞게 수정 필요)
+            # BBC 뉴스 본문 추출 로직
             text_blocks = soup.find_all('div', {'data-component': 'text-block'})
             paragraphs = []
             for block in text_blocks:
                 p_tags = block.find_all('p')
                 for p in p_tags:
-                    # 링크 텍스트 제거하고 순수 텍스트만 추출
                     for a in p.find_all('a'):
                         a.replace_with(a.get_text())
                     paragraphs.append(p.get_text(separator=' ', strip=True))
             if paragraphs:
                 article_text = ' '.join(paragraphs)
         elif 'cnn.com' in url:
-            # CNN 뉴스의 기사 본문 컨테이너
+            # CNN 뉴스 본문 추출 로직
             article_body = soup.find('div', class_='article__content')
             if article_body:
-                # 광고, 관련 콘텐츠 제외
                 for ad in article_body.find_all(['div', 'aside'], class_=re.compile('ad|related-content')):
                     ad.decompose()
-                # 주요 본문 내용만 추출 (제공해주신 HTML 구조 기반)
                 paragraphs = article_body.find_all('p', class_=re.compile('paragraph'))
                 if not paragraphs:
-                    # 다른 클래스명 시도
                     paragraphs = article_body.find_all('p', class_=re.compile('vossi-paragraph'))
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'foxnews.com' in url:
-            # Fox News의 다양한 클래스명 시도
-            article_body = (
-                soup.select_one('.article-body') or
-                soup.select_one('.content-body')
-            )
+            # Fox News 본문 추출 로직
+            article_body = soup.select_one('.article-body, .content-body')
             if article_body:
                 article_text = article_body.get_text(separator=' ', strip=True)
         elif 'nytimes.com' in url:
-            # New York Times의 기사 본문 섹션
-            article_body = (
-                soup.select_one('section[name="articleBody"]') or
-                soup.select_one('article')
-            )
+            # New York Times 본문 추출 로직
+            article_body = soup.select_one('section[name="articleBody"], article')
             if article_body:
                 paragraphs = article_body.find_all('p')
                 article_text = ' '.join([p.get_text() for p in paragraphs]) if paragraphs else ""
         elif 'nhk.or.jp' in url:
-            # NHK 뉴스의 기사 본문 추출 로직
+            # NHK 뉴스 본문 추출 로직
             content_detail_body = soup.find('div', class_='content--detail-body')
             if content_detail_body:
-                # 요약 부분 추출
                 summary = content_detail_body.find('p', class_='content--summary')
                 if summary:
                     article_text += summary.get_text(separator=' ', strip=True) + ' '
-
-                # 상세 내용 추출
                 detail_more = content_detail_body.find('div', class_='content--detail-more')
                 if detail_more:
-                    # 각 섹션에서 본문 추출
                     sections = detail_more.find_all('section', class_='content--body')
                     for section in sections:
                         body_text = section.find('div', class_='body-text')
@@ -184,25 +172,21 @@ def scrape_webpage(url):
                             p_tags = body_text.find_all('p')
                             for p in p_tags:
                                 article_text += p.get_text(separator=' ', strip=True) + ' '
-            # 불필요한 공백 제거
             article_text = article_text.strip()
         elif 'reuters.com' in url:
-            # Reuters 뉴스의 기사 본문 추출 로직
+            # Reuters 뉴스 본문 추출 로직
             article_body = soup.find('div', class_='StandardArticleBody_body')
             if article_body:
                 paragraphs = article_body.find_all('p')
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'aljazeera.com' in url:
-            # Al Jazeera 뉴스의 기사 본문 추출 로직
-            # 클래스명은 유동적일 수 있으므로, 특정 패턴을 사용
+            # Al Jazeera 뉴스 본문 추출 로직
             article_body = soup.find('div', class_=re.compile('wysiwyg.*'))
             if article_body:
                 paragraphs = article_body.find_all('p')
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'theguardian.com' in url:
-            # The Guardian 뉴스의 기사 본문 추출 로직
-            # 제공해주신 HTML 구조 기반
-            # 클래스명이 동적으로 변경될 수 있으므로, 정규식을 사용하여 매칭
+            # The Guardian 뉴스 본문 추출 로직
             article_body = soup.find('div', class_=re.compile('article-body-commercial-selector|article-body-viewer-selector|content__article-body'))
             if article_body:
                 paragraphs = article_body.find_all('p', class_=re.compile('dcr-1eu361v'))
@@ -210,8 +194,7 @@ def scrape_webpage(url):
                     paragraphs = article_body.find_all('p')  # 클래스명이 없을 경우 모든 <p> 태그 추출
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'abcnews.go.com' in url:
-            # ABC News의 기사 본문 추출 로직
-            # 제공해주신 HTML 구조 기반
+            # ABC News 본문 추출 로직
             article_body = soup.find('div', attrs={'data-testid': 'prism-article-body'})
             if article_body:
                 paragraphs = article_body.find_all('p', class_=re.compile('EkqkG IGXmU.*'))
@@ -219,15 +202,13 @@ def scrape_webpage(url):
                     paragraphs = article_body.find_all('p')  # 클래스명이 없을 경우 모든 <p> 태그 추출
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'cbsnews.com' in url:
-            # CBS News의 기사 본문 추출 로직
-            # 제공해주신 HTML 구조 기반
+            # CBS News 본문 추출 로직
             article_body = soup.find('section', class_='content__body')
             if article_body:
                 paragraphs = article_body.find_all('p')
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'washingtonpost.com' in url:
-            # Washington Post의 기사 본문 추출 로직
-            # 제공해주신 HTML 구조 기반
+            # Washington Post 본문 추출 로직
             article_body = soup.find('div', class_='meteredContent grid-center')
             if article_body:
                 paragraphs_divs = article_body.find_all('div', class_='wpds-c-PJLV article-body', attrs={'data-qa': 'article-body'})
@@ -238,13 +219,13 @@ def scrape_webpage(url):
                         paragraphs.append(p.get_text(separator=' ', strip=True))
                 article_text = ' '.join(paragraphs) if paragraphs else ""
         elif 'bloomberg.com' in url:
-            # Bloomberg 뉴스의 기사 본문 추출 로직
+            # Bloomberg 뉴스 본문 추출 로직
             article_body = soup.find('div', class_=re.compile('body-copy|article-body'))
             if article_body:
                 paragraphs = article_body.find_all('p')
                 article_text = ' '.join([p.get_text(separator=' ', strip=True) for p in paragraphs]) if paragraphs else ""
         elif 'ft.com' in url:
-            # Financial Times 뉴스의 기사 본문 추출 로직
+            # Financial Times 뉴스 본문 추출 로직
             article_body = soup.find('div', class_=re.compile('article-body|body'))
             if article_body:
                 paragraphs = article_body.find_all('p')
@@ -259,9 +240,6 @@ def scrape_webpage(url):
         else:
             logging.warning(f"본문을 찾을 수 없습니다: {url}")
             return ""
-    except requests.exceptions.RequestException as e:
-        logging.error(f"웹페이지 스크래핑 오류 ({url}): {e}")
-        return ""
 
 # 뉴스 RSS 피드 수집 함수
 @retry(Exception, tries=3, delay=2, backoff=2)
@@ -375,6 +353,32 @@ def calculate_cosine_similarity(phrase1, phrase2):
     cosine_sim = cosine_similarity(vectors)
     return cosine_sim[0][1]
 
+# 편집 거리 계산 함수
+def calculate_edit_distance(phrase1, phrase2):
+    return SequenceMatcher(None, phrase1, phrase2).ratio()
+
+# 키워드 클러스터링 함수
+def cluster_keywords(keywords, eps=0.5, min_samples=2):
+    if not keywords:
+        return []
+    vectorizer = TfidfVectorizer().fit_transform(keywords)
+    vectors = vectorizer.toarray()
+    clustering = DBSCAN(eps=eps, min_samples=min_samples, metric='cosine').fit(vectors)
+    clusters = {}
+    for idx, label in enumerate(clustering.labels_):
+        if label == -1:
+            continue  # 노이즈 제외
+        if label in clusters:
+            clusters[label].append(keywords[idx])
+        else:
+            clusters[label] = [keywords[idx]]
+    # 각 클러스터에서 가장 빈도가 높은 키워드 선택
+    representative_keywords = []
+    for cluster in clusters.values():
+        keyword_counter = Counter(cluster)
+        representative_keywords.append(keyword_counter.most_common(1)[0][0])
+    return representative_keywords
+
 # 대표 키워드 선정 함수 (Google 트렌드 우선, 불용어 필터링 추가)
 def select_representative_keyword(top_keywords, used_keywords, google_trends_keywords):
     for kw in top_keywords:
@@ -441,11 +445,12 @@ def extract_representative_info(trees, google_trends_g10, source='Global News'):
         is_similar = False
         for existing in trees_info:
             similarity = calculate_cosine_similarity(translated_phrase.lower(), existing['phrase'].lower())
-            if similarity >= 0.8:  # 코사인 유사도 임계값을 0.8로 상향 조정
+            edit_similarity = calculate_edit_distance(translated_phrase.lower(), existing['phrase'].lower())
+            if similarity >= 0.85 or edit_similarity >= 0.85:  # 코사인 유사도와 편집 거리 임계값 상향 조정
                 is_similar = True
                 break
             # 부분 일치 검사: 하나의 구문이 다른 구문의 부분 문자열인지 확인
-            if translated_phrase.lower() in existing['phrase'].lower() or existing['phrase'].lower() in translated_phrase.lower():
+            if (translated_phrase.lower() in existing['phrase'].lower()) or (existing['phrase'].lower() in translated_phrase.lower()):
                 is_similar = True
                 break
         if is_similar:
@@ -634,7 +639,7 @@ def main():
                     'source': country  # 트렌드의 국가 정보 추가
                 }],
                 'all_keywords': set([kw for kw in keywords if kw.lower() not in english_stopwords]),
-                'importance': 1  # 검색량을 중요도로 설정 (여기서는 단순히 1로 설정)
+                'importance': 3  # 검색량을 중요도로 설정 (트렌드 키워드에 가중치 부여)
             })
             logging.info(f"Google 트렌드 새로운 트리 생성: {keyword} (국가: {country})")
 
@@ -700,15 +705,33 @@ def main():
     # 최종 이슈가 10개 미만일 경우, 추가로 채우기
     final_issues = final_issues[:10]
 
+    # 추가적인 유사도 검사: 이미 선택된 이슈들 간의 유사도 확인 및 중복 제거
+    unique_final_issues = []
+    for issue in final_issues:
+        is_similar = False
+        for unique_issue in unique_final_issues:
+            similarity = calculate_cosine_similarity(issue['phrase'].lower(), unique_issue['phrase'].lower())
+            edit_similarity = calculate_edit_distance(issue['phrase'].lower(), unique_issue['phrase'].lower())
+            if similarity >= 0.85 or edit_similarity >= 0.85:  # 코사인 유사도와 편집 거리 임계값 상향 조정
+                is_similar = True
+                break
+        if not is_similar:
+            unique_final_issues.append(issue)
+        if len(unique_final_issues) >= 10:
+            break
+
+    # 최종 이슈가 10개 미만일 경우, 추가로 채우기
+    unique_final_issues = unique_final_issues[:10]
+
     # 결과 출력
     print("\n실시간 상위 10개 멀티 키워드:")
 
-    for rank, item in enumerate(final_issues, 1):
+    for rank, item in enumerate(unique_final_issues, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase} (중요도: {item['importance']})")
 
     # 데이터 저장 (선택 사항)
-    # df = pd.DataFrame(final_issues)
+    # df = pd.DataFrame(unique_final_issues)
     # df.to_csv('top_10_multi_keywords.csv', index=False, encoding='utf-8-sig')
     # logging.info("상위 10개 멀티 키워드 데이터를 CSV 파일로 저장했습니다: top_10_multi_keywords.csv")
 

@@ -16,7 +16,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
 from konlpy.tag import Okt
@@ -63,24 +63,67 @@ def load_stopwords(file_path):
 stopwords_file = 'stopwords-ko.txt'  # 불용어 파일 경로를 적절히 수정하세요
 stopwords = load_stopwords(stopwords_file)
 
-# 웹페이지 스크래핑 함수
+# 구텐베르크 알고리즘을 사용하기 위한 텍스트 밀도 계산 함수
+def calculate_text_density(html_element):
+    text_length = len(html_element.get_text(strip=True))
+    tag_length = len(str(html_element))
+    return text_length / max(tag_length, 1)
+
+# 텍스트 밀도를 이용하여 뉴스 본문만을 스크랩하여 반환하는 함수
 def scrape_webpage(url):
     try:
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, timeout=10, headers=headers)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
+        response.encoding = response.apparent_encoding
+        html = response.text
 
-        # 네이버 뉴스 본문 추출
-        article_body = soup.select_one('#dic_area')
-        if article_body:
-            article_text = article_body.get_text(separator=' ', strip=True)
-            return article_text
-        else:
-            logging.warning(f"본문을 찾을 수 없습니다: {url}")
-            return ""
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # 태그 밀도가 높을 수 있는 사이드, 배너, 광고 등을 수작업으로 제거하기 위한 ID 및 클래스 목록
+        unwanted_ids = [
+            'newsSidebar', 'newsMainBanner', 'rightSlideDiv_1', 'rightSlideDiv_2', 'rightSlideDiv_3',
+        ]
+        unwanted_classes = [
+            'sidebar', 'rankingNews', 'photo_slide', 'ad290x330', 'socialAD', 'AdIbl', 'rankingEmotion',
+            'ofhe_head', 'ofhe_body', 'outside_area_inner', 'outside_area', '_OUTSIDE_AREA', '_GRID_TEMPLATE_COLUMN_ASIDE', '_OUTSIDE_AREA_INNER',
+        ]
+
+        for unwanted_id in unwanted_ids:
+            for tag in soup.find_all(id=unwanted_id):
+                tag.decompose()
+
+        for unwanted_class in unwanted_classes:
+            for tag in soup.find_all(class_=unwanted_class):
+                tag.decompose()
+
+        candidate_blocks = soup.find_all(['div', 'article', 'section'])
+
+        blocks_with_density = []
+        for block in candidate_blocks:
+            density = calculate_text_density(block)
+            blocks_with_density.append((density, block))
+
+        blocks_with_density.sort(key=lambda x: x[0], reverse=True)
+
+        article_text = ""
+        for density, block in blocks_with_density:
+            if density > 0.1:
+                for unwanted in block(['script', 'style', 'figure', 'iframe', 'br', 'noscript']):
+                    unwanted.decompose()
+                text = block.get_text(separator=' ', strip=True)
+                if len(text) > len(article_text):
+                    article_text = text
+            else:
+                break
+
+        if len(article_text) < 200:
+            paragraphs = soup.find_all('p')
+            article_text = ' '.join([p.get_text(strip=True) for p in paragraphs])
+
+        return article_text
+
     except Exception as e:
-        logging.error(f"웹페이지 스크래핑 오류 ({url}): {e}")
+        logging.error(f"웹페이지 스크래핑 중 오류 발생 ({url}): {e}")
         return ""
 
 # Google 트렌드 키워드 수집 함수
@@ -222,33 +265,49 @@ def extract_keywords(text, stopwords, top_n=10):
         logging.error(f"키워드 추출 중 오류 발생: {e}")
         return []
 
-# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수
+# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수 (Selenium 사용)
 def search_naver_news_with_keyword(keyword, stopwords):
     try:
+        # Selenium WebDriver 설정
+        options = Options()
+        options.add_argument("--headless")  # 브라우저를 표시하지 않음
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        
+        # 네이버 뉴스 검색 URL
         search_url = f"https://search.naver.com/search.naver?&where=news&query={requests.utils.quote(keyword)}"
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(search_url, headers=headers, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
+        driver.get(search_url)
+        time.sleep(2)  # 페이지 로딩 대기
 
         # 뉴스 검색 결과에서 제목과 링크 추출
-        news_elements = soup.select('.list_news .news_area')
+        news_elements = driver.find_elements(By.CSS_SELECTOR, '.list_news .news_area')
         news_items = []
         for elem in news_elements:
-            title_elem = elem.select_one('.news_tit')
-            if title_elem:
-                title = title_elem.get_text(strip=True)
-                link = title_elem.get('href')
+            try:
+                title_elem = elem.find_element(By.CSS_SELECTOR, '.news_tit')
+                title = title_elem.text.strip()
+                link = title_elem.get_attribute('href')
                 news_items.append({'title': title, 'link': link})
+            except NoSuchElementException:
+                continue
+
+        driver.quit()
+
+        if not news_items:
+            logging.warning(f"네이버 뉴스 검색 결과가 없습니다: {keyword}")
+            return []
 
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
-        for news in news_items[:10]:
-            article_text = scrape_webpage(news['link'])
-            if article_text:
-                full_text = preprocess_text(news['title'] + ' ' + article_text)
-                if full_text:
-                    articles_texts.append(full_text)
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = [executor.submit(scrape_webpage, news['link']) for news in news_items[:10]]
+            for future in as_completed(futures):
+                article_text = future.result()
+                if article_text:
+                    full_text = preprocess_text(article_text)
+                    if full_text:
+                        articles_texts.append(full_text)
 
         if not articles_texts:
             logging.warning(f"네이버 뉴스 검색 결과에서 텍스트를 추출할 수 없습니다: {keyword}")
@@ -519,7 +578,7 @@ def main():
     # 최종 이슈가 10개 미만일 경우, 추가로 채우기
     final_issues = final_issues[:10]
 
-    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 3개 키워드를 별도로 출력
+    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 별도로 출력
     print("\n실시간 이슈:")
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
