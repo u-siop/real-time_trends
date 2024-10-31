@@ -12,15 +12,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from webdriver_manager.chrome import ChromeDriverManager
-
 from konlpy.tag import Okt
 from soynlp.word import WordExtractor
 from pytrends.request import TrendReq
@@ -64,6 +55,17 @@ def load_stopwords(file_path):
 # 불용어 리스트 로드
 stopwords_file = 'stopwords-ko.txt'  # 불용어 파일 경로를 적절히 수정하세요
 stopwords = load_stopwords(stopwords_file)
+
+# 텍스트 전처리 함수
+def preprocess_text(text):
+    if not text or not isinstance(text, str) or not text.strip():
+        logging.warning("유효하지 않은 입력 텍스트.")
+        return ""
+    # 특수 문자 제거
+    text = re.sub(r'[^가-힣a-zA-Z\s]', ' ', text)
+    # 여러 개의 공백을 하나로
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
 
 # 구텐베르크 알고리즘을 사용하기 위한 텍스트 밀도 계산 함수
 def calculate_text_density(html_element):
@@ -127,29 +129,6 @@ def scrape_webpage(url):
     except Exception as e:
         logging.error(f"웹페이지 스크래핑 중 오류 발생 ({url}): {e}")
         return ""
-    
-# Google 트렌드 키워드 수집 함수
-def get_google_trends_keywords():
-    try:
-        pytrends = TrendReq(hl='ko', tz=540)
-        # 실시간 검색어는 pytrends에서 직접적으로 지원하지 않으므로, 일반 트렌딩 검색어를 사용
-        df_trending = pytrends.trending_searches(pn='south_korea')  # 한국의 실시간 트렌드
-        trending_keywords = df_trending[0].tolist()
-        return trending_keywords
-    except Exception as e:
-        logging.error(f"Google 트렌드 키워드 수집 중 오류 발생: {e}")
-        return []
-
-# 텍스트 전처리 함수
-def preprocess_text(text):
-    if not text or not isinstance(text, str) or not text.strip():
-        logging.warning("유효하지 않은 입력 텍스트.")
-        return ""
-    # 특수 문자 제거
-    text = re.sub(r'[^가-힣a-zA-Z\s]', ' ', text)
-    # 여러 개의 공백을 하나로
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
 
 # N-그램 기반 키워드 추출 함수 (멀티 워드 지원)
 def extract_ngrams(tokens, n=2):
@@ -273,49 +252,27 @@ def extract_keywords(text, stopwords, top_n=10):
         logging.error(f"키워드 추출 중 오류 발생: {e}")
         return []
 
-# Selenium Manager 클래스 정의
-class SeleniumManager:
-    def __init__(self):
-        options = Options()
-        options.add_argument("--headless")  # 브라우저를 표시하지 않음
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-        self.wait = WebDriverWait(self.driver, 10)  # 10초 타임아웃
-
-    def get(self, url):
-        self.driver.get(url)
-
-    def find_element(self, by, value):
-        return self.wait.until(EC.presence_of_element_located((by, value)))
-
-    def find_elements(self, by, value):
-        return self.wait.until(EC.presence_of_all_elements_located((by, value)))
-
-    def click_element(self, by, value):
-        element = self.wait.until(EC.element_to_be_clickable((by, value)))
-        element.click()
-
-    def quit(self):
-        self.driver.quit()
-
-# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수 (Selenium 사용)
-def search_naver_news_with_keyword(keyword, stopwords, selenium_manager):
+# 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수 (requests 사용)
+def search_naver_news_with_keyword(keyword, stopwords, session):
     try:
         # 네이버 뉴스 검색 URL
         search_url = f"https://search.naver.com/search.naver?&where=news&query={requests.utils.quote(keyword)}"
-        selenium_manager.get(search_url)
-        
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = session.get(search_url, timeout=10, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+
         # 뉴스 검색 결과에서 제목과 링크 추출
-        news_elements = selenium_manager.find_elements(By.CSS_SELECTOR, '.list_news .news_area')
+        news_elements = soup.select('.list_news .news_area')
         news_items = []
         for elem in news_elements:
             try:
-                title_elem = elem.find_element(By.CSS_SELECTOR, '.news_tit')
-                title = title_elem.text.strip()
-                link = title_elem.get_attribute('href')
-                news_items.append({'title': title, 'link': link})
-            except NoSuchElementException:
+                title_elem = elem.select_one('.news_tit')
+                if title_elem:
+                    title = title_elem.get_text(strip=True)
+                    link = title_elem.get('href')
+                    news_items.append({'title': title, 'link': link})
+            except Exception:
                 continue
 
         if not news_items:
@@ -324,12 +281,12 @@ def search_naver_news_with_keyword(keyword, stopwords, selenium_manager):
 
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
-        with ThreadPoolExecutor(max_workers=12) as executor:
-            futures = [executor.submit(scrape_webpage, news['link']) for news in news_items[:10]]
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            futures = {executor.submit(scrape_webpage, news['link']): news for news in news_items[:10]}
             for future in as_completed(futures):
                 article_text = future.result()
                 if article_text:
-                    full_text = preprocess_text(news_items[futures.index(future)]['title'] + ' ' + article_text)
+                    full_text = preprocess_text(article_text)
                     if full_text:
                         articles_texts.append(full_text)
 
@@ -346,6 +303,18 @@ def search_naver_news_with_keyword(keyword, stopwords, selenium_manager):
     except Exception as e:
         logging.error(f"네이버 뉴스 검색 중 오류 발생 ({keyword}): {e}")
         return []
+    
+# Google 트렌드 키워드 수집 함수
+def get_google_trends_keywords():
+    try:
+        pytrends = TrendReq(hl='ko', tz=540)
+        # 실시간 검색어는 pytrends에서 직접적으로 지원하지 않으므로, 일반 트렌딩 검색어를 사용
+        df_trending = pytrends.trending_searches(pn='south_korea')  # 한국의 실시간 트렌드
+        trending_keywords = df_trending[0].tolist()
+        return trending_keywords
+    except Exception as e:
+        logging.error(f"Google 트렌드 키워드 수집 중 오류 발생: {e}")
+        return []
 
 # 메인 함수
 def main():
@@ -355,18 +324,16 @@ def main():
     
     keyword_volume = []
     trend_trees = []
-    trend_top3_keywords = []  # 상위 3개 키워드 저장 리스트
     
     logging.info("Google 트렌드 검색량 수집 시작")
     
-    # Selenium Manager 초기화
-    selenium_manager = SeleniumManager()
-    
+    # 세션 객체 생성 (HTTP 연결 재사용)
+    session = requests.Session()
+
     # tqdm을 이용한 진행 표시기 추가
     for keyword in tqdm(trending_keywords, desc="Google 트렌드 키워드 처리"):
         try:
             if keyword in stopwords:
-                logging.info(f"불용어 키워드 스킵: {keyword}")
                 continue
             pytrends = TrendReq(hl='ko', tz=540)
             pytrends.build_payload([keyword], cat=0, timeframe='now 1-d', geo='KR')
@@ -375,11 +342,8 @@ def main():
             if not interest_over_time_df.empty:
                 avg_volume = interest_over_time_df[keyword].mean()
                 keyword_volume.append((keyword, avg_volume))
-                logging.info(f"키워드 '{keyword}'의 평균 검색량: {avg_volume}")
             else:
                 keyword_volume.append((keyword, 0))
-                logging.info(f"키워드 '{keyword}'의 검색량 데이터가 없습니다.")
-            
         except Exception as e:
             logging.error(f"키워드 '{keyword}' 검색량 가져오는 중 오류 발생: {e}")
             keyword_volume.append((keyword, 0))
@@ -399,13 +363,8 @@ def main():
         full_text = preprocess_text(keyword)
         keywords = extract_keywords(full_text, stopwords, top_n=10)
         
-        # 네이버 뉴스에서 추가 키워드 검색 (한 번만 수행)
-        top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords, selenium_manager)
-        trend_top3_keywords.extend([{
-            'phrase': kw,
-            'importance': None,
-            'source': 'Google Trends (Naver Search)'
-        } for kw in top3_news_keywords])
+        # 네이버 뉴스에서 추가 키워드 검색
+        top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords, session)
         
         # Google 트렌드 키워드와 네이버 뉴스 상위 키워드를 합침 (원본 트렌드 키워드도 포함)
         combined_keywords = keywords + top3_news_keywords + [keyword]  # 원본 트렌드 키워드 추가
@@ -430,55 +389,60 @@ def main():
         logging.info(f"Google 트렌드 및 네이버 뉴스 통합 트리 생성: {keyword} (검색량: {volume})")
 
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
-    
-    # 네이버 뉴스 처리 (기존 로직 유지)
+
+    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출
+    trend_top3_keywords = []
+    logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        futures = {executor.submit(search_naver_news_with_keyword, kw, stopwords, session): kw for kw, _ in sorted_keywords}
+        for future in as_completed(futures):
+            kw = futures[future]
+            top3 = future.result()
+            if top3:
+                for keyword in top3:
+                    trend_top3_keywords.append({
+                        'phrase': keyword,
+                        'importance': None,  # 중요도는 별도로 설정할 수 있음
+                        'source': 'Google Trends (Naver Search)'
+                    })
+
+    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
+
+    # 네이버 뉴스 처리 (요약 및 requests 사용)
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
-
-    # "다른 언론사 랭킹 더보기" 버튼 클릭 반복 (최대 3번 클릭)
+    headers = {'User-Agent': 'Mozilla/5.0'}
     try:
-        selenium_manager.get(site_url)
-        clicks = 0
-        max_clicks = 3  # 최대 클릭 횟수 설정
+        response = session.get(site_url, timeout=10, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-        while clicks < max_clicks:
+        # "더보기" 버튼 클릭을 requests로 처리할 수 없으므로, 초기 페이지에서 충분한 기사 수를 가져옵니다.
+        # 필요시 네이버 뉴스 API를 사용할 수도 있습니다.
+        # 여기서는 초기 페이지에서 최대 50개 기사로 제한합니다.
+
+        news_elements = soup.select('.rankingnews_list .list_title a')
+        news_items = []
+        for elem in news_elements[:50]:  # 최대 50개 기사로 제한
             try:
-                more_button = selenium_manager.find_element(By.CSS_SELECTOR, '.button_rankingnews_more')
-                if more_button.is_displayed():
-                    selenium_manager.click_element(By.CSS_SELECTOR, '.button_rankingnews_more')
-                    logging.info("더보기 버튼 클릭")
-                    clicks += 1
-                    time.sleep(2)  # 페이지 로딩 시간 대기
-                else:
-                    break
-            except TimeoutException:
-                logging.info("더보기 버튼이 더 이상 존재하지 않습니다.")
-                break
-            except Exception as e:
-                logging.error(f"더보기 버튼 클릭 중 오류: {e}")
-                break
+                title = elem.get_text(strip=True)
+                link = elem.get('href')
+                news_items.append({'title': title, 'link': link})
+            except Exception:
+                continue
 
-        # 모든 뉴스 기사 요소 수집
-        news_elements = selenium_manager.find_elements(By.CSS_SELECTOR, '.rankingnews_list .list_title')
-        news_items = [
-            {'title': elem.text, 'link': elem.get_attribute('href')}
-            for elem in news_elements 
-        ]
         logging.info(f"수집된 뉴스 기사 수: {len(news_items)}")
     except Exception as e:
         logging.error(f"네이버 뉴스 페이지 로딩 중 오류 발생: {e}")
-    finally:
-        # Selenium 드라이버 종료는 이후에 할 것이므로 여기서는 하지 않습니다.
-        pass
+        news_items = []
 
     # 기사별 텍스트 수집
     articles_texts = []
     articles_metadata = []
 
-    with ThreadPoolExecutor(max_workers=12) as executor:
-        future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items[:200]}  # 최대 200개 기사로 제한
-        # tqdm을 이용한 진행 표시기 추가
-        for future in tqdm(as_completed(future_to_news), total=len(future_to_news), desc="뉴스 기사 스크래핑"):
-            news = future_to_news[future]
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = {executor.submit(scrape_webpage, news['link']): news for news in news_items}
+        for future in tqdm(as_completed(futures), total=len(futures), desc="뉴스 기사 스크래핑"):
+            news = futures[future]
             try:
                 article_text = future.result()
                 if article_text:
@@ -539,7 +503,7 @@ def main():
                 tree_info['articles'].append(news)
                 tree_info['all_keywords'].update([kw for kw in keywords if kw not in stopwords])  # 집합으로 업데이트
                 # 트리에 Google 트렌드 키워드 포함 여부 갱신
-                tree_info['contains_trend'] = tree_info['contains_trend'] or any(word in trending_keywords for word in keywords)
+                tree_info['contains_trend'] = tree_info['contains_trend'] or any(word in [tree_info['google_trends_keywords'][0]] for word in keywords)
                 # 트리의 중요도 업데이트 (기사 수)
                 tree_info['importance'] += 1
                 merged = True
@@ -581,14 +545,13 @@ def main():
     # 상위 4개 트렌드 이슈 선택
     top_trend_issues = sorted_trend_trees_info[:4]
 
-    # 이미 trend_top3_keywords를 첫 번째 루프에서 수집했으므로, 별도의 추가 루프가 필요 없습니다.
-
-    logging.info("Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
+    # Google 트렌드 키워드 기반 상위 3개 키워드 추가
+    top_trend_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
 
     # 최종 이슈 리스트 생성
     final_naver_issues = top_naver_issues
     final_trend_issues = top_trend_issues
-    final_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
+    final_search_keywords = top_trend_search_keywords
 
     # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 합침
     final_issues = final_naver_issues + final_trend_issues + final_search_keywords
@@ -633,10 +596,7 @@ def main():
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
         link = item.get('representative_link', '링크 없음')
-        print(f"{rank}. {phrase}")
-    
-    # Selenium 드라이버 종료
-    selenium_manager.quit()
+        print(f"{rank}. {phrase} - 링크:")
 
 if __name__ == "__main__":
     main()
