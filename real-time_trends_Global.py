@@ -303,13 +303,12 @@ def get_google_trends_g10():
             'france': 'FR',
             'italy': 'IT',
             'canada': 'CA',
-            'russia': 'RU',
-            'south_korea': 'KR'
+            'russia': 'RU'
         }
 
         all_trends = {}
 
-        for country_name, country_code in countries.items():
+        for country_name in countries.items():
             logging.info(f"Collecting trends for {country_name}")
             try:
                 df_trending = pytrends.trending_searches(pn=country_name)
@@ -540,7 +539,7 @@ def main():
     logging.info(f"총 크롤링할 기사 수: {len(articles_to_fetch)}개")
 
     # ThreadPoolExecutor를 사용하여 병렬로 기사 텍스트 수집
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=12) as executor:
         # Future 객체 리스트 생성
         future_to_article = {
             executor.submit(scrape_webpage, news['link']): (news, source)

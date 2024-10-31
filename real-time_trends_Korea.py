@@ -27,7 +27,7 @@ import numpy as np
 from tqdm import tqdm  # 진행 표시기 추가
 
 # 로깅 설정
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 형태소 분석기 초기화 (Okt)
 okt = Okt()
@@ -300,7 +300,7 @@ def search_naver_news_with_keyword(keyword, stopwords):
 
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        with ThreadPoolExecutor(max_workers=12) as executor:
             futures = [executor.submit(scrape_webpage, news['link']) for news in news_items[:10]]
             for future in as_completed(futures):
                 article_text = future.result()
@@ -366,39 +366,32 @@ def main():
     for keyword, volume in tqdm(sorted_keywords, desc="Google 트렌드 트리 생성"):
         if keyword in stopwords or volume <= 0:
             continue
-        # 키워드 전처리 및 추출
+        
+        # 키워드 전처리 및 키워드 추출
         full_text = preprocess_text(keyword)
         keywords = extract_keywords(full_text, stopwords, top_n=10)
-        if not keywords:
-            continue
+        
+        # 네이버 뉴스에서 추가 키워드 검색
+        top3_news_keywords = search_naver_news_with_keyword(keyword, stopwords)
+        
+        # Google 트렌드 키워드와 네이버 뉴스 상위 키워드를 합침
+        combined_keywords = keywords + [kw for kw in top3_news_keywords if kw not in keywords and kw not in stopwords]
+        
         # 트렌드 트리 생성
-        trend_trees.append({
+        trend_tree = {
             'articles': [{
                 'title': keyword,
                 'link': 'https://trends.google.com/trends/trendingsearches/daily?geo=KR',
-                'keywords': keywords
+                'keywords': combined_keywords
             }],
-            'all_keywords': set([kw for kw in keywords if kw not in stopwords]),
+            'all_keywords': set(combined_keywords),
             'importance': volume  # 검색량을 중요도로 설정
-        })
-        logging.info(f"Google 트렌드 새로운 트리 생성: {keyword} (검색량: {volume})")
+        }
+        
+        trend_trees.append(trend_tree)
+        logging.info(f"Google 트렌드 및 네이버 뉴스 통합 트리 생성: {keyword} (검색량: {volume})")
 
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
-
-    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출
-    trend_top3_keywords = []
-    logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
-    for keyword, _ in tqdm(sorted_keywords, desc="Google 트렌드 키워드 네이버 뉴스 검색"):
-        top3 = search_naver_news_with_keyword(keyword, stopwords)
-        if top3:
-            for kw in top3:
-                trend_top3_keywords.append({
-                    'phrase': kw,
-                    'importance': None,  # 중요도는 별도로 설정할 수 있음
-                    'source': 'Google Trends (Naver Search)'
-                })
-
-    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
 
     # 네이버 뉴스 처리
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
@@ -444,7 +437,7 @@ def main():
     articles_texts = []
     articles_metadata = []
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=12) as executor:
         future_to_news = {executor.submit(scrape_webpage, news['link']): news for news in news_items}
         # tqdm을 이용한 진행 표시기 추가
         for future in tqdm(as_completed(future_to_news), total=len(future_to_news), desc="뉴스 기사 스크래핑"):
@@ -552,7 +545,7 @@ def main():
     top_trend_issues = sorted_trend_trees_info[:4]
 
     # Google 트렌드 키워드 기반 상위 3개 키워드 추가
-    top_trend_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
+    top_trend_search_keywords = trend_tree
 
     # 최종 이슈 리스트 생성
     final_naver_issues = top_naver_issues
