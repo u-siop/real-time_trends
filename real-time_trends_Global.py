@@ -297,7 +297,6 @@ def get_google_trends_g10():
             'united_states': 'US',
             'united_kingdom': 'GB',
             'japan': 'JP',
-            # 'china': 'CN',  # pytrends에서 지원하지 않으므로 제외
             'germany': 'DE',
             'brazil': 'BR',
             'france': 'FR',
@@ -308,13 +307,13 @@ def get_google_trends_g10():
 
         all_trends = {}
 
-        for country_name in countries.items():
-            logging.info(f"Collecting trends for {country_name}")
+        for country_name, country_code in countries.items():
+            logging.info(f"Collecting trends for {country_name} ({country_code})")
             try:
                 df_trending = pytrends.trending_searches(pn=country_name)
                 trending_keywords = df_trending[0].tolist()[:20]  # 상위 20개 키워드
-                all_trends[country_name] = trending_keywords
-                logging.info(f"{country_name} trends collected: {len(all_trends[country_name])} keywords")
+                all_trends[country_code] = trending_keywords
+                logging.info(f"{country_name} trends collected: {len(all_trends[country_code])} keywords")
                 time.sleep(1)  # API 호출 제한을 피하기 위해 잠시 대기
             except Exception as e:
                 logging.error(f"{country_name} 트렌드 수집 중 오류 발생: {e}")

@@ -30,8 +30,15 @@ from tqdm import tqdm  # 진행 표시기 추가
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from openai import OpenAI
+
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# OpenAI API key 설정
+client = OpenAI(
+)
+
 
 # 형태소 분석기 초기화 (Komoran)
 komoran = Komoran()
@@ -221,7 +228,7 @@ def remove_invalid_keywords(keywords):
     return valid_keywords
 
 # 트리 별로 대표 이슈 추출 함수 (키워드 구문 생성)
-def extract_representative_info(trees, source='Naver', max_words=3):
+def extract_representative_info(trees, source='Naver', max_words=5):  # max_words를 5로 증가
     trees_info = []
     used_keywords = set()  # 중복 방지를 위한 키워드 사용 기록
     for tree_info in trees:
@@ -248,7 +255,7 @@ def extract_representative_info(trees, source='Naver', max_words=3):
         # 대표 키워드 제외 상위 키워드
         top_other_keywords = [kw for kw in top_keywords if kw != rep_keyword]
         if top_other_keywords:
-            # 이슈 구문은 최대 3개의 키워드로 제한
+            # 이슈 구문은 최대 5개의 키워드로 제한
             phrase_keywords = [rep_keyword] + top_other_keywords[:max_words-1]
             # 중복 단어 제거 및 부분 문자열 제거
             phrase_keywords = remove_substrings_and_duplicates(phrase_keywords)
@@ -278,22 +285,25 @@ def extract_keywords(text, stopwords, top_n=10):
     try:
         # konlpy를 이용한 명사 추출 (Komoran 사용)
         tokens = komoran.nouns(text)
-        # 불용어 및 1단어, 4단어 이상 단어 필터링
-        filtered_tokens = [word for word in tokens if 2 <= len(word) <= 3 and word not in stopwords]
+        # 불용어 및 1단어, 제한 없는 단어 필터링 (최소 2자 이상)
+        filtered_tokens = [word for word in tokens if len(word) >= 2 and word not in stopwords]
         # 단어 빈도수 계산
         token_counts = Counter(filtered_tokens)
         top_keywords = [word for word, count in token_counts.most_common(top_n)]
-    
-        # 멀티 워드 추출 (2-그램)
-        bigrams = extract_ngrams(filtered_tokens, n=2)
-    
-        # 빅그램 빈도수 계산
-        bigram_counts = Counter([bg for bg in bigrams if bg not in stopwords and len(bg.replace(' ', '')) >= 2])
-        sorted_bigrams = [bg for bg, cnt in bigram_counts.most_common(top_n)]
-    
+
+        # 멀티 워드 추출 (2-그램부터 5-그램까지)
+        combined_bigrams = []
+        for n in range(2, 6):  # 2-그램부터 5-그램까지
+            ngrams = extract_ngrams(filtered_tokens, n=n)
+            combined_bigrams.extend(ngrams)
+
+        # N-그램 빈도수 계산
+        ngram_counts = Counter([bg for bg in combined_bigrams if bg not in stopwords and len(bg.replace(' ', '')) >= 2])
+        sorted_ngrams = [bg for bg, cnt in ngram_counts.most_common(top_n)]
+
         # 결합된 키워드 목록
-        combined_keywords = top_keywords + sorted_bigrams
-    
+        combined_keywords = top_keywords + sorted_ngrams
+
         # 중복 제거 및 상위 N개 선택
         unique_keywords = []
         # Sort by length descending to keep longer keywords first
@@ -305,10 +315,10 @@ def extract_keywords(text, stopwords, top_n=10):
                 unique_keywords.append(kw)
             if len(unique_keywords) >= top_n:
                 break
-    
+
         # 의미 없는 키워드 제거
         unique_keywords = remove_invalid_keywords(unique_keywords)
-    
+
         return unique_keywords[:top_n]
     except Exception as e:
         logging.error(f"키워드 추출 중 오류 발생: {e}")
@@ -375,7 +385,7 @@ def merge_similar_issues(issues, similarity_threshold=0.3):
 
     phrases = [issue['phrase'] for issue in issues]
     # TF-IDF 벡터화 (쉼표 또는 공백을 기준으로 단어 분리)
-    vectorizer = TfidfVectorizer(tokenizer=custom_tokenizer, lowercase=False)
+    vectorizer = TfidfVectorizer(tokenizer=lambda x: x.split(', '), lowercase=False)
     tfidf_matrix = vectorizer.fit_transform(phrases)
 
     # 코사인 유사도 행렬 계산
@@ -442,6 +452,99 @@ def merge_similar_issues(issues, similarity_threshold=0.3):
             logging.info(f"이슈 병합: {[issues[idx]['phrase'] for idx in group]} -> {combined_phrases_cleaned}")
 
     return merged_issues
+
+# 키워드 요약 함수 (OpenAI API 이용)
+def summarize_keywords(content):
+    prompt = f"""
+[요약하는 방법]
+1. 다음 여러 개의 키워드를 보고 핵심 키워드 10개로 요약해줘
+2. 여러가지의 키워드가 합쳐져 있으면 두 개의 키워드로 분리해도 돼
+예시 ) 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
+--> 1. 국정 감사 및 여론
+    2. 문재인 전 대통령, 다혜, 정진석
+
+3. 같은 문맥 키워드의 내용은 합쳐줘
+4. 핵심 키워드는 항상 있어야 해
+예시 ) 5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
+-->  "소말리", 소녀상 모욕 및 편의점 난동
+예시 ) 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플스타, 흑백 요리사, 유비빔
+--> 흑백 요리사 "유비빔", 불법 영업 논란
+
+5. 정치에 관한 내용은 2개로 제한해줘, 그리고 비슷한 내용은 합치지말고 실시간 이슈에 포함하지 마
+
+[예시]
+[예시 첫 번째]
+1. 대통령 직무, 부정 평가, 긍정 평가
+2. 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플스타, 흑백 요리사, 유비빔
+3. 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
+4. 아버지 살해, 아버지 둔기, 30대 남성
+5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
+6. 23기 정숙, 출연자 검증, 논란 제작진, 유튜브 채널
+7. GD, 베이비 몬스터, 더블 타이틀, 몬스터 정규
+8. 기아 타이, 타이 거즈, 기아 세일
+9. 테슬라 코리아, 김예지 국내, 최초 테슬라
+10. 북한군 교전, 북한군 추정, 주장 북한군
+==> 요약된 실시간 이슈:
+1. 대통령 직무 평가
+2. 흑백 요리사 유비빔, 불법 영업 논란
+3. 국정 감사 및 여론
+4. 아버지 둔기로 살해
+5. 소녀상 모욕 사건
+6. 23기 정숙, 출연자 검증 논란
+7. GD와 베이비 몬스터
+8. 기아타이거즈 세일
+9. 테슬라, 김예지
+10. 북한군 교전 주장
+
+---------------------------------------------------
+
+[예시 두 번째]
+1. 국정 감사, 국회 운영, 대통령 관저, 대통령 비서실장, 스크린 골프장, 운영 위원회, 정진석 대통령
+2. 대통령 직무 수행, 직무 수행 긍정, 대통령 지지, 부정 평가, 조사
+3. 윤석열 대통령, 부정 평가, 긍정 평가, 평가 이유, 여론 조사
+4. 우크라이나 텔레그램, 텔레그램 채널, 지난달 현지, 북한군 추정, 전우 시체
+5. 유비빔 고백, 불법 영업, 사회관계 서비스, 요리사 출연, 음식점 운영, 잘못 고백, 흑백 요리사
+6. 기아 타이 거즈, 한국시리즈 우승, 최대 할인, 기아 기아, 이벤트
+7. 실장 대통령, 대통령 명태, 대통령 통화, 공천 개입, 국정 감사
+8. 문재인 대통령, 대통령 다혜, 참고인 조사, 대통령 뇌물, 다혜 검찰
+9. 소말리, 업무 방해 혐의, 조니 말리 폭행, 소녀상 모욕
+10. 23기 정숙, 정숙 조건 만남, 온라인 커뮤니티, 출연자 검증
+11. 명태균, 대통령 명태 통화, 윤석열 대통령, 김건희 여사
+12. 맨유, 맨체스터 유나이티드, 슬라이드 이전, 개인 비행기
+13. 토트넘, 토트넘 팬사이트, 손흥민 토트넘, 손흥민 재계약
+14. 기아 타이 거즈, 한국시리즈 우승, 최대 할인, 기아 기아, 이벤트
+==>요약된 실시간 이슈:
+1. 국정 감사, 대통령 관저
+2. 대통령 직무 수행, 여론 조사
+3. 윤석열 대통령 긍정 및 부정 평가
+4. 우크라이나 텔레그램, 북한군 추정
+5. 흑백 요리사 유비빔, 불법 영업 논란
+6. 기아 타이거즈 한국시리즈 우승
+7. 문재인 전 대통령 및 다혜 검찰 조사
+8. 소말리, 소녀상 모욕 사건
+9. 23기 정숙, 출연자 검증
+10. 손흥민 토트넘 재계약
+
+다음은 요약할 텍스트: {content}
+"""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # 사용 가능한 모델 이름으로 변경
+            messages=[
+                {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=500,
+            temperature=0.15,
+        )
+
+        summary_text = response.choices[0].message.content.strip()
+        return summary_text
+
+    except Exception as e:
+        logging.error(f"요약 생성 중 오류 발생: {e}")
+        return "요약 생성에 실패했습니다."
 
 # 메인 함수
 def main():
@@ -674,8 +777,8 @@ def main():
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
 
     # 네이버 트리와 Google 트렌드 트리에서 대표 이슈 추출 (키워드 구문 생성)
-    naver_trees_info = extract_representative_info(naver_trees, source='Naver', max_words=3)
-    trend_trees_info = extract_representative_info(trend_trees, source='Google Trends', max_words=3)
+    naver_trees_info = extract_representative_info(naver_trees, source='Naver', max_words=5)
+    trend_trees_info = extract_representative_info(trend_trees, source='Google Trends', max_words=5)
 
     # 네이버 트리 내림차순 정렬 (트리의 중요도 기준)
     sorted_naver_trees_info = sorted(
@@ -690,33 +793,28 @@ def main():
     )
 
     # 상위 6개 네이버 이슈 선택
-    top_naver_issues = sorted_naver_trees_info[:6]
+    top_naver_issues = sorted_naver_trees_info[:10]
 
-    # 최종 이슈 리스트 생성: Google 트렌드 이슈 + 네이버 상위 6개 이슈 + 조합된 구문
-    # Google 트렌드 이슈는 이미 네이버 이슈와 통합되었으므로, 조합된 구문만 추가
+    # 최종 이슈 리스트 생성: 네이버 상위 6개 이슈 + 조합된 구문
     final_issues = top_naver_issues + combined_phrases
 
     # 유사도 기반 이슈 병합 (연결 요소 기반 병합)
-    final_issues = merge_similar_issues(final_issues, similarity_threshold=0.3)
-
-    # 추가적인 2차 병합 단계 (유사도 임계값 낮춤)
     final_issues = merge_similar_issues(final_issues, similarity_threshold=0.2)
 
-    # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용에서 추가
-    if len(final_issues) < 10:
+    # 최종 이슈가 20개 미만일 경우, 부족한 만큼 네이버 전용에서 추가
+    if len(final_issues) <= 20:
         # 네이버에서 추가
         for item in sorted_naver_trees_info[6:]:
             final_issues.append(item)
-            if len(final_issues) >= 10:
+            if len(final_issues) >= 20:
                 break
         # 트렌드에서 추가 (이 경우, 조합된 구문을 이미 추가했으므로 추가할 필요 없음)
-        # for item in sorted_trend_trees_info[:]:
-        #     final_issues.append(item)
-        #     if len(final_issues) >= 10:
-        #         break
+        for item in combined_phrases[5:]:
+            final_issues.append(item)
+            if len(final_issues) >= 20:
+                break
 
     # 최종 이슈가 10개 미만일 경우, 추가로 채우기
-    final_issues = final_issues[:10]
 
     # 최종 이슈 출력
     print("\n실시간 이슈:")
@@ -738,6 +836,16 @@ def main():
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
+
+    # 최종 이슈를 요약하기 위한 텍스트 준비
+    summary_content = ""
+    for i, issue in enumerate(final_issues, 1):
+        summary_content += f"{i}. {issue['phrase']}\n"
+
+    # 키워드 요약 호출
+    summarized_keywords = summarize_keywords(summary_content)
+    print("\n요약된 실시간 이슈:")
+    print(summarized_keywords)
 
 if __name__ == "__main__":
     main()

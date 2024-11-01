@@ -34,7 +34,6 @@ from sklearn.cluster import DBSCAN
 
 from difflib import SequenceMatcher  # 편집 거리 계산을 위한 라이브러리
 
-# OpenAI for summarization
 from openai import OpenAI
 
 # OpenAI API key 설정
@@ -52,7 +51,7 @@ nlp.add_pipe("textrank")
 
 # 로깅 설정
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)  # INFO 레벨로 설정
+logger.setLevel(logging.DEBUG)  # DEBUG 레벨로 설정 (개발 중에는 유용)
 
 # 파일 핸들러 설정 (UTF-8 인코딩)
 file_handler = logging.FileHandler("news_scraper.log", encoding='utf-8')
@@ -73,7 +72,7 @@ console_handler.setLevel(logging.ERROR)  # 콘솔에는 ERROR 이상만 출력
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-# 포괄적인 영어 불용어 리스트
+# 포괄적인 영어 불용어 리스트 (기존과 동일)
 english_stopwords = set([
     'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll",
     "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she',
@@ -94,7 +93,8 @@ english_stopwords = set([
     'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
 ])
 
-# 재시도 데코레이터
+
+# 재시도 데코레이터 (기존과 동일)
 def retry(exception_to_check, tries=3, delay=2, backoff=2):
     def deco_retry(f):
         @wraps(f)
@@ -112,8 +112,340 @@ def retry(exception_to_check, tries=3, delay=2, backoff=2):
         return f_retry
     return deco_retry
 
-# 웹페이지 스크래핑 함수 (뉴스 기사 본문 추출) - Selenium 제거 및 Requests + BeautifulSoup 사용
+# NewsAPI를 사용하여 뉴스 수집 함수 추가
 @retry((requests.exceptions.RequestException), tries=3, delay=2, backoff=2)
+def get_newsapi_news(api_key, country='us', category=None, max_articles=100):
+    url = 'https://newsapi.org/v2/top-headlines'
+    params = {
+        'apiKey': api_key,
+        'country': country,
+        'pageSize': max_articles,
+    }
+    if category:
+        params['category'] = category
+    response = requests.get(url, params=params, timeout=10)
+    response.raise_for_status()
+    data = response.json()
+    if data['status'] != 'ok':
+        logger.error(f"NewsAPI 오류: {data.get('message', 'Unknown error')}")
+        return []
+    articles = data.get('articles', [])
+    news_list = []
+    for article in articles:
+        title = article.get('title', 'No Title')
+        link = article.get('url', '')
+        if not link:
+            continue
+        pub_date_str = article.get('publishedAt', None)
+        pub_date = date_parser.parse(pub_date_str) if pub_date_str else datetime.datetime.now(datetime.timezone.utc)
+        news_list.append({
+            'title': title,
+            'link': link,
+            'pubDate': pub_date,
+            'source': article.get('source', {}).get('name', 'Unknown')
+        })
+    logger.info(f"NewsAPI에서 수집된 기사 수: {len(news_list)}개")
+    return news_list
+
+# Google News를 RSS 피드로 수집하는 함수 추가
+@retry((requests.exceptions.RequestException), tries=3, delay=2, backoff=2)
+def get_google_news(rss_url, days=7, max_articles=100):
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                          'AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/130.0.6723.70 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9'
+        }
+        response = requests.get(rss_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.content, 'xml')
+        items = soup.find_all('item')
+
+        # 현재 시간 기준으로 필터링
+        cutoff_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
+
+        news_list = []
+        for item in items:
+            if len(news_list) >= max_articles:
+                break  # 최대 기사 수에 도달하면 중단
+
+            title = item.title.text if item.title else 'No Title'
+            link = item.link.text if item.link else 'No Link'
+
+            if not link:
+                continue  # 링크가 없는 경우 스킵
+
+            parsed_url = urlparse(link)
+            if parsed_url.path.startswith('/video'):
+                logger.info(f"비디오 링크 스킵: {link}")
+                continue  # 경로가 '/video'로 시작하면 스킵
+
+            pub_date_str = item.pubDate.text if item.pubDate else None
+
+            if pub_date_str:
+                pub_date = date_parser.parse(pub_date_str)
+                logger.debug(f"기사 제목: {title}, 발행일: {pub_date}")
+                if pub_date >= cutoff_date:
+                    news_list.append({'title': title, 'link': link, 'pubDate': pub_date, 'source': 'Google News'})
+
+        logger.info(f"Google News에서 필터링된 기사 수: {len(news_list)}개")
+        return news_list
+    except Exception as e:
+        logger.error(f"Google News 수집 중 오류 발생 ({rss_url}): {e}")
+        return []
+
+# 뉴스 수집 함수 통합
+def collect_news(newsapi_key, google_news_rss_urls, days=7, max_articles=100):
+    all_news = []
+
+    # NewsAPI에서 뉴스 수집
+    newsapi_news = get_newsapi_news(api_key=newsapi_key, max_articles=max_articles)
+    all_news.extend(newsapi_news)
+
+    # Google News에서 뉴스 수집
+    for rss_url in google_news_rss_urls:
+        google_news = get_google_news(rss_url=rss_url, days=days, max_articles=max_articles)
+        all_news.extend(google_news)
+
+    logger.info(f"총 수집된 기사 수: {len(all_news)}개")
+    return all_news
+
+# 텍스트 전처리 함수 (기존과 동일)
+def preprocess_text(text):
+    if not text or not isinstance(text, str) or not text.strip():
+        logger.warning("유효하지 않은 입력 텍스트.")
+        return ""
+    # 특수 문자 제거 (영문 기준)
+    text = re.sub(r'[^a-zA-Z\s]', ' ', text)
+    # 여러 개의 공백을 하나로
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
+
+# 키워드 유사도 계산 함수 (기존과 동일)
+def calculate_jaccard_similarity(keywords1, keywords2):
+    set1 = set(keywords1)
+    set2 = set(keywords2)
+    intersection = set1 & set2
+    union = set1 | set2
+    if not union:
+        return 0.0
+    return len(intersection) / len(union)
+
+# 추가적인 유사도 계산 함수 (코사인 유사도) (기존과 동일)
+def calculate_cosine_similarity(phrase1, phrase2):
+    vectorizer = TfidfVectorizer().fit_transform([phrase1, phrase2])
+    vectors = vectorizer.toarray()
+    cosine_sim = cosine_similarity(vectors)
+    return cosine_sim[0][1]
+
+# 편집 거리 계산 함수 (기존과 동일)
+def calculate_edit_distance(phrase1, phrase2):
+    return SequenceMatcher(None, phrase1, phrase2).ratio()
+
+# 키워드 클러스터링 함수 (기존과 동일)
+def cluster_keywords(keywords, eps=0.5, min_samples=2):
+    if not keywords:
+        return []
+    vectorizer = TfidfVectorizer().fit_transform(keywords)
+    vectors = vectorizer.toarray()
+    clustering = DBSCAN(eps=eps, min_samples=min_samples, metric='cosine').fit(vectors)
+    clusters = {}
+    for idx, label in enumerate(clustering.labels_):
+        if label == -1:
+            continue  # 노이즈 제외
+        if label in clusters:
+            clusters[label].append(keywords[idx])
+        else:
+            clusters[label] = [keywords[idx]]
+    # 각 클러스터에서 가장 빈도가 높은 키워드 선택
+    representative_keywords = []
+    for cluster in clusters.values():
+        keyword_counter = Counter(cluster)
+        representative_keywords.append(keyword_counter.most_common(1)[0][0])
+    return representative_keywords
+
+# 키워드 추출 함수 (기존과 동일)
+def extract_keywords_textrank(text, stopwords, top_n=10):
+    try:
+        doc = nlp(text)
+        keywords = []
+        for phrase in doc._.phrases:
+            # 불용어가 포함된 구문 제외
+            if any(word.lower() in stopwords for word in phrase.text.split()):
+                continue
+            keywords.append(phrase.text)
+            if len(keywords) >= top_n:
+                break
+        return keywords
+    except Exception as e:
+        logger.error(f"TextRank 키워드 추출 중 오류 발생: {e}")
+        return []
+
+# 번역 함수 (기존과 동일)
+def translate_phrase(phrase, target='en'):
+    try:
+        return GoogleTranslator(source='auto', target=target).translate(phrase)
+    except Exception as e:
+        logger.error(f"Translation error: {e}")
+        return phrase
+
+# 대표 키워드 선정 함수 (기존과 동일)
+def select_representative_keyword(top_keywords, used_keywords, google_trends_keywords, language='en'):
+    # Google 트렌드 키워드를 우선적으로 선택
+    for kw in top_keywords:
+        if (kw in google_trends_keywords) and (kw not in used_keywords) and (kw.lower() not in english_stopwords):
+            return kw
+    # 나머지 키워드 중 사용되지 않았고 불용어가 아닌 키워드 선택
+    for kw in top_keywords:
+        if (kw not in used_keywords) and (kw.lower() not in english_stopwords):
+            return kw
+    return None
+
+# 트리 별로 대표 이슈 추출 함수 (기존과 동일)
+def extract_representative_info(trees, google_trends, source='Global News', language='en', max_words=5):
+    trees_info = []
+    used_keywords = set()
+    for tree_info in trees:
+        articles = tree_info['articles']
+        # 트리 중요도 계산 (뉴스 기사 수 또는 검색량)
+        importance = tree_info.get('importance', len(articles))
+        # 대표 키워드 선정 (트리 내 가장 많이 등장한 키워드)
+        keyword_counter = Counter()
+        for news in articles:
+            if 'keywords' in news and news['keywords']:
+                keyword_counter.update([kw for kw in news.get('keywords', []) if kw.lower() not in english_stopwords])
+            else:
+                continue
+        top_keywords = [word for word, freq in keyword_counter.most_common(5)]
+        if not top_keywords:
+            continue
+
+        # 대표 키워드 선정 시 Google 트렌드 키워드 우선
+        source_trends = google_trends.get(tree_info.get('source', ''), [])
+        rep_keyword = select_representative_keyword(top_keywords, used_keywords, source_trends, language=language)
+        if not rep_keyword:
+            rep_keyword = top_keywords[0] if top_keywords else None
+        if not rep_keyword:
+            continue  # 대표 키워드가 없으면 스킵
+        used_keywords.add(rep_keyword)
+
+        # 대표 키워드 제외 상위 키워드
+        top_other_keywords = [kw for kw in top_keywords if kw != rep_keyword]
+        if top_other_keywords:
+            # 이슈 구문은 최대 5개의 키워드로 제한
+            phrase_keywords = [rep_keyword] + top_other_keywords[:max_words-1]
+            # 중복 단어 제거 및 부분 문자열 제거
+            phrase_keywords = remove_substrings_and_duplicates(phrase_keywords)
+            # 의미 없는 키워드 제거
+            phrase_keywords = [kw for kw in phrase_keywords if re.match(r'^[0-9a-zA-Z]{2,}(?: [0-9a-zA-Z]{2,})*$', kw)]
+            # 최대 단어 수 제한
+            if len(phrase_keywords) > max_words:
+                phrase_keywords = phrase_keywords[:max_words]
+            # 조건에 맞지 않으면 대표 키워드만 사용
+            if len(phrase_keywords) < 2:
+                phrase_keywords = [rep_keyword]
+            phrase = ', '.join(phrase_keywords)
+        else:
+            phrase = rep_keyword
+
+        # 유사도 검사: 이미 추가된 트리에 유사한 구문이 있는지 확인
+        is_similar = False
+        for existing in trees_info:
+            similarity = calculate_cosine_similarity(phrase.lower(), existing['phrase'].lower())
+            edit_similarity = calculate_edit_distance(phrase.lower(), existing['phrase'].lower())
+            if similarity >= 0.85 or edit_similarity >= 0.85:  # 코사인 유사도와 편집 거리 임계값 상향 조정
+                is_similar = True
+                break
+            # 부분 일치 검사
+            if (phrase.lower() in existing['phrase'].lower()) or (existing['phrase'].lower() in phrase.lower()):
+                is_similar = True
+                break
+        if is_similar:
+            logger.info(f"유사한 이슈 발견, 제외됨: {phrase}")
+            continue
+
+        combined_info = {
+            'phrase': phrase,
+            'importance': importance,
+            'source': source  # 트리의 출처 추가
+        }
+        trees_info.append(combined_info)
+        logger.info(f"Representative issue added: {phrase} - Importance: {importance} - Source: {source}")
+    return trees_info
+
+# 중복 키워드 제거 함수 (기존과 동일)
+def remove_substrings_and_duplicates(keywords):
+    unique_keywords = []
+    sorted_keywords = sorted(keywords, key=lambda x: len(x), reverse=True)
+    for kw in sorted_keywords:
+        if kw in unique_keywords:
+            continue
+        if not any((kw != other and kw in other) for other in unique_keywords):
+            unique_keywords.append(kw)
+    return unique_keywords
+
+# 키워드 요약 함수 (수정됨)
+def summarize_keywords(content):
+    prompt = f"""
+[요약하는 방법]
+1. 다음 여러 개의 키워드를 보고 3~5어절의 키워드 10개로 요약해줘
+2. 여러가지의 키워드가 합쳐져 있으면 두 개의 키워드로 분리해도 돼
+예시 ) 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
+--> 1. 국정 감사 및 여론
+    2. 문재인 전 대통령, 다혜, 정진석
+
+3. 같은 문맥 키워드의 내용은 합쳐줘
+4. 핵심 키워드는 항상 있어야 해
+예시 ) 5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
+-->  소말리, 소녀상 모욕 및 편의점 난동
+예시 ) 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플star, 흑백 요리사, 유비빔
+-->  흑백 요리사 유비빔, 불법 영업 논란
+
+[예시]
+1. 대통령 직무, 부정 평가, 긍정 평가
+2. 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플star, 흑백 요리사, 유비빔
+3. 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
+4. 아버지 살해, 아버지 둔기, 30대 남성
+5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
+6. 23기 정숙, 출연자 검증, 논란 제작진, 유튜브 채널
+7. GD, 베이비 몬스터, 더블 타이틀, 몬스터 정규
+8. 기아 타이, 타이 거즈, 기아 세일
+9. 테슬라 코리아, 김예지 국내, 최초 테슬라
+10. 북한군 교전, 북한군 추정, 주장 북한군
+
+1. 대통령 직무 평가
+2. 흑백 요리사 유비빔, 불법 영업 논란
+3. 국정 감사 및 여론
+4. 아버지 둔기로 살해
+5. 소녀상 모욕 사건
+6. 23기 정숙, 출연자 검증 논란
+7. GD와 베이비 몬스터
+8. 기아타이거즈 세일
+9. 테슬라, 김예지
+10. 북한군 교전 주장
+
+다음은 요약할 텍스트: {content}
+"""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # 사용 가능한 모델 이름으로 변경
+            messages=[
+                {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=500,
+            temperature=0.15,
+        )
+
+        summary_text = response.choices[0].message.content.strip()
+        return summary_text
+
+    except Exception as e:
+        logger.error(f"요약 생성 중 오류 발생: {e}")
+        return "요약 생성에 실패했습니다."
+    
 def scrape_webpage(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -228,54 +560,7 @@ def scrape_webpage(url):
         logger.warning(f"본문을 찾을 수 없습니다: {url}")
         return ""
 
-# 뉴스 RSS 피드 수집 함수
-@retry(Exception, tries=3, delay=2, backoff=2)
-def get_rss_news(rss_url, days=7, max_articles=20):
-    try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                          'AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/130.0.6723.70 Safari/537.36',
-            'Accept-Language': 'en-US,en;q=0.9'
-        }
-        response = requests.get(rss_url, headers=headers, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'xml')
-        items = soup.find_all('item')
-
-        # 현재 시간 기준으로 필터링
-        cutoff_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
-
-        news_list = []
-        for item in items:
-            if len(news_list) >= max_articles:
-                break  # 최대 기사 수에 도달하면 중단
-
-            title = item.title.text if item.title else 'No Title'
-            link = item.link.text if item.link else 'No Link'
-
-            if not link:
-                continue  # 링크가 없는 경우 스킵
-
-            parsed_url = urlparse(link)
-            if parsed_url.path.startswith('/video'):
-                logger.info(f"비디오 링크 스킵: {link}")
-                continue  # 경로가 '/video'로 시작하면 스킵
-
-            pub_date_str = item.pubDate.text if item.pubDate else None
-
-            if pub_date_str:
-                pub_date = date_parser.parse(pub_date_str)
-                logger.debug(f"기사 제목: {title}, 발행일: {pub_date}")
-                if pub_date >= cutoff_date:
-                    news_list.append({'title': title, 'link': link, 'pubDate': pub_date})
-
-        logger.info(f"RSS 피드에서 필터링된 기사 수: {len(news_list)}개")
-        return news_list
-    except Exception as e:
-        logger.error(f"RSS 뉴스 수집 중 오류 발생 ({rss_url}): {e}")
-        return []
-
+    
 # Google 트렌드 키워드 수집 함수 (G10 국가)
 def get_google_trends_g10():
     try:
@@ -310,283 +595,35 @@ def get_google_trends_g10():
         logging.error(f"Google 트렌드 수집 중 오류 발생: {e}")
         return {}
 
-# 텍스트 전처리 함수
-def preprocess_text(text):
-    if not text or not isinstance(text, str) or not text.strip():
-        logger.warning("유효하지 않은 입력 텍스트.")
-        return ""
-    # 특수 문자 제거 (영문 기준)
-    text = re.sub(r'[^a-zA-Z\s]', ' ', text)
-    # 여러 개의 공백을 하나로
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
-
-# 키워드 유사도 계산 함수 (Jaccard 유사도)
-def calculate_jaccard_similarity(keywords1, keywords2):
-    set1 = set(keywords1)
-    set2 = set(keywords2)
-    intersection = set1 & set2
-    union = set1 | set2
-    if not union:
-        return 0.0
-    return len(intersection) / len(union)
-
-# 추가적인 유사도 계산 함수 (코사인 유사도)
-def calculate_cosine_similarity(phrase1, phrase2):
-    vectorizer = TfidfVectorizer().fit_transform([phrase1, phrase2])
-    vectors = vectorizer.toarray()
-    cosine_sim = cosine_similarity(vectors)
-    return cosine_sim[0][1]
-
-# 편집 거리 계산 함수
-def calculate_edit_distance(phrase1, phrase2):
-    return SequenceMatcher(None, phrase1, phrase2).ratio()
-
-# 키워드 클러스터링 함수
-def cluster_keywords(keywords, eps=0.5, min_samples=2):
-    if not keywords:
-        return []
-    vectorizer = TfidfVectorizer().fit_transform(keywords)
-    vectors = vectorizer.toarray()
-    clustering = DBSCAN(eps=eps, min_samples=min_samples, metric='cosine').fit(vectors)
-    clusters = {}
-    for idx, label in enumerate(clustering.labels_):
-        if label == -1:
-            continue  # 노이즈 제외
-        if label in clusters:
-            clusters[label].append(keywords[idx])
-        else:
-            clusters[label] = [keywords[idx]]
-    # 각 클러스터에서 가장 빈도가 높은 키워드 선택
-    representative_keywords = []
-    for cluster in clusters.values():
-        keyword_counter = Counter(cluster)
-        representative_keywords.append(keyword_counter.most_common(1)[0][0])
-    return representative_keywords
-
-# 키워드 추출 함수 (TextRank 기반, English)
-def extract_keywords_textrank(text, stopwords, top_n=10):
-    try:
-        doc = nlp(text)
-        keywords = []
-        for phrase in doc._.phrases:
-            # 불용어가 포함된 구문 제외
-            if any(word.lower() in stopwords for word in phrase.text.split()):
-                continue
-            keywords.append(phrase.text)
-            if len(keywords) >= top_n:
-                break
-        return keywords
-    except Exception as e:
-        logger.error(f"TextRank 키워드 추출 중 오류 발생: {e}")
-        return []
-
-# 번역 함수 (현재 영어만 사용하므로 필요 없음, 제거 가능)
-# def translate_phrase(phrase, src='auto', dest='en'):
-#     try:
-#         translation = translator.translate(phrase, src=src, dest=dest)
-#         return translation.text
-#     except Exception as e:
-#         logger.error(f"번역 중 오류 발생: {e}")
-#         return phrase  # 번역 실패 시 원문 유지
-    
-def translate_phrase(phrase, target='en'):
-    try:
-        return GoogleTranslator(source='auto', target=target).translate(phrase)
-    except Exception as e:
-        logger.error(f"Translation error: {e}")
-        return phrase
-
-# 대표 키워드 선정 함수 (Google 트렌드 우선, 불용어 필터링 추가)
-def select_representative_keyword(top_keywords, used_keywords, google_trends_keywords, language='en'):
-    # Google 트렌드 키워드를 우선적으로 선택
-    for kw in top_keywords:
-        if (kw in google_trends_keywords) and (kw not in used_keywords) and (kw.lower() not in english_stopwords):
-            return kw
-    # 나머지 키워드 중 사용되지 않았고 불용어가 아닌 키워드 선택
-    for kw in top_keywords:
-        if (kw not in used_keywords) and (kw.lower() not in english_stopwords):
-            return kw
-    return None
-
-# 트리 별로 대표 이슈 추출 함수 (키워드 구문 생성)
-def extract_representative_info(trees, google_trends, source='Global News', language='en', max_words=5):
-    trees_info = []
-    used_keywords = set()
-    for tree_info in trees:
-        articles = tree_info['articles']
-        # 트리 중요도 계산 (뉴스 기사 수 또는 검색량)
-        importance = tree_info.get('importance', len(articles))
-        # 대표 키워드 선정 (트리 내 가장 많이 등장한 키워드)
-        keyword_counter = Counter()
-        for news in articles:
-            if 'keywords' in news and news['keywords']:
-                keyword_counter.update([kw for kw in news.get('keywords', []) if kw.lower() not in english_stopwords])
-            else:
-                continue
-        top_keywords = [word for word, freq in keyword_counter.most_common(5)]
-        if not top_keywords:
-            continue
-
-        # 대표 키워드 선정 시 Google 트렌드 키워드 우선
-        source_trends = google_trends.get(tree_info.get('source', ''), [])
-        rep_keyword = select_representative_keyword(top_keywords, used_keywords, source_trends, language=language)
-        if not rep_keyword:
-            rep_keyword = top_keywords[0] if top_keywords else None
-        if not rep_keyword:
-            continue  # 대표 키워드가 없으면 스킵
-        used_keywords.add(rep_keyword)
-
-        # 대표 키워드 제외 상위 키워드
-        top_other_keywords = [kw for kw in top_keywords if kw != rep_keyword]
-        if top_other_keywords:
-            # 이슈 구문은 최대 5개의 키워드로 제한
-            phrase_keywords = [rep_keyword] + top_other_keywords[:max_words-1]
-            # 중복 단어 제거 및 부분 문자열 제거
-            phrase_keywords = remove_substrings_and_duplicates(phrase_keywords)
-            # 의미 없는 키워드 제거
-            phrase_keywords = [kw for kw in phrase_keywords if re.match(r'^[0-9a-zA-Z]{2,}(?: [0-9a-zA-Z]{2,})*$', kw)]
-            # 최대 단어 수 제한
-            if len(phrase_keywords) > max_words:
-                phrase_keywords = phrase_keywords[:max_words]
-            # 조건에 맞지 않으면 대표 키워드만 사용
-            if len(phrase_keywords) < 2:
-                phrase_keywords = [rep_keyword]
-            phrase = ', '.join(phrase_keywords)
-        else:
-            phrase = rep_keyword
-
-        # 유사도 검사: 이미 추가된 트리에 유사한 구문이 있는지 확인
-        is_similar = False
-        for existing in trees_info:
-            similarity = calculate_cosine_similarity(phrase.lower(), existing['phrase'].lower())
-            edit_similarity = calculate_edit_distance(phrase.lower(), existing['phrase'].lower())
-            if similarity >= 0.85 or edit_similarity >= 0.85:  # 코사인 유사도와 편집 거리 임계값 상향 조정
-                is_similar = True
-                break
-            # 부분 일치 검사
-            if (phrase.lower() in existing['phrase'].lower()) or (existing['phrase'].lower() in phrase.lower()):
-                is_similar = True
-                break
-        if is_similar:
-            logger.info(f"유사한 이슈 발견, 제외됨: {phrase}")
-            continue
-
-        combined_info = {
-            'phrase': phrase,
-            'importance': importance,
-            'source': source  # 트리의 출처 추가
-        }
-        trees_info.append(combined_info)
-        logger.info(f"Representative issue added: {phrase} - Importance: {importance} - Source: {source}")
-    return trees_info
-
-# 중복 키워드 제거 함수 (부분 문자열 및 동일 키워드 제거)
-def remove_substrings_and_duplicates(keywords):
-    unique_keywords = []
-    sorted_keywords = sorted(keywords, key=lambda x: len(x), reverse=True)
-    for kw in sorted_keywords:
-        if kw in unique_keywords:
-            continue
-        if not any((kw != other and kw in other) for other in unique_keywords):
-            unique_keywords.append(kw)
-    return unique_keywords
-
-# 키워드 요약 함수 (OpenAI API 이용)
-def summarize_keywords(content):
-    prompt = f"""
-[요약하는 방법]
-1. 다음 여러 개의 키워드를 보고 3~5어절의 키워드 10개로 요약해줘
-2. 여러가지의 키워드가 합쳐져 있으면 두 개의 키워드로 분리해도 돼
-예시 ) 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
---> 1. 국정 감사 및 여론
-    2. 문재인 전 대통령, 다혜, 정진석
-
-3. 같은 문맥 키워드의 내용은 합쳐줘
-4. 핵심 키워드는 항상 있어야 해
-예시 ) 5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
--->  소말리, 소녀상 모욕 및 편의점 난동
-예시 ) 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플스타, 흑백 요리사, 유비빔
--->  흑백 요리사 유비빔, 불법 영업 논란
-
-[예시]
-1. 대통령 직무, 부정 평가, 긍정 평가
-2. 불법 영업, 사생활 논란, 음식점 운영, 트리플 스타, 트리플star, 흑백 요리사, 유비빔
-3. 국정 감사, 국회 운영, 대통령 관저, 대통령 다혜, 대통령 명태, 명태균, 문재인 대통령, 여론 조사, 윤석열 대통령, 정진석 대통령, 참고인 조사
-4. 아버지 살해, 아버지 둔기, 30대 남성
-5. 소말리, 소녀상 모욕, 편의점 난동, 조니 말리
-6. 23기 정숙, 출연자 검증, 논란 제작진, 유튜브 채널
-7. GD, 베이비 몬스터, 더블 타이틀, 몬스터 정규
-8. 기아 타이, 타이 거즈, 기아 세일
-9. 테슬라 코리아, 김예지 국내, 최초 테슬라
-10. 북한군 교전, 북한군 추정, 주장 북한군
-
-1. 대통령 직무 평가
-2. 흑백 요리사 유비빔, 불법 영업 논란
-3. 국정 감사 및 여론
-4. 아버지 둔기로 살해
-5. 소녀상 모욕 사건
-6. 23기 정숙, 출연자 검증 논란
-7. GD와 베이비 몬스터
-8. 기아타이거즈 세일
-9. 테슬라, 김예지
-10. 북한군 교전 주장
-
-다음은 요약할 텍스트: {content}
-"""
-
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",  # 사용 가능한 모델 이름으로 변경
-            messages=[
-                {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
-                {"role": "user", "content": prompt},
-            ],
-            max_tokens=500,
-            temperature=0.15,
-        )
-
-        summary_text = response.choices[0].message.content.strip()
-        return summary_text
-
-    except Exception as e:
-        logger.error(f"요약 생성 중 오류 발생: {e}")
-        return "요약 생성에 실패했습니다."
-
-# 메인 함수
+# 메인 함수 (수정됨)
 def main():
     print("스크립트가 시작되었습니다.")
     logger.info("스크립트가 시작되었습니다.")
+
+    # NewsAPI 키 가져오기
+    newsapi_key = "ee68d0e9110443c79a942f0c294abd9c"
+    if not newsapi_key:
+        logger.error("NewsAPI 키가 설정되지 않았습니다. .env 파일을 확인하세요.")
+        return
+
+    # Google News RSS 피드 URL 설정
+    # 원하는 지역이나 카테고리에 따라 RSS 피드를 추가하세요
+    google_news_rss_urls = [
+        "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en",  # 미국 영어 뉴스
+        "https://news.google.com/rss?hl=en-US&gl=GB&ceid=GB:en",  # 영국 영어 뉴스
+        # 필요한 경우 추가 RSS 피드 URL을 여기에 추가
+    ]
 
     # Google 트렌드 키워드 수집 (G10 국가)
     google_trends = get_google_trends_g10()
     logger.info("Google 트렌드 수집 완료")
 
-    # 뉴스 소스별 RSS 피드 URL (글로벌 뉴스 포함)
-    news_sources = {
-        'BBC': "http://feeds.bbci.co.uk/news/rss.xml",
-        'CNN': "http://rss.cnn.com/rss/edition.rss",
-        'FOX NEWS': "http://feeds.foxnews.com/foxnews/latest",
-        'NHK': "https://www3.nhk.or.jp/rss/news/cat0.xml",
-        'New York Times': "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-        'Reuters': "http://feeds.reuters.com/reuters/topNews",
-        'Al Jazeera': "https://www.aljazeera.com/xml/rss/all.xml",
-        'The Guardian': "https://www.theguardian.com/world/rss",
-        'Bloomberg': "https://www.bloomberg.com/feed/podcast/top-news.xml",
-        'Financial Times': "https://www.ft.com/?format=rss",
-        'ABC News': "https://abcnews.go.com/abcnews/topstories",
-        'CBS News': "https://www.cbsnews.com/latest/rss/main",
-        'The Washington Post': "https://feeds.washingtonpost.com/rss/world",
-        'CCTV': "http://news.cctv.com/rss/world.xml"
-    }
+    # 뉴스 수집 (NewsAPI + Google News)
+    all_news = collect_news(newsapi_key, google_news_rss_urls, days=7, max_articles=100)
 
-    # 뉴스 소스별 뉴스 수집
-    all_news = {}
-    for source, rss_url in news_sources.items():
-        logger.info(f"Collecting news from {source}")
-        news = get_rss_news(rss_url, days=7, max_articles=20)  # 최근 7일 이내의 기사만 수집, 최대 20개
-        all_news[source] = news
-        logger.info(f"{source} 뉴스 수집 완료: {len(news)}개")
+    if not all_news:
+        logger.error("수집된 기사가 없습니다. 프로그램을 종료합니다.")
+        return
 
     # 기사별 텍스트 수집 (병렬 처리)
     articles_texts = []
@@ -594,9 +631,8 @@ def main():
 
     # 병렬 처리를 위한 리스트 준비
     articles_to_fetch = []
-    for source, source_news in all_news.items():
-        for news in source_news:
-            articles_to_fetch.append((news, source))
+    for news in all_news:
+        articles_to_fetch.append(news)
 
     logger.info(f"총 크롤링할 기사 수: {len(articles_to_fetch)}개")
 
@@ -604,13 +640,13 @@ def main():
     with ThreadPoolExecutor(max_workers=12) as executor:
         # Future 객체 리스트 생성
         future_to_article = {
-            executor.submit(scrape_webpage, news['link']): (news, source)
-            for news, source in articles_to_fetch
+            executor.submit(scrape_webpage, news['link']): news
+            for news in articles_to_fetch
         }
 
         # tqdm을 사용하여 진행 표시기 추가
         for future in tqdm(as_completed(future_to_article), total=len(future_to_article), desc="Fetching articles"):
-            news, source = future_to_article[future]
+            news = future_to_article[future]
             try:
                 text = future.result()
                 if text:
@@ -621,7 +657,7 @@ def main():
                         articles_metadata.append({
                             'title': news['title'],
                             'link': news['link'],
-                            'source': source,
+                            'source': news['source'],
                             'pubDate': news['pubDate'],
                             'language': language
                         })
@@ -707,9 +743,6 @@ def main():
             logger.info(f"Google 트렌드 새로운 트리 생성: {keyword} (국가: {country})")
 
     logger.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
-
-    # Google 트렌드 트리와 글로벌 뉴스 트리를 별도로 관리하여 대표 이슈를 추출
-    # 트렌드 트리를 글로벌 트리와 병합하지 않고 별도의 소스로 관리
 
     # 글로벌 뉴스 트리에서 대표 이슈 추출 (키워드 구문 생성)
     global_trees_info = extract_representative_info(global_news_trees, google_trends, source='Global News', language='en', max_words=5)
