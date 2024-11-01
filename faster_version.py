@@ -332,7 +332,7 @@ def search_naver_news_with_keyword(keyword, stopwords):
         return []
 
 # 유사도 기반 이슈 병합 함수 (코사인 유사도 도입)
-def merge_similar_issues(issues, similarity_threshold=0.3):
+def merge_similar_issues(issues, similarity_threshold=0.2):
     """
     이슈 리스트에서 유사도가 임계값 이상인 이슈들을 병합합니다.
     Args:
