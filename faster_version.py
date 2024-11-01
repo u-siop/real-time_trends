@@ -1,8 +1,3 @@
-드디어 찾았다!!!!!!!
-
-scrape_webpage() 가 너무 길어서 그럼
-search_naver_news_with_keyword() 전용 scraper 따로 만들고, naver news scraper 따로 만들자!!!!!!!!!!
-
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 숨기기 설정
 
@@ -30,6 +25,10 @@ from pytrends.request import TrendReq
 
 import numpy as np
 from tqdm import tqdm  # 진행 표시기 추가
+
+# 추가된 라이브러리
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -67,14 +66,35 @@ def load_stopwords(file_path):
 # 불용어 리스트 로드
 stopwords_file = 'stopwords-ko.txt'  # 불용어 파일 경로를 적절히 수정하세요
 stopwords = load_stopwords(stopwords_file)
+
 # 구텐베르크 알고리즘을 사용하기 위한 텍스트 밀도 계산 함수
 def calculate_text_density(html_element):
     text_length = len(html_element.get_text(strip=True))
     tag_length = len(str(html_element))
     return text_length / max(tag_length, 1)
 
-# 텍스트 밀도를 이용하여 뉴스 본문만을 스크랩하여 반환하는 함수
+# 웹페이지 스크래핑 함수
 def scrape_webpage(url):
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(url, timeout=10, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # 네이버 뉴스 본문 추출
+        article_body = soup.select_one('#dic_area')
+        if article_body:
+            article_text = article_body.get_text(separator=' ', strip=True)
+            return article_text
+        else:
+            logging.warning(f"본문을 찾을 수 없습니다: {url}")
+            return ""
+    except Exception as e:
+        logging.error(f"웹페이지 스크래핑 오류 ({url}): {e}")
+        return ""
+
+# 텍스트 밀도를 이용하여 뉴스 본문만을 스크랩하여 반환하는 함수
+def scrape_webpage_for_google_search(url):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -291,7 +311,7 @@ def search_naver_news_with_keyword(keyword, stopwords):
         # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
         for news in news_items[:10]:
-            article_text = scrape_webpage(news['link'])
+            article_text = scrape_webpage_for_google_search(news['link'])
             if article_text:
                 full_text = preprocess_text(news['title'] + ' ' + article_text)
                 if full_text:
@@ -310,6 +330,62 @@ def search_naver_news_with_keyword(keyword, stopwords):
     except Exception as e:
         logging.error(f"네이버 뉴스 검색 중 오류 발생 ({keyword}): {e}")
         return []
+
+# 유사도 기반 이슈 병합 함수 (코사인 유사도 도입)
+def merge_similar_issues(issues, similarity_threshold=0.3):
+    """
+    이슈 리스트에서 유사도가 임계값 이상인 이슈들을 병합합니다.
+    Args:
+        issues (list of dict): 병합할 이슈 리스트. 각 dict는 'phrase' 키를 가져야 합니다.
+        similarity_threshold (float): 유사도 임계값 (0 ~ 1).
+    Returns:
+        list of dict: 병합된 이슈 리스트.
+    """
+    if not issues:
+        return []
+
+    phrases = [issue['phrase'] for issue in issues]
+    # TF-IDF 벡터화 (한글 토큰화를 위해 미리 전처리)
+    vectorizer = TfidfVectorizer(tokenizer=lambda x: x.split(', '), lowercase=False)
+    tfidf_matrix = vectorizer.fit_transform(phrases)
+
+    # 코사인 유사도 행렬 계산
+    similarity_matrix = cosine_similarity(tfidf_matrix)
+
+    merged = set()
+    merged_issues = []
+
+    for i in range(len(issues)):
+        if i in merged:
+            continue
+        current_issue = issues[i]
+        merged_indices = [i]
+
+        for j in range(i + 1, len(issues)):
+            if j in merged:
+                continue
+            if similarity_matrix[i][j] >= similarity_threshold:
+                merged_indices.append(j)
+                merged.add(j)
+
+        if len(merged_indices) > 1:
+            # 병합된 이슈의 구문을 결합하고, 중요도는 합산
+            combined_phrases = [issues[idx]['phrase'] for idx in merged_indices]
+            combined_importance = sum([issues[idx]['importance'] if issues[idx]['importance'] else 0 for idx in merged_indices])
+            combined_sources = set([issues[idx]['source'] for idx in merged_indices])
+
+            # 중복 제거 및 정렬
+            combined_phrases = ', '.join(sorted(set(', '.join(combined_phrases).split(', '))))
+            merged_issues.append({
+                'phrase': combined_phrases,
+                'importance': combined_importance,
+                'source': ', '.join(combined_sources)
+            })
+            logging.info(f"이슈 병합: {[issues[idx]['phrase'] for idx in merged_indices]} -> {combined_phrases}")
+        else:
+            merged_issues.append(current_issue)
+
+    return merged_issues
 
 # 메인 함수
 def main():
@@ -349,7 +425,7 @@ def main():
     logging.info("검색량 기준으로 정렬된 상위 5개 트렌드 키워드:")
     for i, (kw, vol) in enumerate(sorted_keywords, 1):
         logging.info(f"{i}. {kw} - 검색량: {vol}")
-
+    
     # 트렌드 트리 생성 (검색량 기준으로 중요도 설정)
     for keyword, volume in tqdm(sorted_keywords, desc="Google 트렌드 트리 생성"):
         if keyword in stopwords or volume <= 0:
@@ -370,24 +446,38 @@ def main():
             'importance': volume  # 검색량을 중요도로 설정
         })
         logging.info(f"Google 트렌드 새로운 트리 생성: {keyword} (검색량: {volume})")
-
+    
     logging.info(f"Google 트렌드 트리의 개수: {len(trend_trees)}")
-
-    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출
+    
+    # Google 트렌드 상위 5개 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 및 매핑 저장
     trend_top3_keywords = []
     logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
     for keyword, _ in tqdm(sorted_keywords, desc="Google 트렌드 키워드 네이버 뉴스 검색"):
         top3 = search_naver_news_with_keyword(keyword, stopwords)
         if top3:
-            for kw in top3:
-                trend_top3_keywords.append({
-                    'phrase': kw,
-                    'importance': None,  # 중요도는 별도로 설정할 수 있음
-                    'source': 'Google Trends (Naver Search)'
-                })
-
-    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords)}")
-
+            trend_top3_keywords.append({
+                'trend_keyword': keyword,
+                'naver_keywords': top3,
+                'source': 'Google Trends (Naver Search)'
+            })
+    
+    logging.info(f"Google 트렌드 키워드 기반 추출된 상위 3개 키워드의 총 개수: {len(trend_top3_keywords) * 3}")
+    
+    # 트렌드 키워드와 네이버 키워드의 조합을 저장할 리스트
+    combined_phrases = []
+    
+    for item in trend_top3_keywords:
+        trend_kw = item['trend_keyword']
+        naver_kws = item['naver_keywords']
+        # 트렌드 키워드와 네이버 키워드를 결합하여 새로운 구문 생성
+        phrase = ', '.join([trend_kw] + naver_kws[:2])  # 최대 3단어 조합
+        combined_phrases.append({
+            'phrase': phrase,
+            'importance': None,  # 중요도는 필요에 따라 설정
+            'source': 'Google Trends + Naver Search'
+        })
+        logging.info(f"조합된 이슈 구문 추가: {phrase}")
+    
     # 네이버 뉴스 처리
     site_url = "https://news.naver.com/main/ranking/popularDay.naver"
 
@@ -442,10 +532,9 @@ def main():
                 if article_text:
                     # 텍스트를 합침 (제목 + 본문)
                     full_text = preprocess_text(news['title'] + ' ' + article_text)
-                    if not full_text:
-                        continue
-                    articles_texts.append(full_text)
-                    articles_metadata.append({'title': news['title'], 'link': news['link']})
+                    if full_text:
+                        articles_texts.append(full_text)
+                        articles_metadata.append({'title': news['title'], 'link': news['link']})
                 else:
                     logging.warning(f"기사 본문이 없습니다: {news['title']}")
             except Exception as e:
@@ -492,8 +581,8 @@ def main():
                 keywords, 
                 tree_info['all_keywords']
             )
-            logging.debug(f"Comparing '{news['title']}' with tree '{tree_info['phrase']}' | Similarity: {similarity}")
-            if similarity >= 0.3:  # 유사도 임계값을 0.3으로 증가
+            logging.debug(f"Comparing '{news['title']}' with tree keywords: {tree_info['all_keywords']} | Similarity: {similarity}")
+            if similarity >= 0.2:  # 유사도 임계값을 0.2로 조정
                 # 트리에 뉴스 추가
                 tree_info['articles'].append(news)
                 tree_info['all_keywords'].update([kw for kw in keywords if kw not in stopwords])  # 집합으로 업데이트
@@ -537,55 +626,48 @@ def main():
     # 상위 6개 네이버 이슈 선택
     top_naver_issues = sorted_naver_trees_info[:6]
 
-    # 상위 4개 트렌드 이슈 선택
-    top_trend_issues = sorted_trend_trees_info[:4]
+    # Google 트렌드 키워드 기반 상위 3개 키워드의 조합 추가
+    # trend_top3_keywords는 이제 combined_phrases에 반영됨
 
-    # Google 트렌드 키워드 기반 상위 3개 키워드 추가
-    top_trend_search_keywords = trend_top3_keywords[:15]  # 최대 15개까지 추가 (5 키워드 * 3)
-
-    # 최종 이슈 리스트 생성
+    # 최종 이슈 리스트 생성: 네이버 상위 6개 이슈 + 조합된 구문
     final_naver_issues = top_naver_issues
-    final_trend_issues = top_trend_issues
-    final_search_keywords = top_trend_search_keywords
+    final_combined_phrases = combined_phrases
 
-    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 합침
-    final_issues = final_naver_issues + final_trend_issues + final_search_keywords
+    final_issues = final_naver_issues + final_combined_phrases
 
-    # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용이나 트렌드 전용에서 추가
+    # 유사도 기반 이슈 병합 (코사인 유사도 도입)
+    final_issues = merge_similar_issues(final_issues, similarity_threshold=0.3)
+
+    # 최종 이슈가 10개 미만일 경우, 부족한 만큼 네이버 전용에서 추가
     if len(final_issues) < 10:
         # 네이버에서 추가
         for item in sorted_naver_trees_info[6:]:
             final_issues.append(item)
             if len(final_issues) >= 10:
                 break
-        # 트렌드에서 추가
-        for item in sorted_trend_trees_info[4:]:
-            final_issues.append(item)
-            if len(final_issues) >= 10:
-                break
+        # 트렌드에서 추가 (이 경우, 조합된 구문을 이미 추가했으므로 추가할 필요 없음)
+        # for item in sorted_trend_trees_info[:]:
+        #     final_issues.append(item)
+        #     if len(final_issues) >= 10:
+        #         break
 
     # 최종 이슈가 10개 미만일 경우, 추가로 채우기
     final_issues = final_issues[:10]
 
-    # 상위 6개 네이버 이슈와 상위 4개 트렌드 이슈, 그리고 검색 기반 상위 15개 키워드를 별도로 출력
+    # 상위 6개 네이버 이슈와 조합된 구문을 별도로 출력
     print("\n실시간 이슈:")
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
 
-    print("\nGoogle 트렌드 상위 4개 이슈:")
-    for rank, item in enumerate(top_trend_issues, 1):
+    print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드의 조합:")
+    for rank, item in enumerate(combined_phrases, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
 
-    print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드:")
-    for rank, item in enumerate(final_search_keywords[:15], 1):  # 상위 15개까지 출력 (5 키워드 * 3)
-        phrase = item['phrase']
-        print(f"{rank}. {phrase}")
-
-    # 필요시 전체 10개 이슈를 함께 출력
-    print("\n전체 실시간 이슈 (네이버 상위 6개 + Google 트렌드 상위 4개 + Google 트렌드 검색 기반 상위 15개):")
+    # 전체 실시간 이슈 출력 (네이버 상위 6개 + 조합된 구문)
+    print("\n전체 실시간 이슈 (네이버 상위 6개 + 조합된 구문):")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
         print(f"{rank}. {phrase}")
