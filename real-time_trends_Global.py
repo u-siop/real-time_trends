@@ -36,6 +36,9 @@ from difflib import SequenceMatcher  # 편집 거리 계산을 위한 라이브�
 
 from openai import OpenAI
 
+import tkinter as tk
+from tkinter import scrolledtext
+
 # OpenAI API key 설정
 client = OpenAI(
 )
@@ -44,17 +47,16 @@ client = OpenAI(
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)  # 개발 중에는 DEBUG 레벨로 설정
 
-# 파일 핸들러 설정 (UTF-8 인코딩)
-file_handler = logging.FileHandler("news_scraper.log", encoding='utf-8')
-file_handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
 
 # 기존 핸들러 모두 제거
 for handler in logger.handlers[:]:
     logger.removeHandler(handler)
 
-# 파일 핸들러만 추가
+# 파일 핸들러 설정 (UTF-8 인코딩)
+file_handler = logging.FileHandler("news_scraper.log", encoding='utf-8')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 # 콘솔 핸들러 설정 (선택 사항)
@@ -978,6 +980,37 @@ def main():
     summarized_keywords = summarize_keywords(summary_content)
     print("\nSummarized Real-time Issues:")
     print(summarized_keywords)
+
+    # **글로벌 실시간 이슈를 txt 파일에 저장**
+    if summarized_keywords:
+        with open("global_real_time_issues.txt", "w", encoding='utf-8') as f:
+            f.write("글로벌 실시간 이슈 :\n")
+            f.write(f"{summarized_keywords}\n")
+        logger.info("글로벌 실시간 이슈가 'global_real_time_issues.txt' 파일에 저장되었습니다.")
+    else:
+        logger.warning("저장할 글로벌 실시간 이슈가 없습니다.")
+
+    # **임시 GUI 화면 생성하여 이슈 출력**
+    if summarized_keywords:
+        root = tk.Tk()
+        root.title("글로벌 실시간 이슈")
+        root.geometry("300x400")
+
+        label = tk.Label(root, text="글로벌 실시간 이슈 :", font=("Helvetica", 16, "bold"))
+        label.pack(pady=10)
+
+        # 스크롤 가능한 텍스트 위젯 사용
+        text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=70, height=20, font=("Helvetica", 12))
+        text_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        text_area.insert(tk.END, f"{summarized_keywords}\n")
+        
+        # 텍스트 영역을 편집 불가능하게 설정
+        text_area.configure(state='disabled')
+
+        root.mainloop()
+    else:
+        logger.warning("GUI에 표시할 글로벌 실시간 이슈가 없습니다.")
 
 if __name__ == "__main__":
     main()

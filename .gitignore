@@ -1,4 +1,4 @@
 *.log
 *.txt
-news_api.txt
+/news_api.txt
 googletrans_env

@@ -32,8 +32,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from openai import OpenAI
 
+import tkinter as tk
+from tkinter import scrolledtext
+
 # 로깅 설정
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # OpenAI API key 설정
 client = OpenAI(
@@ -845,6 +848,39 @@ def main():
     summarized_keywords = summarize_keywords(summary_content)
     print("\n요약된 실시간 이슈:")
     print(summarized_keywords)
+
+    # 글로벌 실시간 이슈를 텍스트 파일로 저장
+    try:
+        with open('korea_real_time_issues.txt', 'w', encoding='utf-8') as f:
+            f.write("한국 실시간 이슈 :\n")
+            f.write(f"{summarized_keywords}\n")
+        logging.info("한국 실시간 이슈가 'korea_real_time_issues.txt' 파일에 저장되었습니다.")
+        print("\n한국 실시간 이슈가 'korea_real_time_issues.txt' 파일에 저장되었습니다.")
+    except Exception as e:
+        logging.error(f"한국 실시간 이슈 저장 중 오류 발생: {e}")
+        print("\n한국 실시간 이슈 저장에 실패했습니다.")
+
+        # **임시 GUI 화면 생성하여 이슈 출력**
+    if summarized_keywords:
+        root = tk.Tk()
+        root.title("한국 실시간 이슈")
+        root.geometry("300x400")
+
+        label = tk.Label(root, text="한국 실시간 이슈 :", font=("Helvetica", 16, "bold"))
+        label.pack(pady=10)
+
+        # 스크롤 가능한 텍스트 위젯 사용
+        text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=70, height=20, font=("Helvetica", 12))
+        text_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        text_area.insert(tk.END, f"{summarized_keywords}\n")
+        
+        # 텍스트 영역을 편집 불가능하게 설정
+        text_area.configure(state='disabled')
+
+        root.mainloop()
+    else:
+        logging.warning("GUI에 표시할 한국 실시간 이슈가 없습니다.")
 
 if __name__ == "__main__":
     main()
