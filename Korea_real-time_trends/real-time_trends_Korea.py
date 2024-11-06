@@ -30,18 +30,24 @@ from tqdm import tqdm  # 진행 표시기 추가
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from openai import OpenAI
+import sys
+
+# OpenAI API key 설정
+
+if sys.version_info >= (3, 12):
+    from openai import OpenAI
+    client = OpenAI(api_key=API_KEY)
+else:
+    import openai
+    openai.api_key = API_KEY
+    client = openai  # 이후 코드에서 일관된 사용을 위해
+
 
 import tkinter as tk
 from tkinter import scrolledtext
 
 # 로깅 설정
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# OpenAI API key 설정
-client = OpenAI(
-)
-
 
 # 형태소 분석기 초기화 (Komoran)
 komoran = Komoran()
@@ -530,23 +536,43 @@ def summarize_keywords(content):
 다음은 요약할 텍스트: {content}
 """
 
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",  # 사용 가능한 모델 이름으로 변경
-            messages=[
-                {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
-                {"role": "user", "content": prompt},
-            ],
-            max_tokens=500,
-            temperature=0.15,
-        )
+    if sys.version_info >= (3, 12):
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",  # 사용 가능한 모델 이름으로 변경
+                messages=[
+                    {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=500,
+                temperature=0.15,
+            )
 
-        summary_text = response.choices[0].message.content.strip()
-        return summary_text
+            summary_text = response.choices[0].message.content.strip()
+            return summary_text
 
-    except Exception as e:
-        logging.error(f"요약 생성 중 오류 발생: {e}")
-        return "요약 생성에 실패했습니다."
+        except Exception as e:
+            logging.error(f"요약 생성 중 오류 발생: {e}")
+            return "요약 생성에 실패했습니다."
+    else:
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a helpful newsletter artist that summarizes keywords to news keywords for SNS."},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=500,
+                temperature=0.15,
+            )
+
+            summary_text = response.choices[0].message.content.strip()
+            return summary_text
+
+        except Exception as e:
+            logging.error(f"요약 생성 중 오류 발생: {e}")
+            return "요약 생성에 실패했습니다."
+
 
 # 메인 함수
 def main():

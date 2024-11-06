@@ -2,3 +2,7 @@
 *.txt
 /news_api.txt
 googletrans_env
+/build
+/dist
+*.spec
+*.zip
