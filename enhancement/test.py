@@ -1,17 +1,15 @@
 import os
 import re
 import time
-import math
 import logging
 import requests
 import warnings
-from collections import Counter, defaultdict
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timedelta
+from datetime import datetime
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from bs4 import BeautifulSoup
-import pandas as pd
 from tqdm import tqdm
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -24,7 +22,6 @@ from soynlp.word import WordExtractor
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pytrends.request import TrendReq
-import numpy as np
 import schedule
 
 # FutureWarning 무시
@@ -45,6 +42,30 @@ class MongoDBConnection:
 
     def get_database(self, db_name):
         return self.client[db_name]
+
+# 설정을 관리하는 클래스
+class SettingsManager:
+    _instance = None
+
+    def __new__(cls, db):
+        if cls._instance is None:
+            cls._instance = super(SettingsManager, cls).__new__(cls)
+            cls._instance.db = db
+        return cls._instance
+
+    def get_last_reset_time(self):
+        settings = self.db['settings'].find_one({'setting': 'last_reset_time'})
+        if settings:
+            return settings['value']
+        else:
+            return None
+
+    def update_last_reset_time(self, new_time):
+        self.db['settings'].update_one(
+            {'setting': 'last_reset_time'},
+            {'$set': {'value': new_time}},
+            upsert=True
+        )
 
 # 불용어 로더 클래스
 class StopwordLoader:
@@ -285,18 +306,28 @@ class NaverNewsSearcher:
                     news_items.append({'title': title, 'link': link, 'description': description})
 
             articles_texts = []
+            articles_metadata = []
+
             for news in news_items[:10]:
                 # 기사 본문 스크래핑
-                article_text = self.web_scraper.scrape_webpage_for_google_search(news['link'])
+                # 네이버 뉴스라면 scrape_webpage, 아니면 scrape_webpage_for_google_search 사용
+                if 'news.naver.com' in news['link']:
+                    article_text = self.web_scraper.scrape_webpage(news['link'])
+                else:
+                    article_text = self.web_scraper.scrape_webpage_for_google_search(news['link'])
+                
                 if article_text:
                     full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + news['description'] + ' ' + article_text)
                     if full_text:
                         articles_texts.append(full_text)
+                        articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                 else:
                     # 기사 본문을 가져오지 못한 경우에도 제목과 요약을 사용
                     full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + news['description'])
                     if full_text:
                         articles_texts.append(full_text)
+                        articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
+                    logging.warning(f"기사 본문이 없습니다: {news['title']}")
 
             if not articles_texts:
                 logging.warning(f"네이버 뉴스 검색 결과에서 텍스트를 추출할 수 없습니다: {keyword}")
@@ -404,19 +435,20 @@ class IssueMerger:
                 break
         return unique_keywords
 
+# 트리 생성 및 관리 클래스
 class TreeBuilder:
     def __init__(self, articles_metadata, articles_keywords_list):
         self.articles_metadata = articles_metadata
         self.articles_keywords_list = articles_keywords_list
 
     def build_trees(self, similarity_threshold=0.2):
-        naver_trees = []
-        for idx, news in enumerate(tqdm(self.articles_metadata, desc="네이버 트리 생성")):
+        trees = []
+        for idx, news in enumerate(tqdm(self.articles_metadata, desc="트리 생성")):
             keywords = self.articles_keywords_list[idx]
             if not keywords:
                 continue
             merged = False
-            for tree_info in naver_trees:
+            for tree_info in trees:
                 similarity = self.calculate_jaccard_similarity(
                     keywords, 
                     tree_info['all_keywords']
@@ -426,17 +458,17 @@ class TreeBuilder:
                     tree_info['all_keywords'].update(keywords)
                     tree_info['importance'] += 1
                     merged = True
-                    logging.info(f"네이버 트리 병합 완료: {news['title']} (유사도: {similarity:.2f})")
+                    logging.info(f"트리 병합 완료: {news['title']} (유사도: {similarity:.2f})")
                     break
             if not merged:
-                naver_trees.append({
+                trees.append({
                     'articles': [news],
                     'all_keywords': set(keywords),
                     'importance': 1
                 })
-                logging.info(f"네이버 새로운 트리 생성: {news['title']}")
+                logging.info(f"새로운 트리 생성: {news['title']}")
 
-        return naver_trees
+        return trees
 
     def calculate_jaccard_similarity(self, keywords1, keywords2):
         set1 = set(keywords1)
@@ -467,10 +499,10 @@ class TreeBuilder:
 
         return total_similarity
 
-    def extract_tree_keywords(self, naver_trees):
+    def extract_tree_keywords(self, trees):
         # 각 트리에서 중요 키워드를 추출하여 트리의 계층 구조 생성
         tree_structures = []
-        for tree in naver_trees:
+        for tree in trees:
             keyword_counter = Counter()
             for article in tree['articles']:
                 keyword_counter.update(article['keywords'])
@@ -489,7 +521,7 @@ class TreeBuilder:
             })
         return tree_structures
 
-    # 트리 병합 메서드 수정
+    # 트리 병합 메서드
     def merge_trees(self, tree_structures, similarity_threshold=0.3):
         merged_trees = []
         for tree in tree_structures:
@@ -515,7 +547,7 @@ class TreeBuilder:
                 merged_trees.append(tree)
         return merged_trees
 
-# 메인 실행 클래스
+# 트리 병합 및 저장 로직이 포함된 MainExecutor 클래스
 class MainExecutor:
     def __init__(self):
         self.stopwords = StopwordLoader('stopwords-ko.txt').stopwords
@@ -526,15 +558,62 @@ class MainExecutor:
         self.final_issues_collection = self.db['final_issues']
         # 트리 구조를 저장할 새로운 컬렉션 생성
         self.tree_structures_collection = self.db['tree_structures']
+        # 설정을 저장할 컬렉션
+        self.settings_collection = self.db['settings']
+        # 설정 관리자 초기화
+        self.settings_manager = SettingsManager(self.db)
         self.keyword_extractor = KeywordExtractor(self.stopwords)
         self.web_scraper = WebScraper()
         self.google_trends_manager = GoogleTrendsManager()
         self.naver_news_searcher = NaverNewsSearcher(self.keyword_extractor)
         self.issue_merger = IssueMerger()
 
+        # 고유 인덱스 생성
+        self.create_unique_index()
+
+    def create_unique_index(self):
+        try:
+            self.db['tree_structures'].create_index(
+                [('root', 1), ('depth1', 1), ('depth2', 1)],
+                unique=True,
+                name='unique_tree'
+            )
+            logging.info("고유 인덱스 'unique_tree' 생성 완료.")
+        except Exception as e:
+            logging.error(f"고유 인덱스 생성 중 오류 발생: {e}")
+
+    def reset_database_if_needed(self, importance_reset_interval):
+        self.current_time = datetime.now()
+        last_reset_time = self.settings_manager.get_last_reset_time()
+        if last_reset_time:
+            logging.info(f"마지막 초기화 시간: {last_reset_time}")
+        else:
+            last_reset_time = self.current_time
+            self.settings_manager.update_last_reset_time(last_reset_time)
+            logging.info("초기화 시간 설정 완료.")
+
+        time_diff = (self.current_time - last_reset_time).total_seconds() / 3600  # 시간 단위
+        logging.info(f"현재 시간: {self.current_time}, 마지막 초기화 이후 {time_diff:.2f}시간 경과.")
+
+        if time_diff >= importance_reset_interval:
+            # DB 초기화 (tree_structures_collection 삭제)
+            self.tree_structures_collection.delete_many({})
+            logging.info("tree_structures_collection 초기화 완료.")
+
+            # 마지막 초기화 시간 업데이트
+            self.settings_manager.update_last_reset_time(self.current_time)
+            logging.info("마지막 초기화 시간 업데이트 완료.")
+            return True
+        else:
+            logging.info(f"초기화 필요 없음. 마지막 초기화 이후 {time_diff:.2f}시간 경과.")
+            return False
+
     def run(self):
         self.current_time = datetime.now()
-        importance_reset_interval = 24  # 중요도 초기화 간격 (시간 단위)
+        importance_reset_interval = 0.5  # 중요도 초기화 간격 (시간 단위, 0.5시간 = 30분)
+
+        # 초기화 여부 확인 및 수행
+        self.reset_database_if_needed(importance_reset_interval)
 
         # Google 트렌드 키워드 수집
         trending_keywords = self.google_trends_manager.get_trending_keywords()
@@ -611,7 +690,7 @@ class MainExecutor:
                         full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + article_text)
                         if full_text:
                             articles_texts.append(full_text)
-                            articles_metadata.append({'title': news['title'], 'link': news['link']})
+                            articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                     else:
                         logging.warning(f"기사 본문이 없습니다: {news['title']}")
                 except Exception as e:
@@ -679,13 +758,23 @@ class MainExecutor:
 
             # 기사 본문 스크래핑
             for news in news_items:
-                article_text = self.web_scraper.scrape_webpage(news['link'])
+                # 네이버 뉴스라면 scrape_webpage, 아니면 scrape_webpage_for_google_search 사용
+                if 'news.naver.com' in news['link']:
+                    article_text = self.web_scraper.scrape_webpage(news['link'])
+                else:
+                    article_text = self.web_scraper.scrape_webpage_for_google_search(news['link'])
+
                 if article_text:
                     full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + article_text)
                     if full_text:
                         trend_articles_texts.append(full_text)
-                        trend_articles_metadata.append({'title': news['title'], 'link': news['link']})
+                        trend_articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                 else:
+                    # 기사 본문을 가져오지 못한 경우에도 제목을 사용
+                    full_text = self.keyword_extractor.preprocess_text(news['title'])
+                    if full_text:
+                        trend_articles_texts.append(full_text)
+                        trend_articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                     logging.warning(f"기사 본문이 없습니다: {news['title']}")
 
         # 키워드 추출
@@ -709,7 +798,7 @@ class MainExecutor:
 
         # 구글 트렌드 기반 트리의 중요도에 가중치 부여
         for tree in trend_tree_structures:
-            tree['importance'] *= 0.8  # 가중치 조정 (1.5는 예시값)
+            tree['importance'] *= 1.5  # 가중치 조정 (1.5는 예시값)
 
         # 두 트리 리스트를 합침
         combined_tree_structures = tree_structures + trend_tree_structures
@@ -720,48 +809,43 @@ class MainExecutor:
 
         # 데이터베이스에 저장하기 전에 기존 DB와 비교하여 중복 처리
         for tree in combined_tree_structures:
+            # depth1과 depth2를 정렬하여 순서에 상관없이 중복 체크
+            sorted_depth1 = sorted(tree['depth1'])
+            sorted_depth2 = sorted(tree['depth2'])
+
             existing_tree = self.tree_structures_collection.find_one({
                 'root': tree['root'],
-                'depth1': tree['depth1'],
-                'depth2': tree['depth2']
+                'depth1': sorted_depth1,
+                'depth2': sorted_depth2
             })
+
             if existing_tree:
                 # 중요도 업데이트
-                last_update_time = existing_tree.get('last_update_time', existing_tree['timestamp'])
-                time_diff = (self.current_time - last_update_time).total_seconds() / 3600  # 시간 단위
-
-                # 중요도 초기화 여부 확인
-                if time_diff >= importance_reset_interval:
-                    # 중요도 초기화
-                    new_importance = tree['importance']
-                    logging.info(f"중요도 초기화: ROOT - {tree['root']}")
-                else:
-                    # 기존 중요도에 현재 중요도를 합산
-                    new_importance = existing_tree['importance'] + tree['importance']
-
+                new_importance = existing_tree['importance'] + tree['importance']
                 # 트리 업데이트
                 self.tree_structures_collection.update_one(
                     {'_id': existing_tree['_id']},
                     {'$set': {
                         'importance': new_importance,
-                        'timestamp': self.current_time,
-                        'last_update_time': self.current_time
+                        'timestamp': self.current_time
                     }}
                 )
-                logging.info(f"트리 업데이트: ROOT - {tree['root']} (중요도 갱신)")
+                logging.info(f"트리 업데이트: ROOT - {tree['root']} (Importance: {existing_tree['importance']} -> {new_importance})")
             else:
-                # 새로운 트리 삽입
+                # 새로운 트리 삽입 전에 depth1과 depth2 정렬
                 tree_doc = {
                     'root': tree['root'],
-                    'depth1': tree['depth1'],
-                    'depth2': tree['depth2'],
+                    'depth1': sorted_depth1,
+                    'depth2': sorted_depth2,
                     'importance': tree['importance'],
                     'timestamp': self.current_time,
                     'last_update_time': self.current_time
                 }
                 try:
                     self.tree_structures_collection.insert_one(tree_doc)
-                    logging.info(f"새로운 트리 저장 완료: ROOT - {tree['root']}")
+                    logging.info(f"새로운 트리 저장 완료: ROOT - {tree['root']} (Importance: {tree['importance']})")
+                except DuplicateKeyError:
+                    logging.warning(f"중복된 트리 삽입 시도: ROOT - {tree['root']}, Depth1 - {sorted_depth1}, Depth2 - {sorted_depth2}")
                 except Exception as e:
                     logging.error(f"트리 저장 중 오류 발생: {e}")
 
@@ -775,12 +859,14 @@ class MainExecutor:
             logging.info(f"  Depth 2: {', '.join(tree['depth2'])}")
             logging.info(f"  Importance: {tree['importance']}")
 
+# 메인 실행 함수
 def run_main_executor():
     executor = MainExecutor()
     executor.run()
 
+# 프로그램 실행
 if __name__ == "__main__":
-    # 5분마다 실행되도록 스케줄링 설정
+    # 스케줄러 설정: 5분마다 실행
     schedule.every(5).minutes.do(run_main_executor)
 
     # 프로그램 시작 시 한 번 실행
