@@ -30,6 +30,9 @@ from tqdm import tqdm  # 진행 표시기 추가
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from datetime import datetime
+import time
+
 import sys
 
 # OpenAI API key 설정
@@ -41,7 +44,6 @@ else:
     import openai
     openai.api_key = API_KEY
     client = openai  # 이후 코드에서 일관된 사용을 위해
-
 
 import tkinter as tk
 from tkinter import scrolledtext
@@ -334,7 +336,7 @@ def extract_keywords(text, stopwords, top_n=10):
         return []
 
 # 네이버 뉴스 검색 및 상위 3개 키워드 추출 함수
-def search_naver_news_with_keyword(keyword, stopwords):
+def search_news_with_keyword(self, keyword):
     try:
         search_url = f"https://search.naver.com/search.naver?&where=news&query={requests.utils.quote(keyword)}"
         headers = {'User-Agent': 'Mozilla/5.0'}
@@ -342,22 +344,34 @@ def search_naver_news_with_keyword(keyword, stopwords):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # 뉴스 검색 결과에서 제목과 링크 추출
-        news_elements = soup.select('.list_news .news_area')
+        # 뉴스 기사 요소 선택자 수정
+        news_elements = soup.select('ul.list_news > li.bx')
         news_items = []
         for elem in news_elements:
-            title_elem = elem.select_one('.news_tit')
+            # 제목 및 링크 추출
+            title_elem = elem.select_one('a.news_tit')
             if title_elem:
                 title = title_elem.get_text(strip=True)
                 link = title_elem.get('href')
-                news_items.append({'title': title, 'link': link})
+                # 뉴스 요약 본문 추출
+                desc_elem = elem.select_one('div.dsc_wrap')
+                if desc_elem:
+                    description = desc_elem.get_text(separator=' ', strip=True)
+                else:
+                    description = ''
+                news_items.append({'title': title, 'link': link, 'description': description})
 
-        # 상위 10개 뉴스 기사에서 텍스트 추출
         articles_texts = []
         for news in news_items[:10]:
-            article_text = scrape_webpage_for_google_search(news['link'])
+            # 기사 본문 스크래핑
+            article_text = self.web_scraper.scrape_webpage_for_google_search(news['link'])
             if article_text:
-                full_text = preprocess_text(news['title'] + ' ' + article_text)
+                full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + news['description'] + ' ' + article_text)
+                if full_text:
+                    articles_texts.append(full_text)
+            else:
+                # 기사 본문을 가져오지 못한 경우에도 제목과 요약을 사용
+                full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + news['description'])
                 if full_text:
                     articles_texts.append(full_text)
 
@@ -365,12 +379,14 @@ def search_naver_news_with_keyword(keyword, stopwords):
             logging.warning(f"네이버 뉴스 검색 결과에서 텍스트를 추출할 수 없습니다: {keyword}")
             return []
 
-        # 키워드 추출
-        keywords = extract_keywords(' '.join(articles_texts), stopwords, top_n=10)
+        # 모든 기사 텍스트를 합쳐서 키워드 추출
+        combined_text = ' '.join(articles_texts)
+        keywords = self.keyword_extractor.extract_keywords(combined_text, top_n=10)
         top_3_keywords = keywords[:3] if len(keywords) >= 3 else keywords
 
         logging.info(f"키워드 '{keyword}'에 대한 상위 3개 키워드: {top_3_keywords}")
         return top_3_keywords
+    
     except Exception as e:
         logging.error(f"네이버 뉴스 검색 중 오류 발생 ({keyword}): {e}")
         return []
@@ -473,6 +489,7 @@ def summarize_keywords(content):
 4. 각 요약 항목은 명확하고 간결해야 하며, 핵심 주제를 반영해야 해.
 5. 동일한 키워드가 여러 번 등장하면 한 번만 포함시켜줘.
 6. 최신의 실제 이슈를 반영하여 현재 상황에 맞는 용어와 표현을 사용해줘.
+7. 넘버링은 하지마.
 
 [예시1]
 1. 대통령 직무, 부정 평가, 긍정 평가
@@ -487,16 +504,16 @@ def summarize_keywords(content):
 10. 북한군 교전, 북한군 추정, 주장 북한군
 
 ==> 요약된 실시간 이슈:
-1. 대통령 직무 평가
-2. 불법 영업 논란
-3. 국정 감사 및 여론
-4. 아버지 둔기로 살해
-5. 소녀상 모욕 사건
-6. 23기 정숙, 출연자 검증 논란
-7. GD와 베이비 몬스터
-8. 기아타이거즈 세일
-9. 테슬라, 김예지
-10. 북한군 교전 주장
+대통령 직무 평가
+불법 영업 논란
+국정 감사 및 여론
+아버지 둔기로 살해
+소녀상 모욕 사건
+23기 정숙, 출연자 검증 논란
+GD와 베이비 몬스터
+기아타이거즈 세일
+테슬라, 김예지
+북한군 교전 주장
 
 [예시2]
 1. 도널드 트럼프 대통령, 해리스 부통령, 카멀 해리스, 여론 조사, 대선 후보
@@ -521,16 +538,16 @@ def summarize_keywords(content):
 20. 온라인 커뮤니티, 커뮤니티 갈무리, 사고 당시 모습, 추돌 사고, 여성
 
 요약된 실시간 이슈:
-1. 미국 대선 후보
-2. 북한, 탄도 미사일 시험 발사
-3. 통영 해산물 축제
-4. 강남 추돌 사고 
-5. 윤석열 대통령 기자회견
-6. 한국 부채춤 중국 논란
-7. 국민의 힘, 원내대표 대책 회의
-8. 아버지 시신 냉동 사건
-9. 금투세 금융 투자 소득세
-10. 지드래곤, 테슬라 사이버트럭
+미국 대선 후보
+북한, 탄도 미사일 시험 발사
+통영 해산물 축제
+강남 추돌 사고 
+윤석열 대통령 기자회견
+한국 부채춤 중국 논란
+국민의 힘, 원내대표 대책 회의
+아버지 시신 냉동 사건
+금투세 금융 투자 소득세
+지드래곤, 테슬라 사이버트럭
 
 
 다음은 요약할 텍스트: {content}
@@ -641,7 +658,7 @@ def main():
     trend_top3_keywords = []
     logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 상위 3개 키워드 추출 시작")
     for keyword, _ in tqdm(sorted_keywords, desc="Google 트렌드 키워드 네이버 뉴스 검색"):
-        top3 = search_naver_news_with_keyword(keyword, stopwords)
+        top3 = search_news_with_keyword(keyword, stopwords)
         if top3:
             trend_top3_keywords.append({
                 'trend_keyword': keyword,
@@ -851,19 +868,19 @@ def main():
     print("\n네이버 뉴스 상위 6개 이슈:")
     for rank, item in enumerate(top_naver_issues, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase}")
+        print(f"{phrase}")
 
     # Google 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드의 조합 출력
     print("\nGoogle 트렌드 키워드 기반 네이버 뉴스 상위 3개 키워드의 조합:")
     for rank, item in enumerate(combined_phrases, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase}")
+        print(f"{phrase}")
 
     # 전체 실시간 이슈 출력 (Google 트렌드 이슈 + 네이버 상위 6개 + 조합된 구문)
     print("\n전체 실시간 이슈 (Google 트렌드 + 네이버 상위 6개 + 조합된 구문):")
     for rank, item in enumerate(final_issues, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase}")
+        print(f"{phrase}")
 
     # 최종 이슈를 요약하기 위한 텍스트 준비
     summary_content = ""
@@ -875,13 +892,16 @@ def main():
     print("\n요약된 실시간 이슈:")
     print(summarized_keywords)
 
+    current_time = datetime.now().strftime("%Y%m%d_%H%M")
+    file_name = f"한국_실시간 이슈_{current_time}.txt"
+
     # 글로벌 실시간 이슈를 텍스트 파일로 저장
     try:
-        with open('korea_real_time_issues.txt', 'w', encoding='utf-8') as f:
+        with open(file_name, 'w', encoding='utf-8') as f:
             f.write("한국 실시간 이슈 :\n")
             f.write(f"{summarized_keywords}\n")
-        logging.info("한국 실시간 이슈가 'korea_real_time_issues.txt' 파일에 저장되었습니다.")
-        print("\n한국 실시간 이슈가 'korea_real_time_issues.txt' 파일에 저장되었습니다.")
+        logging.info(f"한국 실시간 이슈가 {file_name} 파일에 저장되었습니다.")
+        print(f"\n한국 실시간 이슈가 {file_name} 파일에 저장되었습니다.")
     except Exception as e:
         logging.error(f"한국 실시간 이슈 저장 중 오류 발생: {e}")
         print("\n한국 실시간 이슈 저장에 실패했습니다.")
@@ -892,7 +912,7 @@ def main():
         root.title("한국 실시간 이슈")
         root.geometry("300x400")
 
-        label = tk.Label(root, text="한국 실시간 이슈 :", font=("Helvetica", 16, "bold"))
+        label = tk.Label(root, text="한국 실시간 이슈", font=("Helvetica", 16, "bold"))
         label.pack(pady=10)
 
         # 스크롤 가능한 텍스트 위젯 사용

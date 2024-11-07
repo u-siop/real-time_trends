@@ -20,6 +20,7 @@ import pytextrank
 
 from dateutil import parser as date_parser
 import datetime
+import time
 
 from deep_translator import GoogleTranslator
 
@@ -64,12 +65,6 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 # 기존 핸들러 모두 제거
 for handler in logger.handlers[:]:
     logger.removeHandler(handler)
-
-# 파일 핸들러 설정 (UTF-8 인코딩)
-file_handler = logging.FileHandler("news_scraper.log", encoding='utf-8')
-file_handler.setLevel(logging.INFO)
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
 
 # 콘솔 핸들러 설정 (선택 사항)
 console_handler = logging.StreamHandler(sys.stdout)
@@ -306,10 +301,24 @@ def preprocess_text(text):
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
-# 의미 있는 구문인지 확인하는 함수
 def is_meaningful_phrase(phrase):
     # 적어도 하나의 알파벳 문자가 포함되어 있고, 숫자만으로 이루어지지 않았는지 확인
-    return bool(re.search(r'[a-zA-Z]', phrase)) and not phrase.strip().isdigit()
+    if not re.search(r'[a-zA-Z]', phrase):
+        return False
+    if phrase.strip().isdigit():
+        return False
+    # 알파벳 비율이 30% 미만인 경우 제외
+    letters = len(re.findall(r'[a-zA-Z]', phrase))
+    total = len(phrase)
+    if letters / total < 0.3:
+        return False
+    # 특정 단어가 포함된 경우 제외 (예: 'removed')
+    if re.search(r'\bremoved\b', phrase, re.IGNORECASE):
+        return False
+    # 구문의 길이가 너무 짧거나 긴 경우 제외
+    if len(phrase.split()) < 2 or len(phrase) > 100:
+        return False
+    return True
 
 # Jaccard 유사도 계산 함수
 def calculate_jaccard_similarity(keywords1, keywords2):
@@ -495,6 +504,7 @@ def summarize_keywords(content):
 4. 각 요약 항목은 명확하고 간결해야 하며, 핵심 주제를 반영해야 해.
 5. 동일한 키워드가 여러 번 등장하면 한 번만 포함시켜줘.
 6. 최신의 실제 이슈를 반영하여 현재 상황에 맞는 용어와 표현을 사용해줘.
+7. 넘버링은 하지마.
 
 [예시1]
 1. 대통령 직무, 부정 평가, 긍정 평가
@@ -509,16 +519,16 @@ def summarize_keywords(content):
 10. 북한군 교전, 북한군 추정, 주장 북한군
 
 ==> 요약된 실시간 이슈:
-1. 대통령 직무 평가
-2. 불법 영업 논란
-3. 국정 감사 및 여론
-4. 아버지 둔기로 살해
-5. 소녀상 모욕 사건
-6. 23기 정숙, 출연자 검증 논란
-7. GD와 베이비 몬스터
-8. 기아타이거즈 세일
-9. 테슬라, 김예지
-10. 북한군 교전 주장
+대통령 직무 평가
+불법 영업 논란
+국정 감사 및 여론
+아버지 둔기로 살해
+소녀상 모욕 사건
+23기 정숙, 출연자 검증 논란
+GD와 베이비 몬스터
+기아타이거즈 세일
+테슬라, 김예지
+북한군 교전 주장
 
 [예시2]
 1. 도널드 트럼프 대통령, 해리스 부통령, 카멀 해리스, 여론 조사, 대선 후보
@@ -543,16 +553,16 @@ def summarize_keywords(content):
 20. 온라인 커뮤니티, 커뮤니티 갈무리, 사고 당시 모습, 추돌 사고, 여성
 
 요약된 실시간 이슈:
-1. 미국 대선 후보
-2. 북한, 탄도 미사일 시험 발사
-3. 통영 해산물 축제
-4. 강남 추돌 사고 
-5. 윤석열 대통령 기자회견
-6. 한국 부채춤 중국 논란
-7. 국민의 힘, 원내대표 대책 회의
-8. 아버지 시신 냉동 사건
-9. 금투세 금융 투자 소득세
-10. 지드래곤, 테슬라 사이버트럭
+미국 대선 후보
+북한, 탄도 미사일 시험 발사
+통영 해산물 축제
+강남 추돌 사고 
+윤석열 대통령 기자회견
+한국 부채춤 중국 논란
+국민의 힘, 원내대표 대책 회의
+아버지 시신 냉동 사건
+금투세 금융 투자 소득세
+지드래곤, 테슬라 사이버트럭
 
 
 다음은 요약할 텍스트: {content}
@@ -1002,7 +1012,7 @@ def main():
     print("\nTop 20 Real-time Multi-keywords:")
     for rank, item in enumerate(unique_final_issues, 1):
         phrase = item['phrase']
-        print(f"{rank}. {phrase} (Importance: {item['importance']})")
+        print(f"{phrase} (Importance: {item['importance']})")
 
     # 최종 이슈를 요약하기 위한 텍스트 준비
     summary_content = ""
@@ -1014,12 +1024,16 @@ def main():
     print("\nSummarized Real-time Issues:")
     print(summarized_keywords)
 
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    file_name = f"글로벌_실시간 이슈_{current_time}.txt"
+
     # **글로벌 실시간 이슈를 txt 파일에 저장**
     if summarized_keywords:
-        with open("global_real_time_issues.txt", "w", encoding='utf-8') as f:
-            f.write("글로벌 실시간 이슈 :\n")
+        with open(file_name, "w", encoding='utf-8') as f:
+            f.write("글로벌 실시간 이슈\n")
             f.write(f"{summarized_keywords}\n")
-        logger.info("글로벌 실시간 이슈가 'global_real_time_issues.txt' 파일에 저장되었습니다.")
+        logger.info(f"글로벌 실시간 이슈가 {file_name} 파일에 저장되었습니다.")
+        print(f"\n글로벌 실시간 이슈가 {file_name} 파일에 저장되었습니다.")
     else:
         logger.warning("저장할 글로벌 실시간 이슈가 없습니다.")
 
@@ -1029,7 +1043,7 @@ def main():
         root.title("글로벌 실시간 이슈")
         root.geometry("300x400")
 
-        label = tk.Label(root, text="글로벌 실시간 이슈 :", font=("Helvetica", 16, "bold"))
+        label = tk.Label(root, text="글로벌 실시간 이슈", font=("Helvetica", 16, "bold"))
         label.pack(pady=10)
 
         # 스크롤 가능한 텍스트 위젯 사용
