@@ -3,11 +3,12 @@ import re
 import time
 import logging
 import requests
+import hashlib
 import warnings
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING
 from pymongo.errors import DuplicateKeyError
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -568,19 +569,71 @@ class MainExecutor:
         self.naver_news_searcher = NaverNewsSearcher(self.keyword_extractor)
         self.issue_merger = IssueMerger()
 
-        # 고유 인덱스 생성
+        # 고유 인덱스 생성 (기존 인덱스 삭제 후 재생성)
         self.create_unique_index()
 
     def create_unique_index(self):
         try:
-            self.db['tree_structures'].create_index(
-                [('root', 1), ('depth1', 1), ('depth2', 1)],
+            # 기존 고유 인덱스 삭제
+            self.tree_structures_collection.drop_index('unique_tree_key')
+            logging.info("기존 고유 인덱스 'unique_tree_key' 삭제 완료.")
+        except Exception as e:
+            if "not found" in str(e):
+                logging.info("기존 고유 인덱스 'unique_tree_key'가 존재하지 않습니다.")
+            else:
+                logging.error(f"기존 고유 인덱스 삭제 중 오류 발생: {e}")
+
+        try:
+            # 새 고유 인덱스 생성
+            self.tree_structures_collection.create_index(
+                [('unique_key', ASCENDING)],
                 unique=True,
-                name='unique_tree'
+                name='unique_tree_key'
             )
-            logging.info("고유 인덱스 'unique_tree' 생성 완료.")
+            logging.info("고유 인덱스 'unique_tree_key' 생성 완료.")
         except Exception as e:
             logging.error(f"고유 인덱스 생성 중 오류 발생: {e}")
+
+    def generate_unique_key(self, root):
+        # 키워드 정규화: 소문자 변환, 공백 및 특수문자 제거
+        root_normalized = re.sub(r'[^0-9가-힣a-z]', '', root.strip().lower())
+        
+        # 해시 생성 (SHA256 사용)
+        unique_key = hashlib.sha256(root_normalized.encode('utf-8')).hexdigest()
+        
+        logging.debug(f"생성된 unique_key: {unique_key} (원본: {root_normalized})")
+        return unique_key
+
+    def insert_or_update_tree(self, tree_doc):
+        try:
+            result = self.tree_structures_collection.update_one(
+                {'unique_key': tree_doc['unique_key']},
+                {
+                    '$inc': {'importance': tree_doc['importance']},
+                    '$set': {
+                        'timestamp': tree_doc['timestamp'],
+                        'last_update_time': tree_doc['last_update_time']
+                    },
+                    '$setOnInsert': {
+                        'root': tree_doc['root'],
+                        'depth1': tree_doc['depth1'],
+                        'depth2': tree_doc['depth2']
+                    },
+                    '$addToSet': {  # 중복 없이 depth1과 depth2 키워드 추가
+                        'depth1': {'$each': tree_doc['depth1']},
+                        'depth2': {'$each': tree_doc['depth2']}
+                    }
+                },
+                upsert=True
+            )
+            if result.upserted_id:
+                logging.info(f"새로운 트리 저장 완료: ROOT - {tree_doc['root']} (Importance: {tree_doc['importance']})")
+            else:
+                logging.info(f"트리 업데이트 완료: ROOT - {tree_doc['root']} (추가된 Importance: {tree_doc['importance']})")
+        except DuplicateKeyError:
+            logging.error(f"DuplicateKeyError 발생: unique_key={tree_doc['unique_key']}")
+        except Exception as e:
+            logging.error(f"트리 저장 중 오류 발생: {e}")
 
     def reset_database_if_needed(self, importance_reset_interval):
         self.current_time = datetime.now()
@@ -610,7 +663,7 @@ class MainExecutor:
 
     def run(self):
         self.current_time = datetime.now()
-        importance_reset_interval = 0.5  # 중요도 초기화 간격 (시간 단위, 0.5시간 = 30분)
+        importance_reset_interval = 0.1  # 중요도 초기화 간격
 
         # 초기화 여부 확인 및 수행
         self.reset_database_if_needed(importance_reset_interval)
@@ -635,15 +688,7 @@ class MainExecutor:
         logging.info("검색량 기준으로 정렬된 상위 20개 트렌드 키워드:")
         for i, (kw, vol) in enumerate(sorted_keywords, 1):
             logging.info(f"{i}. {kw} - 검색량: {vol}")
-
-        # 상위 10개 트렌드 키워드를 네이버 뉴스에서 검색하여 키워드 추출
-        trend_top_keywords = []
-        logging.info("Google 트렌드 키워드를 네이버 뉴스에서 검색하여 키워드 추출 시작")
-        for keyword, _ in tqdm(sorted_keywords[:10], desc="Google 트렌드 키워드 네이버 뉴스 검색"):
-            top_keywords = self.naver_news_searcher.search_news_with_keyword(keyword)
-            if top_keywords:
-                trend_top_keywords.extend(top_keywords)
-
+            
         # 네이버 뉴스 처리
         site_url = "https://news.naver.com/main/ranking/popularDay.naver"
         options = Options()
@@ -692,6 +737,11 @@ class MainExecutor:
                             articles_texts.append(full_text)
                             articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                     else:
+                        # 기사 본문을 가져오지 못한 경우에도 제목과 요약을 사용
+                        full_text = self.keyword_extractor.preprocess_text(news['title'] + ' ' + news['description'])
+                        if full_text:
+                            articles_texts.append(full_text)
+                            articles_metadata.append({'title': news['title'], 'link': news['link'], 'keywords': []})
                         logging.warning(f"기사 본문이 없습니다: {news['title']}")
                 except Exception as e:
                     logging.error(f"뉴스 기사 처리 중 오류 ({news['title']}): {e}")
@@ -713,7 +763,7 @@ class MainExecutor:
 
         # 뉴스 기사별로 키워드 추출
         articles_keywords_list = []
-        for idx, text in tqdm(enumerate(articles_texts), total=len(articles_texts), desc="뉴스 기사 키워드 추출"):
+        for idx, text in enumerate(tqdm(articles_texts, desc="뉴스 기사 키워드 추출")):
             keywords = self.keyword_extractor.extract_keywords(text, top_n=10)
             if keywords:
                 articles_keywords_list.append(keywords)
@@ -779,7 +829,7 @@ class MainExecutor:
 
         # 키워드 추출
         trend_articles_keywords_list = []
-        for idx, text in enumerate(trend_articles_texts):
+        for idx, text in enumerate(tqdm(trend_articles_texts, desc="구글 트렌드 기사 키워드 추출")):
             keywords = self.keyword_extractor.extract_keywords(text, top_n=10)
             if keywords:
                 trend_articles_keywords_list.append(keywords)
@@ -803,51 +853,33 @@ class MainExecutor:
         # 두 트리 리스트를 합침
         combined_tree_structures = tree_structures + trend_tree_structures
 
-        # 트리 병합 수행
-        combined_tree_structures = tree_builder.merge_trees(combined_tree_structures, similarity_threshold=0.3)
-        logging.info(f"트리 병합 후 트리의 개수: {len(combined_tree_structures)}")
-
-        # 데이터베이스에 저장하기 전에 기존 DB와 비교하여 중복 처리
+        # 사전 병합: 동일한 unique_key를 가진 트리를 합산
+        merged_tree_dict = {}
         for tree in combined_tree_structures:
-            # depth1과 depth2를 정렬하여 순서에 상관없이 중복 체크
-            sorted_depth1 = sorted(tree['depth1'])
-            sorted_depth2 = sorted(tree['depth2'])
-
-            existing_tree = self.tree_structures_collection.find_one({
-                'root': tree['root'],
-                'depth1': sorted_depth1,
-                'depth2': sorted_depth2
-            })
-
-            if existing_tree:
-                # 중요도 업데이트
-                new_importance = existing_tree['importance'] + tree['importance']
-                # 트리 업데이트
-                self.tree_structures_collection.update_one(
-                    {'_id': existing_tree['_id']},
-                    {'$set': {
-                        'importance': new_importance,
-                        'timestamp': self.current_time
-                    }}
-                )
-                logging.info(f"트리 업데이트: ROOT - {tree['root']} (Importance: {existing_tree['importance']} -> {new_importance})")
+            unique_key = self.generate_unique_key(tree['root'])  # root만 전달
+            if unique_key in merged_tree_dict:
+                merged_tree_dict[unique_key]['importance'] += tree['importance']
+                # depth1과 depth2 키워드 병합
+                merged_tree_dict[unique_key]['depth1'].extend(tree['depth1'])
+                merged_tree_dict[unique_key]['depth2'].extend(tree['depth2'])
             else:
-                # 새로운 트리 삽입 전에 depth1과 depth2 정렬
-                tree_doc = {
-                    'root': tree['root'],
-                    'depth1': sorted_depth1,
-                    'depth2': sorted_depth2,
-                    'importance': tree['importance'],
-                    'timestamp': self.current_time,
-                    'last_update_time': self.current_time
-                }
-                try:
-                    self.tree_structures_collection.insert_one(tree_doc)
-                    logging.info(f"새로운 트리 저장 완료: ROOT - {tree['root']} (Importance: {tree['importance']})")
-                except DuplicateKeyError:
-                    logging.warning(f"중복된 트리 삽입 시도: ROOT - {tree['root']}, Depth1 - {sorted_depth1}, Depth2 - {sorted_depth2}")
-                except Exception as e:
-                    logging.error(f"트리 저장 중 오류 발생: {e}")
+                merged_tree_dict[unique_key] = tree
+
+        logging.info(f"사전 병합 후 고유 트리의 개수: {len(merged_tree_dict)}")
+
+        # 트리 삽입/업데이트
+        for unique_key, tree in merged_tree_dict.items():
+            tree_doc = {
+                'root': tree['root'],
+                'depth1': sorted(list(set([kw.strip() for kw in tree['depth1']]))),
+                'depth2': sorted(list(set([kw.strip() for kw in tree['depth2']]))),
+                'importance': tree['importance'],
+                'timestamp': tree['timestamp'],
+                'last_update_time': tree['timestamp'],
+                'unique_key': unique_key  # 고유 키 추가
+            }
+
+            self.insert_or_update_tree(tree_doc)
 
         # 트리 구조 출력
         top_trees = list(self.tree_structures_collection.find().sort('importance', -1).limit(10))
@@ -859,15 +891,46 @@ class MainExecutor:
             logging.info(f"  Depth 2: {', '.join(tree['depth2'])}")
             logging.info(f"  Importance: {tree['importance']}")
 
-# 메인 실행 함수
+# 트리 병합 및 저장 로직이 포함된 MainExecutor 클래스
 def run_main_executor():
     executor = MainExecutor()
     executor.run()
 
+# 데이터 클린업 스크립트
+def cleanup_duplicates():
+    mongo_client = MongoDBConnection().client
+    db = mongo_client['news_db']
+    collection = db['tree_structures']
+
+    pipeline = [
+        {"$group": {
+            "_id": "$unique_key",
+            "ids": {"$addToSet": "$_id"},
+            "count": {"$sum": 1}
+        }},
+        {"$match": {
+            "count": {"$gt": 1}
+        }}
+    ]
+
+    duplicates = list(collection.aggregate(pipeline))
+    logging.info(f"중복된 unique_key 수: {len(duplicates)}")
+
+    for dup in duplicates:
+        # 첫 번째 문서를 제외한 나머지 삭제
+        ids_to_delete = dup['ids'][1:]
+        result = collection.delete_many({"_id": {"$in": ids_to_delete}})
+        logging.info(f"unique_key={dup['_id']}인 중복 문서 {result.deleted_count}개 삭제 완료.")
+
+    logging.info("중복 데이터 클린업 완료.")
+
 # 프로그램 실행
 if __name__ == "__main__":
+    # 먼저 데이터 클린업을 수행하여 기존 중복 데이터를 제거합니다.
+    cleanup_duplicates()
+
     # 스케줄러 설정: 5분마다 실행
-    schedule.every(5).minutes.do(run_main_executor)
+    schedule.every(3).minutes.do(run_main_executor)
 
     # 프로그램 시작 시 한 번 실행
     run_main_executor()
